@@ -13,6 +13,9 @@
         function displayDate() {
             document.getElementById("dateText").innerHTML = Date();
         }
+        function HideLoadingText() {
+            document.getElementById("imgLoadingText").className = "Hide";
+        }
     </script>
 
     <div style="max-width: 800px;margin: auto;">
@@ -20,8 +23,9 @@
         <hr />
 
         <div style="width: min-content; margin: auto">
+            <p id="imgLoadingText" class="NotHide">Image Loading…</p>
             <a href="PenguinBank/index.html">
-                <img src="PenguinBank/images/index/logo_u221.png" alt="Pic.">
+                <img src="PenguinBank/images/index/logo_u221.png" onload="HideLoadingText();" alt="Pic.">
             </a>
         </div>
 
@@ -29,6 +33,7 @@
         <br />
         <a href="JavaScriptTest.html">JavaScript Test</a>
     </div>
+
 
     <!-- 时间显示 -->
     <p id="dateText" style="position: absolute;bottom: 10px;right: 20px;">date</p>

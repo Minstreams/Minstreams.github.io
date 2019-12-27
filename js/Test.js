@@ -1,3 +1,6 @@
+// 开启严格模式
+"use strict";
+
 // 随便输出点东西
 var hitCount = localStorage.getItem("hitCount") || 0;
 hitCount++;
