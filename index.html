@@ -1,30 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 
 <head>
     <meta charset="utf-8">
     <title>Minstreams's Home</title>
-    <style type="text/css">
-        body {
-            background-color: gainsboro
-        }
-
-        p {
-            color: blue
-        }
-    </style>
-    <meta name="keywords" content="HTML, CSS, XML, XHTML, JavaScript">
+    <link rel="stylesheet" type="text/css" href="css/MyStyle.css">
 </head>
 
 <body>
-    <h1 style="color:black">岷溪的小屋 Minstreams's Home</h1>
-    <hr />
 
-    <a href="PenguinBank/index.html">
-        <img src="PenguinBank/images/index/logo_u221.png" alt="Pic.">
-    </a>
+    <script>
+        function displayDate() {
+            document.getElementById("dateText").innerHTML = Date();
+        }
+    </script>
 
-    <a id="todoListRef" href="todoList.html">Check To do List</a>
+    <div style="max-width: 800px;margin: auto;">
+        <h1 style="color:black;text-align: center;">岷溪的小屋 Minstreams's Home</h1>
+        <hr />
+
+        <div style="width: min-content; margin: auto">
+            <a href="PenguinBank/index.html">
+                <img src="PenguinBank/images/index/logo_u221.png" alt="Pic.">
+            </a>
+        </div>
+
+        <a id="todoListRef" href="todoList.html">Check To do List</a>
+        <br />
+        <a href="JavaScriptTest.html">JavaScript Test</a>
+    </div>
+
+    <!-- 时间显示 -->
+    <p id="dateText" style="position: absolute;bottom: 10px;right: 20px;">date</p>
+    <button type="button" onclick="displayDate()">显示日期</button>
+    <script>
+        displayDate();
+    </script>
 </body>
 
 </html>
