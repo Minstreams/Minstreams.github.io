@@ -1,7 +1,7 @@
-@font-face {
+/* @font-face {
     font-family: zkLOGO;
     src: url("../fonts/站酷小薇LOGO体.otf") format("opentype");
-}
+} */
 
 body {
     background-color: gainsboro;
@@ -13,7 +13,7 @@ p {
 }
 
 h1 {
-    font-family: zkLOGO, Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-weight: normal;
     font-size: 4em;
 }
