@@ -45,6 +45,6 @@ function TimeUpdate() {
     tc2d.beginPath();
     tc2d.arc(200, 150, 75 + 25 * Math.sin(delta / 2 + (flip ? 0 : Math.PI) - 0.5 * Math.PI), startAngle, endAngle, flip);
     tc2d.stroke();
-    document.getElementById("debugT").innerHTML = oDelta;
+    document.getElementById("debugT").innerHTML = delta;
 }
 setInterval(TimeUpdate, 1000 / 60);

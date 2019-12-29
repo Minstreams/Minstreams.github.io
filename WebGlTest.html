@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <title>WebGlTest</title>
+    <link rel="stylesheet" type="text/css" href="css/MyStyle.css">
+</head>
+
+<body>
+    <canvas id="glCanvas" width="400vw" height="300vh" class="TestCanvas"></canvas><br />
+
+    <textarea name="vertText" id="vertText" cols="150" rows="15">
+#version 300 es
+
+// an attribute is an input (in) to a vertex shader.
+// It will receive data from a buffer
+in vec4 a_position;
+    
+// all shaders have a main function
+void main() {
+    
+    // gl_Position is a special variable a vertex shader
+    // is responsible for setting
+    gl_Position = a_position;
+}
+    </textarea><br />
+    <textarea name="fragText" id="fragText" cols="150" rows="15">
+#version 300 es
+ 
+// fragment shaders don't have a default precision so we need
+// to pick one. mediump is a good default. It means "medium precision"
+precision mediump float;
+ 
+// we need to declare an output for the fragment shader
+out vec4 outColor;
+ 
+void main() {
+  // Just set the output to a constant reddish-purple
+  outColor = vec4(1, 0, 0.5, 1);
+}
+    </textarea><br />
+    <script src="webGl/MyGlFUnctions.js"></script>
+    <script src="webGl/glDraw.js"></script>
+
+    <button onclick="ProceedShader();">Click TO Proceed</button>
+    <noscript>抱歉，你的浏览器不支持 JavaScript!</noscript>
+</body>
+
+</html>
