@@ -4,6 +4,9 @@ var glCanvas = document.getElementById("glCanvas");
 var gl = glCanvas.getContext("webgl2");
 if (!gl) { document.write("Your browser does not support webgl2"); }
 
+// /** @type {HTMLScriptElement} */
+// var testT = document.getElementById("test");
+
 /** @type {HTMLTextAreaElement} */
 var vertexShaderSource = document.getElementById("vertText");
 /** @type {HTMLTextAreaElement} */

@@ -16,13 +16,16 @@
 // an attribute is an input (in) to a vertex shader.
 // It will receive data from a buffer
 in vec4 a_position;
-    
+
+out vec4 acolor;
+
 // all shaders have a main function
 void main() {
     
     // gl_Position is a special variable a vertex shader
     // is responsible for setting
     gl_Position = a_position;
+    acolor = a_position*0.5 + 0.5;
 }
     </textarea><br />
     <textarea name="fragText" id="fragText" cols="150" rows="15">
@@ -32,18 +35,21 @@ void main() {
 // to pick one. mediump is a good default. It means "medium precision"
 precision mediump float;
  
+in vec4 acolor;
+
 // we need to declare an output for the fragment shader
 out vec4 outColor;
  
 void main() {
   // Just set the output to a constant reddish-purple
-  outColor = vec4(1, 0, 0.5, 1);
+  outColor = vec4(acolor.xy, 1, 0.85);
 }
     </textarea><br />
+    <button onclick="ProceedShader();">Click TO Proceed</button>
+
     <script src="webGl/MyGlFUnctions.js"></script>
     <script src="webGl/glDraw.js"></script>
 
-    <button onclick="ProceedShader();">Click TO Proceed</button>
     <noscript>抱歉，你的浏览器不支持 JavaScript!</noscript>
 </body>
 

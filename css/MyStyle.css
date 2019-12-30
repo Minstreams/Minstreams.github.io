@@ -36,3 +36,15 @@ h1 {
     border-color: gray;
     border-style: inset;
 }
+
+.mainCanvas {
+    position: absolute;
+    left: 0; 
+    right: 0;
+    margin: auto;
+}
+
+.noBorder {
+    margin: auto;
+    background-color: black;
+}

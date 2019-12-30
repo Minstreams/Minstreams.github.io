@@ -23,6 +23,7 @@ function compileShader(gl, shaderSource, shaderType) {
         return shader;
     }
 
+    console.log(shaderSource);
     // Something went wrong during compilation; get the error
     throw "could not compile shader:" + gl.getShaderInfoLog(shader);
 }
@@ -102,8 +103,8 @@ function createShaderFromScript(gl, scriptId, opt_shaderType) {
  */
 function createProgramFromScripts(
     gl, vertexShaderId, fragmentShaderId) {
-    var vertexShader = createShaderFromScriptTag(gl, vertexShaderId, gl.VERTEX_SHADER);
-    var fragmentShader = createShaderFromScriptTag(gl, fragmentShaderId, gl.FRAGMENT_SHADER);
+    var vertexShader = createShaderFromScript(gl, vertexShaderId, gl.VERTEX_SHADER);
+    var fragmentShader = createShaderFromScript(gl, fragmentShaderId, gl.FRAGMENT_SHADER);
     return createProgram(gl, vertexShader, fragmentShader);
 }
 
