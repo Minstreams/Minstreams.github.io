@@ -1,7 +1,7 @@
 // some const values
-const canvasMaxWidth = 1000;
+const canvasMaxWidth = 1200;
 const canvasMaxHeight = 2800;
-const fps = 60.0;
+const fps = 60;
 
 // animations
 var anim0 = {
@@ -9,11 +9,7 @@ var anim0 = {
     b: false,   //有效域flag
     t: 0.0      //计时器
 }
-var anim1 = {
-    f: 180.0,    //持续帧数
-    b: false,   //有效域flag
-    t: 0.0      //计时器
-}
+
 
 function inRange(value, min, max) {
     return value >= min && value < max;
@@ -53,7 +49,6 @@ function onResize() {
         + "\nmainCanvas.width:" + mainCanvas.width);
 }
 onResize();
-mainCanvas.height = canvasMaxHeight;
 
 
 
@@ -63,19 +58,19 @@ function Render() {
     // 背景
     var bgGradient = c2d.createLinearGradient(0, y, 0, y + window.innerHeight);
     var yRate = y / mainCanvas.height;
-    bgGradient.addColorStop(0, "rgb(" + (16 + 48 * yRate) + "," + (16 + 32 * yRate) + "," + (18 + 120 * yRate) + ")");
-    bgGradient.addColorStop(1, "rgb(" + (16 + 60 * yRate) + "," + (8 + 64 * yRate) + "," + (24 + 146 * yRate) + ")");
+    bgGradient.addColorStop(0, "rgba(" + (16 + 48 * yRate) + "," + (16 + 32 * yRate) + "," + (18 + 120 * yRate) + "," + 0.1 + ")");
+    bgGradient.addColorStop(1, "rgba(" + (16 + 60 * yRate) + "," + (8 + 64 * yRate) + "," + (24 + 146 * yRate) + "," + 0.7 + ")");
     c2d.fillStyle = bgGradient;
     c2d.fillRect(0, 0, mainCanvas.width, mainCanvas.height);
     // debug
-    // c2d.fillStyle = "rgb(0, 0, 255)"
-    // c2d.font = "32px Cambria, Cochin, Georgia, Times, 'Times New Roman', serif"
+    c2d.fillStyle = "rgb(0, 0, 255)"
+    c2d.font = "32px Cambria, Cochin, Georgia, Times, 'Times New Roman', serif"
     // c2d.fillText(y, 0, 32 + y);
 
     // animations
 
     //标题
-    doAnimation(y, 0, window.innerHeight * 2, anim0, function (t) {
+    doAnimation(y, 0, window.innerHeight, anim0, function (t) {
         //背景
         c2d.shadowColor = "rgba(" + (215) + "," + (200) + "," + (215) + "," + (0.24) + ")";
         c2d.shadowBlur = 180 * t;
@@ -98,7 +93,7 @@ function Render() {
 
         //标题
         t = clamp01(t * 2 - 1);
-        c2d.shadowColor = "rgba(" + (32) + "," + (8) + "," + (40) + "," + (0.7) + ")";
+        c2d.shadowColor = "rgba(" + (32) + "," + (8) + "," + (40) + "," + (0.4) + ")";
         c2d.shadowBlur = 20 * t;
         c2d.fillStyle = "rgba(" + (32) + "," + (8) + "," + (40) + "," + t * (400 - y) / 400 + ")"
         c2d.font = (60 + t * 36) + "px Cambria, Cochin, Georgia, Times, 'Times New Roman', serif"
