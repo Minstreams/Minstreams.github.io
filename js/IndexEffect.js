@@ -1,5 +1,5 @@
 // some const values
-const canvasMaxWidth = 1200;
+const canvasMaxWidth = 1920;
 const canvasMaxHeight = 2800;
 const fps = 60;
 
