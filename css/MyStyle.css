@@ -60,4 +60,5 @@ h1 {
     border-style: dashed;
     padding: 2px;
     padding-right: 8px;
+    transform: translate(25%, 26%) scale(1.5);
 }
