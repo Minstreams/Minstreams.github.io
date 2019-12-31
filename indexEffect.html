@@ -8,7 +8,13 @@
 </head>
 
 <body class="noBorder" onresize="onResize();">
-    <canvas id="mainCanvas" class="mainCanvas"></canvas>
+    <canvas id="mainCanvas" class="mainCanvas">
+
+    </canvas>
+    <div class="terminalPad">
+        enableComplexAnimation<input type="checkbox" checked="true" oninput="OnCheck0(this.checked);"><br />
+        FPS:1<input type="range" min="1" max="60" value="60" oninput="OnRange0(this.value);">60
+    </div>
     <script src="js/IndexEffect.js"></script>
     <noscript>抱歉，你的浏览器不支持 JavaScript!</noscript>
 </body>

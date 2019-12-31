@@ -39,7 +39,7 @@ h1 {
 
 .mainCanvas {
     position: absolute;
-    left: 0; 
+    left: 0;
     right: 0;
     margin: auto;
 }
@@ -47,4 +47,17 @@ h1 {
 .noBorder {
     margin: auto;
     background-color: black;
+}
+
+.terminalPad {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    color: grey;
+    background-color: rgba(128, 128, 128, 0.205);
+    border-color: rgb(97, 97, 97);
+    border-width: 2px;
+    border-style: dashed;
+    padding: 2px;
+    padding-right: 8px;
 }
