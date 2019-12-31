@@ -1,6 +1,6 @@
-// some const values
+// some values
 const canvasMaxWidth = 1900;
-const canvasMaxHeight = 2800;
+const canvasMaxHeight = 2600;
 var fps = 60;
 var enableComplexAnimation = true;
 
@@ -12,6 +12,12 @@ function clamp01(value) {
     return value > 1 ? 1 : value < 0 ? 0 : value;
 }
 
+// Some References
+/** @type {HTMLCanvasElement} */
+var mainCanvas = document.getElementById("mainCanvas");
+var c2d = mainCanvas.getContext("2d");
+var fpsMark = document.getElementById("fpsMark");
+
 //input Events
 function OnCheck0(value) {
     enableComplexAnimation = value;
@@ -22,9 +28,15 @@ function OnRange0(value) {
 
 
 
+
 // animations
 var anim0 = {
     s: 3.0,     //持续秒数
+    b: false,   //有效域flag
+    t: 0.0      //计时器
+}
+var anim1 = {
+    s: 1.0,     //持续秒数
     b: false,   //有效域flag
     t: 0.0      //计时器
 }
@@ -43,45 +55,48 @@ function HasAnimation() {
     return false;
 }
 
-
+var y = -1;     //记录浏览器滚动位置
+var lastT = 0;      //计时器
+var deltaT = 0.05;     //计时器
 // 封装一个动画
-function doAnimation(y, min, max, anim, animFunc) {
-    if (inRange(y, min, max)) {
+function doAnimation(min, max, anim, animFunc) {
+    if (inRange(y, min - window.innerHeight, max)) {
         if (!anim.b) {
             anim.b = true;
             anim.t = 0;
         }
         else {
             if (anim.t < 1) {
-                anim.t += 1.0 / fps / anim.s;
+                anim.t += deltaT / anim.s;
             }
             else {
                 anim.t = 1;
             }
         }
-        animFunc(1 - (1 - anim.t) * (1 - anim.t), (y - min) / (max - min));
+        animFunc(1 - (1 - anim.t) * (1 - anim.t), 2 * (y - min + window.innerHeight) / (max - min + window.innerHeight) - 1);
     }
     else {
         anim.b = false;
     }
 }
 
-/** @type {HTMLCanvasElement} */
-var mainCanvas = document.getElementById("mainCanvas");
-var c2d = mainCanvas.getContext("2d");
 
+
+var mw = 0; //记录canvas中间坐标
 function onResize() {
     mainCanvas.width = Math.min(canvasMaxWidth, window.innerWidth - 20);
-    mainCanvas.height = window.innerHeight * 2 + canvasMaxHeight;
+    mw = mainCanvas.width / 2;
+    mainCanvas.height = window.innerHeight + canvasMaxHeight;
     console.log("窗口大小: 宽度=" + window.outerWidth + ", 高度=" + window.outerHeight
         + "\nmainCanvas.width:" + mainCanvas.width);
 }
 onResize();
 
 
-var y = -1;  //记录浏览器滚动位置
-function Render() {
-    if (!enableComplexAnimation && y === window.scrollY && !IsAnimUpdating(anim0)) {
+function Render(currentT) {
+    deltaT = (currentT - lastT) / 1000;
+    lastT = currentT;
+    if (!enableComplexAnimation && y === window.scrollY && !IsAnimUpdating(anim0, anim1)) {
         c2d.fillStyle = "rgb(0, 0, 255)"
         c2d.font = "32px Cambria, Cochin, Georgia, Times, 'Times New Roman', serif"
         c2d.fillText("Rendering Pause", 0, y + window.innerHeight - 10);
@@ -91,12 +106,10 @@ function Render() {
     y = window.scrollY;
 
     // 背景
-    c2d.shadowColor = "empty";
-    c2d.shadowBlur = 0;
     var bgGradient = c2d.createLinearGradient(0, y, 0, y + window.innerHeight);
     var yRate = y / mainCanvas.height;
-    bgGradient.addColorStop(0, "rgba(" + (16 + 48 * yRate) + "," + (16 + 32 * yRate) + "," + (18 + 120 * yRate) + "," + 0.1 + ")");
-    bgGradient.addColorStop(1, "rgba(" + (16 + 60 * yRate) + "," + (8 + 64 * yRate) + "," + (24 + 146 * yRate) + "," + 0.7 + ")");
+    bgGradient.addColorStop(0, "rgba(" + (16 + 2 * 48 * yRate) + "," + (16 + 2 * 32 * yRate) + "," + (18 + 2 * 120 * yRate) + "," + 0.1 + ")");
+    bgGradient.addColorStop(1, "rgba(" + (16 + 2 * 60 * yRate) + "," + (8 + 2 * 64 * yRate) + "," + (24 + 2 * 146 * yRate) + "," + 0.7 + ")");
     c2d.fillStyle = bgGradient;
     c2d.fillRect(0, 0, mainCanvas.width, mainCanvas.height);
 
@@ -123,7 +136,7 @@ function Render() {
 
 
     //标题
-    doAnimation(y, 0, window.innerHeight, anim0, function (t, k) {
+    doAnimation(0, window.innerHeight, anim0, function (t, k) {
         //背景大圆
         var k0 = clamp01(1 - k * 1.6);
         c2d.shadowColor = "rgba(" + (215) + "," + (200) + "," + (215) + "," + (0.24) + ")";
@@ -133,7 +146,7 @@ function Render() {
         tbgGradient.addColorStop(1, "rgba(" + (230) + "," + (215) + "," + (230) + "," + t * k0 + ")");
         c2d.fillStyle = tbgGradient;
         c2d.beginPath();
-        c2d.arc(mainCanvas.width / 2, window.innerHeight / (2 * (2 * t * (1 - t) + t)) + y * 0.7, 300, 0, 360);
+        c2d.arc(mw, window.innerHeight / (2 * (2 * t * (1 - t) + t)) + y * 0.7, 300, 0, 360);
         c2d.fill();
 
         //小圆
@@ -143,7 +156,7 @@ function Render() {
         tbgGradient2.addColorStop(1, "rgba(" + (190) + "," + (170) + "," + (190) + "," + t * k0 + ")");
         c2d.fillStyle = tbgGradient2;
         c2d.beginPath();
-        c2d.arc(mainCanvas.width / 2 + 60, window.innerHeight / (2 * (1.2 * t * (1 - t) + t)) + y * 0.7 - 80, 200, 0, 360);
+        c2d.arc(mw + 60, window.innerHeight / (2 * (1.2 * t * (1 - t) + t)) + y * 0.7 - 80, 200, 0, 360);
         c2d.fill();
 
         //标题
@@ -152,30 +165,39 @@ function Render() {
         c2d.shadowBlur = 20 * t1;
         c2d.fillStyle = "rgba(" + (32) + "," + (8) + "," + (40) + "," + t1 * (1 - k) + ")";
         c2d.font = (120 + t1 * 40) + "px Cambria, Cochin, Georgia, Times, 'Times New Roman', serif";
-        c2d.fillText("Planet", mainCanvas.width / 2 - 242 + 80 * (1 - t1), window.innerHeight / 2 + 120 + 50 * (1 - t1) + y * 0.7 + t1 * sinrt1 * rt1mask * 10.0);
+        c2d.fillText("Planet", mw - 242 + 80 * (1 - t1), window.innerHeight / 2 + 120 + 50 * (1 - t1) + y * 0.7 + t1 * sinrt1 * rt1mask * 10.0);
         var t2 = clamp01(t1 * 1.3 - 0.3);
         c2d.shadowBlur = 20 * t2;
         c2d.fillStyle = "rgba(" + (32) + "," + (8) + "," + (40) + "," + t2 * (1 - k) + ")";
         c2d.font = (120 - t2 * 24) + "px Cambria, Cochin, Georgia, Times, 'Times New Roman', serif";
-        c2d.fillText("Minstreams'", mainCanvas.width / 2 - 234 - 80 * (1 - t2), window.innerHeight / 2 + 100 * (1 - t2) + y * 0.7 + t2 * cosrt1 * rt1mask * 10.0);
+        c2d.fillText("Minstreams'", mw - 234 - 80 * (1 - t2), window.innerHeight / 2 + 100 * (1 - t2) + y * 0.7 + t2 * cosrt1 * rt1mask * 10.0);
 
         //小行星
         c2d.shadowColor = "rgba(" + (32) + "," + (8) + "," + (40) + "," + (0.3) + ")";
         c2d.shadowBlur = 30 * clamp01(sinrt0 + 0.4);
         c2d.fillStyle = "rgba(" + (235 - sinrt0 * 0) + "," + (235 - sinrt0 * 10) + "," + (215 + sinrt0 * 10) + "," + (clamp01(sinrt0 * 0.9 + 0.75) * (1 - k)) + ")";
         c2d.beginPath();
-        c2d.arc(mainCanvas.width / 2 + 450 * cosrt0, window.innerHeight / (2 * (0.5 * t * (1 - t) + t)) + y * 0.7 + 120 * sinrt0 + cosrt0 * 120, 50 + 30 * sinrt0, 0, 360);
+        c2d.arc(mw + 450 * cosrt0, window.innerHeight / (2 * (0.5 * t * (1 - t) + t)) + y * 0.7 + 120 * sinrt0 + cosrt0 * 120, 50 + 30 * sinrt0, 0, 360);
         c2d.fill();
+
+        c2d.shadowColor = "empty";
+        c2d.shadowBlur = 0;
     });
 
-    // doAnimation(y, window.innerHeight + 500, window.innerHeight + 2000)
-
+    //景物W
+    doAnimation(window.innerHeight, window.innerHeight + 2000, anim1, function (t, k) {
+        //房子？
+        c2d.fillStyle = "rgba(" + (28) + "," + (38) + "," + (47) + "," + (1 - Math.abs(k)) + ")";
+        c2d.fillRect(mw - 50, window.innerHeight + 1000, 100, 200);
+    });
 
     // debug
     c2d.fillStyle = "rgb(0, 0, 255)"
     c2d.font = "32px Cambria, Cochin, Georgia, Times, 'Times New Roman', serif"
-    // c2d.fillText(Date.now(), 0, 32 + y);
-    setTimeout(Render, 1000 / fps);
+    c2d.fillText(1 / deltaT, 0, y + window.innerHeight - 10);
+    requestAnimationFrame(Render);
+    fpsMark.innerHTML = "FPS:" + parseInt(1 / deltaT);
 }
 
-setTimeout(Render, 1000 / fps);
+requestAnimationFrame(Render);
+    // setTimeout(Render, 1000 / fps);
