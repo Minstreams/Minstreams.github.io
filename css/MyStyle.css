@@ -179,7 +179,7 @@ h1 {
     transition: 0.8s, z-index 0s;
     background-size: cover;
     background-position: center;
-    z-index: -2;
+    z-index: -3;
 }
 
 .SectionBox {
@@ -192,7 +192,7 @@ h1 {
     height: 140%;
     transition: 1s, z-index 0s;
     filter: saturate(80%) brightness(90%) blur(46px) opacity(100%);
-    z-index: -3;
+    z-index: -5;
 }
 
 .ImgBorder {
