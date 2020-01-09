@@ -257,6 +257,7 @@ h1 {
     padding-left: 36px;
     letter-spacing: 3px;
     white-space: nowrap;
+    z-index: 10;
 }
 
 .SmallIcon {
