@@ -105,7 +105,6 @@ h1 {
     bottom: 50%;
     right: 10%;
     text-decoration: underline;
-    z-index: -1;
     white-space: nowrap;
     transition: 1s;
 }
@@ -118,7 +117,6 @@ h1 {
     position: absolute;
     right: 10%;
     top: 50%;
-    z-index: -1;
 }
 
 /* 主页的按钮块图片 */
@@ -128,6 +126,8 @@ h1 {
     margin-bottom: 0px;
     border-radius: 8px;
     transition: 0.5s;
+    position: relative;
+    z-index: 5;
 }
 
 .Description {
@@ -205,6 +205,6 @@ h1 {
     border-color: rgba(50, 52, 70, 0.4);
 }
 
-.CenterAligned{
+.CenterAligned {
     text-align: center;
 }
