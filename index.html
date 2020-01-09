@@ -3,45 +3,113 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Minstreams's Home</title>
+    <title>Minstreams's Planet</title>
     <link rel="stylesheet" type="text/css" href="css/MyStyle.css">
 </head>
 
-<body>
-
-    <script>
-        function displayDate() {
-            document.getElementById("dateText").innerHTML = Date();
-        }
-        function HideLoadingText() {
-            document.getElementById("imgLoadingText").className = "Hide";
-        }
-    </script>
-
-    <div style="max-width: 800px;margin: auto;">
-        <h1 style="color:black;text-align: center;">岷溪的小屋 Minstreams's Home</h1>
-        <hr />
-
-        <div style="width: min-content; margin: auto">
-            <p id="imgLoadingText" class="NotHide">Image Loading…</p>
-            <a href="PenguinBank/index.html">
-                <img src="PenguinBank/images/index/logo_u221.png" onload="HideLoadingText();" alt="Pic.">
-            </a>
-        </div>
-
-        <a id="todoListRef" href="todoList.html">Check To do List</a><br />
-        <a href="JavaScriptTest.html">JavaScript Test</a><br />
-        <a href="WebGlTest.html">WebGl Test</a><br />
-        <a href="indexEffect.html">index Effect Test</a><br />
+<body class="noBorder Background" onresize="onResize();">
+    <div class="noBorder innerDiv">
+        <canvas id="mainCanvas" class="mainCanvas"></canvas>
     </div>
 
+    <div class="terminalPad Hide">
+        <span id="fpsMark">FPS:1</span><br />
+        <input type="checkbox" checked="true" oninput="OnCheck0(this.checked);">enableComplexAnimation<br />
+    </div>
 
-    <!-- 时间显示 -->
-    <p id="dateText" style="position: absolute;bottom: 10px;right: 20px;">date</p>
-    <button type="button" onclick="displayDate()">显示日期</button>
-    <script>
-        displayDate();
-    </script>
+    <div class="UndergroundDiv">
+        <div class="UndergroundWidth">
+            <h1>Minstreams' Planet</h1>
+            <p>Hi, there! I'm Minstreams. Welcome to my homepage!</p>
+            <p>Here are some of my works:</p>
+        </div>
+        <!--<hr />-->
+
+
+        <div class="noBorder SectionBox">
+            <div class="SectionButton UndergroundWidth">
+                <div class="ImgBorder">
+                    <img class="SectionImg" src="details/src/鸟cuted.jpg">
+                </div>
+                <span class="SectionButtonTitle">
+                    ______________________________________________________________________________________________________________
+                    My Painting Works
+                </span>
+                <span class="SectionButtonText">
+                    <a href="indexOrigin.html" class="SectionLink">
+                        →DETAILS
+                    </a>
+                </span>
+            </div>
+        </div>
+        <div class="SectionBackground" style="background-image: url(details/src/鸟cuted.jpg);"></div>
+
+        <div class="noBorder SectionBox">
+            <div class="SectionButton UndergroundWidth">
+                <div class="ImgBorder">
+                    <img class="SectionImg" src="details/src/logo.jpg">
+                </div>
+                <span class="SectionButtonTitle">
+                    ______________________________________________________________________________________________________________
+                    My Graphic Design Works
+                </span>
+                <span class="SectionButtonText">
+                    <a href="indexOrigin.html" class="SectionLink">
+                        →DETAILS
+                    </a>
+                </span>
+            </div>
+        </div>
+        <div class="SectionBackground" style="background-image: url(details/src/logo.jpg);"></div>
+
+        <div class="noBorder SectionBox">
+            <div class="SectionButton UndergroundWidth">
+                <div class="ImgBorder">
+                    <img class="SectionImg" src="details/src/西瓜皮卡球.jpg">
+                </div>
+                <span class="SectionButtonTitle">
+                    ______________________________________________________________________________________________________________
+                    My Music Works
+                </span>
+                <span class="SectionButtonText">
+                    <a href="indexOrigin.html" class="SectionLink">
+                        →DETAILS
+                    </a>
+                </span>
+            </div>
+        </div>
+        <div class="SectionBackground" style="background-image: url(details/src/西瓜皮卡球.jpg);"></div>
+
+        <div class="noBorder SectionBox">
+            <div class="SectionButton UndergroundWidth">
+                <div class="ImgBorder">
+                    <img class="SectionImg" src="details/src/logo.jpg">
+                </div>
+                <span class="SectionButtonTitle">
+                    ______________________________________________________________________________________________________________
+                    My Game Works
+                </span>
+                <span class="SectionButtonText">
+                    <a href="indexOrigin.html" class="SectionLink">
+                        →DETAILS
+                    </a>
+                </span>
+            </div>
+        </div>
+        <div class="SectionBackground" style="background-image: url(details/src/logo.jpg);"></div>
+
+        <div class="CenterAligned">
+            <br />
+            <br />
+            <br />
+            <br />
+            <p>Minstreams@qq.com Jan.2020</p>
+            <br />
+        </div>
+    </div>
+
+    <script src="js/IndexEffect.js"></script>
+    <noscript>抱歉，你的浏览器不支持 JavaScript!</noscript>
 </body>
 
 </html>

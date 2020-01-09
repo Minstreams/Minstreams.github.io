@@ -3,10 +3,6 @@
     src: url("../fonts/站酷小薇LOGO体.otf") format("opentype");
 } */
 
-body {
-    background-color: gainsboro;
-}
-
 p {
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
@@ -36,16 +32,22 @@ h1 {
     border-style: inset;
 }
 
+/* Homepage */
+
 .mainCanvas {
-    position: absolute;
-    left: 0;
-    right: 0;
     margin: auto;
+}
+
+.Background {
+    background-color: rgb(14, 16, 23);
 }
 
 .noBorder {
     margin: auto;
-    background-color: black;
+}
+
+.innerDiv {
+    text-align: center;
 }
 
 .terminalPad {
@@ -60,4 +62,148 @@ h1 {
     padding: 2px;
     padding-right: 8px;
     transform: translate(25%, 26%) scale(1.5);
+}
+
+.UndergroundDiv {
+    margin: auto;
+    color: white;
+}
+
+.UndergroundWidth {
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* 主页的链接按钮块 */
+
+.SectionButton {
+    text-align: left;
+    transition: 1.5s;
+    padding: 4px;
+    position: relative;
+    /* border-style: dashed; */
+    /* border-width: 6px; */
+    /* border-color: rgba(50, 52, 70, 0.4); */
+    border-radius: 16px;
+}
+
+.SectionButton:hover {
+    /* background-color: rgba(206, 206, 206, 0.384); */
+    transition: 0.3s;
+}
+
+/* 主页的按钮块标题 */
+
+.SectionButtonTitle {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: normal;
+    font-size: 2.2em;
+    color: white;
+    /* text-shadow: 0px 0px 3px rgb(99, 99, 99); */
+    float: left;
+    position: absolute;
+    bottom: 50%;
+    right: 10%;
+    text-decoration: underline;
+    z-index: -1;
+    white-space: nowrap;
+    transition: 1s;
+}
+
+/* 主页的按钮块文字 */
+
+.SectionButtonText {
+    color: rgb(143, 155, 199);
+    text-align: right;
+    position: absolute;
+    right: 10%;
+    top: 50%;
+}
+
+/* 主页的按钮块图片 */
+
+.SectionImg {
+    width: 100%;
+    margin-bottom: 0px;
+    border-radius: 8px;
+    transition: 0.5s;
+}
+
+.Description {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+    visibility: hidden;
+}
+
+.SectionLink {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: bold;
+    font-size: 64px;
+    line-height: 52px;
+    color: rgba(0, 0, 0, 0);
+    text-decoration: none;
+    transition: 0.5s;
+}
+
+.SectionButton:hover .SectionLink {
+    color: rgb(0, 0, 0);
+    transition: 0.1f;
+}
+
+.SectionButton:hover .SectionLink:hover {
+    color: rgb(255, 255, 255);
+    text-shadow: 0px 0px 64px black;
+    transition: 0.2s;
+}
+
+.SectionButton:hover .SectionImg {
+    transform: scale(1.2) rotate(-10deg) translateX(28px);
+    transition: 0.8s;
+    box-shadow: 24px 18px 6px rgba(61, 61, 61, 0.336);
+}
+
+.SectionButton:hover .SectionButtonTitle {
+    color: black;
+    transition: 0.3s;
+}
+
+.SectionBackground {
+    position: fixed;
+    bottom: -20%;
+    left: -20%;
+    width: 140%;
+    height: 180%;
+    filter: saturate(8%) brightness(90%) blur(15px) opacity(0%);
+    transition: 0.8s, z-index 0s;
+    background-size: cover;
+    background-position: center;
+    z-index: -2;
+}
+
+.SectionBox {
+    width: 100%;
+    padding-top: 64px;
+    padding-bottom: 64px;
+}
+
+.SectionBox:hover+.SectionBackground {
+    height: 140%;
+    transition: 1s, z-index 0s;
+    filter: saturate(80%) brightness(90%) blur(46px) opacity(100%);
+    z-index: -3;
+}
+
+.ImgBorder {
+    width: 33%;
+    height: fit-content;
+    padding: 10px;
+    border-radius: 16px;
+    border-style: dashed;
+    border-width: 6px;
+    border-color: rgba(50, 52, 70, 0.4);
+}
+
+.CenterAligned{
+    text-align: center;
 }

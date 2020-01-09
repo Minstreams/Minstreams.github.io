@@ -103,12 +103,12 @@ var horizonMaxHeight = 1000;   // 地面景物的高度
 var surfaceY = 3;
 var bottomHeight = 2000;    // 底部页面高度
 function onResize() {
-    mainCanvas.width = Math.min(canvasMaxWidth, window.innerWidth - 20);
+    mainCanvas.width = Math.min(canvasMaxWidth, window.innerWidth - 18);
     mw = mainCanvas.width / 2;
     cloudTopY = window.innerHeight;    // 增加标题所占高度
-    horizonTopY = cloudTopY + window.innerHeight; // 增加云所占高度
+    horizonTopY = cloudTopY + window.innerHeight / 5; // 增加云所占高度
     surfaceY = horizonTopY + horizonMaxHeight; // 增加地面所占高度
-    mainCanvas.height = surfaceY + bottomHeight;
+    mainCanvas.height = surfaceY;// + bottomHeight;
     console.log("窗口大小: 宽度=" + window.innerWidth + ", 高度=" + window.innerHeight
         + "\nmainCanvas.width:" + mainCanvas.width);
 }
@@ -297,23 +297,23 @@ function Render(currentT) {
         c2d.shadowBlur = 0;
     });
 
-    // 地底
-    doAnimation(surfaceY, mainCanvas.height - window.innerHeight, anim4, function (t, k) {
-        c2d.fillStyle = "rgba(" + (14) + "," + (16) + "," + (23) + "," + (1) + ")";
-        c2d.fillRect(0, surfaceY, mainCanvas.width, mainCanvas.height - surfaceY);
+    // // 地底
+    // doAnimation(surfaceY, mainCanvas.height - window.innerHeight, anim4, function (t, k) {
+    //     c2d.fillStyle = "rgba(" + (14) + "," + (16) + "," + (23) + "," + (1) + ")";
+    //     c2d.fillRect(0, surfaceY, mainCanvas.width, mainCanvas.height - surfaceY);
 
 
-        c2d.fillStyle = "rgba(" + (236) + "," + (236) + "," + (255) + "," + t * (1 - k) + ")";
-        c2d.font = (120 - t * 24) + "px Cambria, Cochin, Georgia, Times, 'Times New Roman', serif";
-        c2d.fillText("Undergorund'", 40 - 80 * (1 - t), surfaceY + 128 + 100 * (1 - t) );
-        c2d.fillText("---------------------------------------------------------", 40 - 150 * (1 - t), surfaceY + 200 + 300 * (1 - t) );
+    //     c2d.fillStyle = "rgba(" + (236) + "," + (236) + "," + (255) + "," + t * (1 - k) + ")";
+    //     c2d.font = (120 - t * 24) + "px Cambria, Cochin, Georgia, Times, 'Times New Roman', serif";
+    //     c2d.fillText("Undergorund'", 40 - 80 * (1 - t), surfaceY + 128 + 100 * (1 - t));
+    //     c2d.fillText("---------------------------------------------------------", 40 - 150 * (1 - t), surfaceY + 200 + 300 * (1 - t));
 
-    });
+    // });
 
     // debug
-    c2d.fillStyle = "rgb(0, 0, 255)"
-    c2d.font = "32px Cambria, Cochin, Georgia, Times, 'Times New Roman', serif"
-    c2d.fillText(y - window.innerHeight, 0, y + window.innerHeight - 10);
+    // c2d.fillStyle = "rgb(0, 0, 255)"
+    // c2d.font = "32px Cambria, Cochin, Georgia, Times, 'Times New Roman', serif"
+    // c2d.fillText(y - window.innerHeight, 0, y + window.innerHeight - 10);
     fpsMark.innerHTML = "FPS:" + parseInt(1 / deltaT);
 
     requestAnimationFrame(Render);

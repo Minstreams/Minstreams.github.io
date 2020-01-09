@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <title>Minstreams's Home</title>
+    <link rel="stylesheet" type="text/css" href="css/MyStyle.css">
+</head>
+
+<body>
+
+    <script>
+        function displayDate() {
+            document.getElementById("dateText").innerHTML = Date();
+        }
+        function HideLoadingText() {
+            document.getElementById("imgLoadingText").className = "Hide";
+        }
+    </script>
+
+    <div style="max-width: 800px;margin: auto;">
+        <h1 style="color:black;text-align: center;">岷溪的小屋 Minstreams's Home</h1>
+        <hr />
+
+        <div style="width: min-content; margin: auto">
+            <p id="imgLoadingText" class="NotHide">Image Loading…</p>
+            <a href="PenguinBank/index.html">
+                <img src="PenguinBank/images/index/logo_u221.png" onload="HideLoadingText();" alt="Pic.">
+            </a>
+        </div>
+
+        <a id="todoListRef" href="todoList.html">Check To do List</a><br />
+        <a href="JavaScriptTest.html">JavaScript Test</a><br />
+        <a href="WebGlTest.html">WebGl Test</a><br />
+        <a href="indexEffect.html">index Effect Test</a><br />
+    </div>
+
+
+    <!-- 时间显示 -->
+    <p id="dateText" style="position: absolute;bottom: 10px;right: 20px;">date</p>
+    <button type="button" onclick="displayDate()">显示日期</button>
+    <script>
+        displayDate();
+    </script>
+</body>
+
+</html>
