@@ -112,16 +112,31 @@ h1 {
 /* 主页的按钮块文字 */
 
 .SectionButtonText {
-    color: rgb(143, 155, 199);
+    color: rgba(255, 255, 255, 0.055);
     text-align: right;
     position: absolute;
     right: 10%;
     top: 50%;
+    transition: 0.8s;
+}
+
+.SectionButton:hover>.SectionButtonText {
+    color: rgba(0, 0, 0, 1);
+    transition: 0.5s;
 }
 
 /* 主页的按钮块图片 */
 
 .SectionImg {
+    width: 100%;
+    margin-bottom: 0px;
+    border-radius: 8px;
+    transition: 0.5s;
+    position: relative;
+    z-index: 5;
+}
+
+.DisplayImg {
     width: 100%;
     margin-bottom: 0px;
     border-radius: 8px;
@@ -160,6 +175,13 @@ h1 {
 
 .SectionButton:hover .SectionImg {
     transform: scale(1.2) rotate(-10deg) translateX(28px);
+    transition: 0.8s;
+    box-shadow: 24px 18px 6px rgba(61, 61, 61, 0.336);
+}
+
+.SectionButton:hover .DisplayImg {
+    transform: scale(1.4) rotate(-5deg) translateX(0);
+    left: 0px;
     transition: 0.8s;
     box-shadow: 24px 18px 6px rgba(61, 61, 61, 0.336);
 }
@@ -206,6 +228,57 @@ h1 {
     border-color: rgba(50, 52, 70, 0.4);
 }
 
+.DisplayImgBorder {
+    width: fit-content;
+    height: fit-content;
+    max-width: 33%;
+    position: relative;
+    padding: 10px;
+    border-radius: 16px;
+    border-style: dashed;
+    border-width: 6px;
+    border-color: rgba(50, 52, 70, 0.4);
+}
+
 .CenterAligned {
     text-align: center;
+}
+
+.HomepageLink {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 18px;
+    color: black;
+    text-decoration: none;
+    line-height: 19px;
+    background-color: rgb(238, 228, 224);
+    width: 100%;
+    position: fixed;
+    padding: 4px;
+    padding-left: 36px;
+    letter-spacing: 3px;
+    white-space: nowrap;
+}
+
+.SmallIcon {
+    position: fixed;
+    font-size: 48px;
+    top: 18px;
+    left: 4px;
+    color: rgb(52, 59, 82);
+}
+
+.SmallIcon2 {
+    position: fixed;
+    font-size: 34px;
+    top: 14px;
+    left: 13px;
+    color: rgb(91, 99, 124);
+}
+
+.SmallIcon3 {
+    position: fixed;
+    font-size: 16px;
+    top: 28px;
+    left: 36px;
+    color: rgb(121, 128, 150);
 }
