@@ -118,6 +118,7 @@ h1 {
     position: absolute;
     right: 10%;
     top: 50%;
+    z-index: -1;
 }
 
 /* 主页的按钮块图片 */
