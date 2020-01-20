@@ -168,7 +168,10 @@ class MPData {
     /**缓存Sections
      * @type {BufferSection[]}
      */
-    bufferSections = new Array();
+    bufferSections;
+    constructor() {
+        this.bufferSections = new Array();
+    }
 }
 
 /**@name MP数据原型
