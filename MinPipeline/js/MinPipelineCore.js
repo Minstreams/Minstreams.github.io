@@ -184,10 +184,7 @@ class MPDataPrototype {
         if (this["BoardcastArray" + propertyName] === undefined) return;
         this["BoardcastArray" + propertyName].forEach((el) => { el.data("respondFunc")(); });
     }
-    /**名称数据
-     * @type {string}
-     */
-    _name;
+
     /**名称
      * @type {string}
      */
@@ -197,10 +194,6 @@ class MPDataPrototype {
         this.Boardcast("name");
     }
 
-    /**描述数据
-     * @type {string}
-     */
-    _description;
     /**描述
      * @type {string}
      */
@@ -217,7 +210,13 @@ class MPDataPrototype {
         if (new.target === MPDataPrototype) {
             throw new Error("MPDataPrototype是抽象类！不能有实例！");
         }
+        /**名称数据
+         * @type {string}
+         */
         this._name = name || "名称";
+        /**描述数据
+         * @type {string}
+         */
         this._description = description || "描述";
     }
 }
@@ -227,17 +226,15 @@ class MPDataPrototype {
  * @description 包含了若干缓存数据的一个节点
  */
 class BufferSection extends MPDataPrototype {
-    /**缓存数据项数组
-     * @type {BufferDataPrototype[]}
-     */
-    _dataNodes;
-
     /**@param {string} name section名称
      * @param {string} description section描述
      * @param {BufferDataPrototype[]} dataNodes 缓存数据项数组
      */
     constructor(name, description, dataNodes) {
         super(name, description);
+        /**缓存数据项数组
+         * @type {BufferDataPrototype[]}
+         */
         this._dataNodes = dataNodes || new Array();
     }
 
@@ -281,9 +278,6 @@ class BufferDataPrototype extends MPDataPrototype {
  * @description 一个一维浮点数
  */
 class BufferDataF1 extends BufferDataPrototype {
-    /**@type {number}
-     */
-    _x;
     get x() {
         return this._x;
     }
@@ -298,6 +292,8 @@ class BufferDataF1 extends BufferDataPrototype {
      */
     constructor(name, description, x) {
         super(name, description);
+        /**@type {number}
+         */
         this._x = x || 0;
     }
 
@@ -311,22 +307,18 @@ class BufferDataF1 extends BufferDataPrototype {
  * @description 一维，二维，三维等长度的贴图，本质上是固定尺寸的数组
  */
 class BufferDataTexture extends BufferDataPrototype {
-    /**贴图核心数据
-     * @type {Uint8ClampedArray}
-     */
-    _texData;
-    /**尺寸宽度
-     * @type {number}
-     */
-    _width = 256;
-    /**尺寸高度
-     * @type {number}
-     */
-    _height = 256;
-
     Resize(width, height) {
-        this._width = width || this._width;
-        this._height = height || this._height;
+        /**尺寸宽度
+         * @type {number}
+         */
+        this._width = width;
+        /**尺寸高度
+         * @type {number}
+         */
+        this._height = height;
+        /**贴图核心数据
+         * @type {Uint8ClampedArray}
+         */
         this._texData = new Uint8ClampedArray(this._width * this._height * 4);
         this._texData.fill(255);
         this.Boardcast("texData");
@@ -339,7 +331,7 @@ class BufferDataTexture extends BufferDataPrototype {
      */
     constructor(name, description, width, height) {
         super(name, description);
-        this.Resize(width, height);
+        this.Resize(width||256, height||256);
     }
 
     LoadUI(contentDiv) {
@@ -354,17 +346,15 @@ class BufferDataTexture extends BufferDataPrototype {
  * @description 保存了若干代码数据的一个节点
  */
 class CodeSection extends MPDataPrototype {
-    /**代码数据项数组
-     * @type {CodeDataPrototype[]}
-     */
-    _codeNodes;
-
     /**@param {string} name section名称
      * @param {string} description section描述
      * @param {CodeDataPrototype[]} codeNodes 代码数据项数组
      */
     constructor(name, description, codeNodes) {
         super(name, description);
+        /**代码数据项数组
+         * @type {CodeDataPrototype[]}
+         */
         this._codeNodes = codeNodes || new Array();
     }
 }
@@ -373,9 +363,6 @@ class CodeSection extends MPDataPrototype {
  * @description 应该是抽象类，包含代码数据项共有的描述数据，以及一些上下文信息
  */
 class CodeDataPrototype extends MPDataPrototype {
-    /**@type {string}
- */
-    _codeText;
     /**用户编辑的原代码字符串 */
     get codeText() { return this._codeText; }
     set codeText(val) {
@@ -390,6 +377,8 @@ class CodeDataPrototype extends MPDataPrototype {
      */
     constructor(name, description, codeText) {
         super(name, description);
+        /**@type {string}
+         */
         this._codeText = codeText || "";
     }
 
