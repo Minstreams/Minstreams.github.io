@@ -1,0 +1,32 @@
+.ui-sortable-helper.ui-tabs-tab {
+    transform: scale(0.7) translateY(3px);
+    border-radius: 20px;
+    transition: border-radius 0.5s, transform 0.5s;
+}
+
+.ui-tabs-active>.ui-tabs-close {
+    position: absolute;
+    right: 0px;
+
+    height: 16px;
+    width: 16px;
+    z-index: 10;
+
+    background: url("../../JQuery/images/ui-icons_777777_256x240.png");
+    background-size: 1600% 1500%;
+    background-position: -500% -800%;
+
+    opacity:30%;
+    border-radius:8px;
+
+    transition: 0.5s;
+}
+
+.ui-tabs-active>.ui-tabs-close:hover {
+    background: url("../../JQuery/images/ui-icons_c98000_256x240.png");
+    background-size: 1600% 1500%;
+    background-position: -493.5% -800%;
+    filter: hue-rotate(325deg);
+    opacity:100%;
+    transition:0s;
+}

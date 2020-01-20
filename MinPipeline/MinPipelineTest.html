@@ -4,22 +4,30 @@
 <head>
     <meta charset="utf-8">
     <title>MinPipelineExample</title>
-    <link rel="stylesheet" type="text/css" href="css/mpCss.css">
+    <link rel="stylesheet" href="../JQuery/jquery-ui.css">
+    <link rel="stylesheet" href="css/jqUIExtend.css">
+    <link rel="stylesheet" href="css/mpCss.css">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="../JQuery/jquery-ui.js"></script>
+    <script src="../JQuery/jquery.mousewheel.js"></script>
+    <script src="js/MinPipelineCore.js"></script>
 </head>
 
 <body>
-    <div id="topDiv" class="topDiv">
-        <div class="bufferButton" ></div>
-        <div class="operatorButton"></div>
-        <div class="bufferButton" ></div>
-        <div class="operatorButton"></div>
-        <div class="bufferButton" ></div>
+    <div id="topDiv"></div>
+    <div id="bufferDiv"></div>
+    <div id="codeDiv">
+        <div id="codeContentDiv">
+            <ul>
+            </ul>
+        </div>
+        <button id = "tB">All the tabs</button>
+        <button id = "rB">Run</button>
+        <div id="codeReferenceDiv"></div>
     </div>
-    <iframe id="bufferFrame"></iframe>
-    <p>This is Min pipeline example.</p>
-    <p>Script must be after the text.</p>
+
     <script src="mpTest.js"></script>
+    <pipeline></pipeline>
     <noscript>抱歉，你的浏览器不支持 JavaScript!</noscript>
 </body>
 

@@ -48,3 +48,83 @@ function TimeUpdate() {
     document.getElementById("debugT").innerHTML = delta;
 }
 setInterval(TimeUpdate, 1000 / 60);
+
+
+
+
+
+
+
+//画图示例代码
+var tttt = mpData.bufferSections[0]._dataNodes[0]._texData;
+for (var i = 0, len = tttt.length; i < len; i += 4) {
+    tttt[i] = 255 - tttt[i];
+    tttt[i + 1] = 255 - tttt[i + 1];
+    tttt[i + 2] = 255 - tttt[i + 2];
+    tttt[i + 3] = 255;
+}
+mpData.bufferSections[0]._dataNodes[0].Boardcast("texData");
+
+
+<!--<canvas id="myCanvas">抱歉，您的浏览器还不支持canvas。</canvas>
+        <input type="file" id="myFile" />
+        <button onclick="putImage2Canvas()">PutToCanvas!</button>
+        <button onclick="Adjust()">Adjust!</button>
+        <button onclick="STest()">STest!</button>
+        <button onclick="RTest()">RTest!</button>-->
+
+        <!--<script>
+            /**@type {HTMLCanvasElement} */
+            var myCanvas = document.getElementById('myCanvas');
+            /**@type {HTMLInputElement} */
+            var myFile = document.getElementById('myFile');
+            var reader = new FileReader();
+            var img = new Image();
+            var context = myCanvas.getContext('2d');
+
+            myFile.onchange = function (event) {
+                reader.readAsDataURL(event.target.files[0]);
+            }
+
+            function putImage2Canvas() {
+                img.src = reader.result;
+                img.onload = function () {
+                    myCanvas.width = img.width;
+                    myCanvas.height = img.height;
+                    context.drawImage(img, 0, 0);
+
+                }
+            }
+            function Adjust() {
+                var imgdata = context.getImageData(0, 0, img.width, img.height);
+                var sl = imgdata.width * imgdata.height * 4;
+                var newImgData = new Uint8ClampedArray(sl);
+                // 处理imgdata
+                for (var i = 0, len = imgdata.data.length; i < len; i += 4) {
+                    newImgData[i] = 255 - imgdata.data[i];
+                    newImgData[i + 1] = 255 - imgdata.data[i + 1];
+                    newImgData[i + 2] = 255 - imgdata.data[i + 2];
+                    newImgData[i + 3] = 255;
+                }
+                imgdata.data.set(newImgData);
+                context.putImageData(imgdata, 0, 0);
+            }
+        </script>-->
+        <!--<script>
+            var tt=0;
+            function STest() {
+                $("#st").remove();
+                $("pipeline").append($("<script id='st'>< /script>").html(
+                    "var TestAlert = ()=> {\n" +
+                    "   console.log('TestAlert!'+"+ tt++ +");\n" +
+                    "};\n" +
+                    "TestAlert();\n"));
+                console.log($("#st").html());
+                TestAlert();
+            }
+            function  RTest() {
+                $("pipeline").empty();
+                console.log($("#st").html());
+                TestAlert();
+            }
+        </script>-->

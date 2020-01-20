@@ -1,20 +1,21 @@
+body {
+    background-color: silver;
+}
+
 canvas {
     border-style: dashed;
 }
 
-iframe {
-    width: 50%;
-}
+/* 顶端区域相关 */
 
-.topDiv {
+#topDiv {
     position: relative;
     width: 100%;
-    border-style: dotted;
+    border-style: outset;
     align-items: center;
-    display:flex;
+    display: flex;
 }
 
-/* 顶端区域相关 */
 .bufferButton {
     flex-grow: 1;
     flex-basis: 4px;
@@ -25,11 +26,13 @@ iframe {
     border-radius: 25px;
     transition: 0.2s;
 }
-.bufferButton:hover{
+
+.bufferButton:hover {
     filter: opacity(50%);
     transition: 0.2s;
 }
-.bbSelected{
+
+.bbSelected {
     background-color: brown;
 }
 
@@ -41,10 +44,143 @@ iframe {
     height: 30px;
     transition: 0.2s;
 }
-.operatorButton:hover{
+
+.operatorButton:hover {
     filter: opacity(50%);
     transition: 0.2s;
 }
-.obSelected{
+
+.obSelected {
     background-color: brown;
+}
+
+/* 缓存区域相关 */
+
+#bufferDiv {
+    border-style: solid;
+    position: absolute;
+    left: 50%;
+    right: 0%;
+    top: 80px;
+    bottom: 0%;
+    overflow-y: auto;
+}
+
+#bufferDiv::-webkit-scrollbar {
+    display: none;
+}
+
+.contentDiv {
+    border-style: solid;
+    border-color: brown;
+}
+
+.BufferDataF1 {
+    background-color: blueviolet;
+}
+
+.BufferDataF1>.name {
+    color: yellow;
+}
+
+.BufferDataF1>.x:before {
+    content: "x:";
+}
+
+.BufferDataF1>.x {
+    color: blue;
+}
+
+/* 代码区域相关 */
+
+#codeDiv {
+    border-style: solid;
+    position: absolute;
+    left: 0%;
+    right: 50%;
+    top: 80px;
+    bottom: 0%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+#codeTitleDiv {
+    height: 10%;
+    background-color: teal;
+    display: flex;
+    align-items: center;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+
+#codeTitleDiv>.codeLabel {
+    background-color: maroon;
+    flex-grow: 0.1;
+    max-width: 300px;
+    min-width: 50px;
+    flex-wrap: nowrap;
+    height: 100%;
+    border: 2px solid mediumslateblue;
+    transition: 0.5s;
+}
+
+#codeTitleDiv::-webkit-scrollbar {
+    display: none;
+}
+
+#codeTitleDiv>.codeLabel:hover {
+    background-color: mediumslateblue;
+    transition: 0.5s;
+}
+
+#codeTitleDiv>.clSelected {
+    background-color: midnightblue;
+    flex-grow: 1;
+    transition: 0.5s;
+}
+
+#codeTitleDiv>.codeLabel>labelTitle {
+    color: orange;
+}
+
+tabTitle{
+
+}
+
+tabDescription {
+    font-size: 0em;
+    opacity: 90%;
+    color: orange;
+    margin-left: 6px;
+}
+
+.ui-tabs .ui-tabs-nav li.ui-tabs-active .ui-tabs-anchor tabDescription {
+    font-size: 0.8em;
+    transition: font-size 0.4s;
+}
+
+#codeContentDiv>.codeTextDiv {
+    min-height: 300px;
+    max-height: 450px;
+    overflow-y: auto;
+    padding: 10px;
+    
+    color: wheat;
+    font-size: 14px;
+}
+
+.codeTextDiv [contenteditable = plaintext-only] {
+    min-height: 150px;
+    white-space:normal;
+}
+
+[contenteditable = plaintext-only] {
+    -webkit-user-modify: read-write-plaintext-only;
+    -moz-user-modify: read-write-plaintext-only;
+    white-space: nowrap;
+}
+
+#codeReferenceDiv {
+    height: 30%;
+    background-color: lightslategray;
 }
