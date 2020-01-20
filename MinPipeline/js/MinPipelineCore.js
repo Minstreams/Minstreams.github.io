@@ -84,7 +84,7 @@ var propertyBindTemplate = {
         },
         updateEvent: ""
     }
-}
+};
 
 $.fn.extend({
     /**将UI元素绑定到一个数据属性上，并响应其广播
@@ -168,10 +168,7 @@ class MPData {
     /**缓存Sections
      * @type {BufferSection[]}
      */
-    bufferSections;
-    constructor() {
-        this.bufferSections = new Array();
-    }
+    bufferSections = new Array();
 }
 
 /**@name MP数据原型
