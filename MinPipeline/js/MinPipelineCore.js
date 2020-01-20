@@ -165,10 +165,12 @@ $.fn.extend({
  * @description 包含了组成一个管线所需的所有数据
  */
 class MPData {
-    /**缓存Sections
-     * @type {BufferSection[]}
-     */
-    bufferSections = new Array();
+    constructor() {
+        /**缓存Sections
+         * @type {BufferSection[]}
+         */
+        this.bufferSections = new Array();
+    }
 }
 
 /**@name MP数据原型
