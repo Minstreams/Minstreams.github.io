@@ -960,9 +960,6 @@ input.ui-button::-moz-focus-inner, button.ui-button::-moz-focus-inner {
 .ui-tabs .ui-tabs-nav {
 	margin: 1px;
 	padding: 0em 0.2em 0;
-	display: flex;
-	overflow-x: scroll;
-	align-items: baseline;
 }
 
 .ui-tabs .ui-tabs-nav::-webkit-scrollbar {
@@ -994,8 +991,7 @@ input.ui-button::-moz-focus-inner, button.ui-button::-moz-focus-inner {
 }
 
 .ui-tabs .ui-tabs-nav li.ui-tabs-active .ui-tabs-anchor, .ui-tabs .ui-tabs-nav li.ui-state-disabled .ui-tabs-anchor, .ui-tabs .ui-tabs-nav li.ui-tabs-loading .ui-tabs-anchor {
-	cursor: text;
-	font-size: 18px;
+	
 }
 
 .ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-active .ui-tabs-anchor {

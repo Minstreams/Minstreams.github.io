@@ -1,8 +1,21 @@
 /**Array的扩充方法，删除元素。
  * 没有做异常处理，若删除不存在的元素大概会崩溃吧
  * @param {any} element 要删除的元素
+ * @return 此元素
  */
-Array.prototype.remove = function (element) { this.splice(this.indexOf(element), 1); };
+Array.prototype.remove = function (element) { return this.splice(this.indexOf(element), 1)[0]; };
+
+/**阻止事件冒泡传播
+ * @param {Event} e 事件变量
+ */
+function stopBubbling(e) {
+    e = window.event || e;
+    if (e.stopPropagation) {
+        e.stopPropagation();      //阻止事件 冒泡传播
+    } else {
+        e.cancelBubble = true;   //ie兼容
+    }
+}
 
 
 /**各种元素的绑定模板 */
@@ -16,8 +29,7 @@ var propertyBindTemplate = {
         },
         updateEvent: "blur remove",
         onBind: function () {
-            this
-                .on("dblclick", function () { $(this).attr({ contentEditable: 'plaintext-only', spellCheck: false }).focus(); })
+            this.on("dblclick", function () { $(this).attr({ contentEditable: 'plaintext-only', spellCheck: false }).focus(); })
                 .on("blur", function () { this.removeAttribute("contenteditable"); this.removeAttribute("spellcheck"); })
                 .keydown(function (e) {
                     if (e.which == 13) {
@@ -26,6 +38,15 @@ var propertyBindTemplate = {
                         this.blur();
                     }
                 });
+        }
+    },
+    display: {
+        respondFunc: function (target, propertyName) {
+            this.text(target["_" + propertyName]);
+        },
+        updateFunc: function (target, propertyName) { },
+        onBind: function () {
+            this.disableSelection();
         }
     },
     name: {
@@ -58,7 +79,7 @@ var propertyBindTemplate = {
             this.html(target["_" + propertyName]);
         },
         updateFunc: function (target, propertyName) {
-            target["_" + propertyName] = this[0].innerHTML;
+            target["_" + propertyName] = this[0].innerHTML.replace(/<[^>]*?>/g, "");
         },
         updateEvent: "blur remove"
     },
@@ -81,8 +102,7 @@ var propertyBindTemplate = {
         updateFunc: function (target, propertyName) {
             this.data("imgData", this.data("c2d").getImageData(0, 0, width, height));
             target["_" + propertyName].set(this.data("imgData").data);
-        },
-        updateEvent: ""
+        }
     }
 };
 
@@ -105,6 +125,9 @@ $.fn.extend({
         // 动态记录
         target["BoardcastArray" + propertyName].push(el);
         el.on("remove", function () { target["BoardcastArray" + propertyName].remove(el); });
+
+        // 记录属性
+        el.addClass(propertyName);
 
         // 读取方法模板
         template = template || "text";
@@ -131,20 +154,14 @@ $.fn.extend({
      * @return {JQuery<HTMLElement>} 元素自身的引用
      */
     UpdateProperty: function () {
-        this.each(function () {
-            if ($(this).data("updateFunc"))
-                $(this).data("updateFunc")();
-        })
+        this.filter(":data(updateFunc)").each(function () { $(this).data("updateFunc")(); });
         return this;
     },
     /**主动获取属性数据，更新自身
      * @return {JQuery<HTMLElement>} 元素自身的引用
      */
     RespondProperty: function () {
-        this.each(function () {
-            if ($(this).data("respondFunc"))
-                $(this).data("respondFunc")();
-        })
+        this.filter(":data(respondFunc)").each(function () { $(this).data("respondFunc")(); });
         return this;
     },
     /**检查是否所有元素都符合条件
@@ -152,8 +169,8 @@ $.fn.extend({
      */
     every: function (checkFunc) {
         let result = true;
-        this.each(function () {
-            if (!checkFunc.call(this)) result = false;
+        this.each(function (index) {
+            if (!checkFunc.call(this, index)) result = false;
         });
         return result;
     }
@@ -236,6 +253,9 @@ class BufferSection extends MPDataPrototype {
          * @type {BufferDataPrototype[]}
          */
         this._dataNodes = dataNodes || new Array();
+        /**@type {CodeSection}
+         */
+        this._codeSection = new CodeSection();
     }
 
     /**用于初始化缓存Section的UI界面
@@ -331,7 +351,7 @@ class BufferDataTexture extends BufferDataPrototype {
      */
     constructor(name, description, width, height) {
         super(name, description);
-        this.Resize(width||256, height||256);
+        this.Resize(width || 256, height || 256);
     }
 
     LoadUI(contentDiv) {

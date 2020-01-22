@@ -48,7 +48,7 @@
     </div>
 
     <script>
-        var tabs = $("#tabs").tabs();
+        var tabs = $("#tabs").tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
         tabs.find(".ui-tabs-nav").sortable({
             axis: "x",
             stop: function () {
