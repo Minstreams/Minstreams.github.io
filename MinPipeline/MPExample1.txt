@@ -1,0 +1,125 @@
+#mpObject["_name"] = "test";
+#mpObject["_description"] = "test";
+#mpObject["bufferSections"]=new Array();
+#mpObject["bufferSections"][0]=new BufferSection();
+#mpObject["bufferSections"][0]["_name"] = "输出";
+#mpObject["bufferSections"][0]["_description"] = "最终输出";
+#mpObject["bufferSections"][0]["_dataNodes"]=new Array();
+#mpObject["bufferSections"][0]["_dataNodes"][0]=new BufferDataTexture();
+#mpObject["bufferSections"][0]["_dataNodes"][0]["_name"] = "OutColor";
+#mpObject["bufferSections"][0]["_dataNodes"][0]["_description"] = "最终输出的颜色";
+#mpObject["bufferSections"][0]["_dataNodes"][0]["_width"] = 512;
+#mpObject["bufferSections"][0]["_dataNodes"][0]["_height"] = 512;
+#mpObject["bufferSections"][0]["_dataNodes"][0].Resize();
+#mpObject["bufferSections"][0]["_dataNodes"][1]=new BufferDataF1();
+#mpObject["bufferSections"][0]["_dataNodes"][1]["_name"] = "kkk";
+#mpObject["bufferSections"][0]["_dataNodes"][1]["_description"] = "描述";
+#mpObject["bufferSections"][0]["_dataNodes"][1]["_x"]=new Number();
+#mpObject["bufferSections"][0]["_dataNodes"][2]=new BufferDataF1();
+#mpObject["bufferSections"][0]["_dataNodes"][2]["_name"] = "kkk";
+#mpObject["bufferSections"][0]["_dataNodes"][2]["_description"] = "描述";
+#mpObject["bufferSections"][0]["_dataNodes"][2]["_x"]=new Number();
+#mpObject["bufferSections"][0]["_dataNodes"][3]=new BufferDataF1();
+#mpObject["bufferSections"][0]["_dataNodes"][3]["_name"] = "kkk";
+#mpObject["bufferSections"][0]["_dataNodes"][3]["_description"] = "描述";
+#mpObject["bufferSections"][0]["_dataNodes"][3]["_x"]=new Number();
+#mpObject["bufferSections"][0]["_dataNodes"]["remove"] = function (element) {
+    if (!this.includes(element)) {
+        return null;
+    }
+    return this.splice(this.indexOf(element), 1)[0];
+};
+#mpObject["bufferSections"][0]["_codeSection"]=new CodeSection();
+#mpObject["bufferSections"][0]["_codeSection"]["_name"] = "new";
+#mpObject["bufferSections"][0]["_codeSection"]["_description"] = "new";
+#mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"]=new Array();
+#mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][0]=new CodeDataJavaScript();
+#mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][0]["_name"] = "Funtion1";
+#mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][0]["_description"] = "用于把视角空间转换为某某空间";
+#mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][0]["_codeText"] = "";
+#mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][1]=new CodeDataJavaScript();
+#mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][1]["_name"] = "Funtion2";
+#mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][1]["_description"] = "用于把视角空间转换为某某空间C2D";
+#mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][1]["_codeText"] = "";
+#mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][2]=new CodeDataJavaScript();
+#mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][2]["_name"] = "Funtion3";
+#mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][2]["_description"] = "用于把视角空间转换为某某空间C2D";
+#mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][2]["_codeText"] = "";
+#mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][3]=new CodeDataJavaScript();
+#mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][3]["_name"] = "Funtion8";
+#mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][3]["_description"] = "用于把视角空间转换为某某空间C2D";
+#mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][3]["_codeText"] = "";
+#mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][4]=new CodeDataJavaScript();
+#mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][4]["_name"] = "Funtion10";
+#mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][4]["_description"] = "用于把视角空间转换为某某空间C2D";
+#mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][4]["_codeText"] = "";
+#mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"]["remove"] = function (element) {
+    if (!this.includes(element)) {
+        return null;
+    }
+    return this.splice(this.indexOf(element), 1)[0];
+};
+#mpObject["bufferSections"][1]=new BufferSection();
+#mpObject["bufferSections"][1]["_name"] = "Asdasdasd2";
+#mpObject["bufferSections"][1]["_description"] = "asdasd";
+#mpObject["bufferSections"][1]["_dataNodes"]=new Array();
+#mpObject["bufferSections"][1]["_dataNodes"][0]=new BufferDataTexture();
+#mpObject["bufferSections"][1]["_dataNodes"][0]["_name"] = "Real";
+#mpObject["bufferSections"][1]["_dataNodes"][0]["_description"] = "描述";
+#mpObject["bufferSections"][1]["_dataNodes"][0]["_width"] = 256;
+#mpObject["bufferSections"][1]["_dataNodes"][0]["_height"] = 256;
+#mpObject["bufferSections"][1]["_dataNodes"][0].Resize();
+#mpObject["bufferSections"][1]["_dataNodes"]["remove"] = function (element) {
+    if (!this.includes(element)) {
+        return null;
+    }
+    return this.splice(this.indexOf(element), 1)[0];
+};
+#mpObject["bufferSections"][1]["_codeSection"]=new CodeSection();
+#mpObject["bufferSections"][1]["_codeSection"]["_name"] = "new";
+#mpObject["bufferSections"][1]["_codeSection"]["_description"] = "new";
+#mpObject["bufferSections"][1]["_codeSection"]["_codeNodes"]=new Array();
+#mpObject["bufferSections"][1]["_codeSection"]["_codeNodes"][0]=new CodeDataJavaScript();
+#mpObject["bufferSections"][1]["_codeSection"]["_codeNodes"][0]["_name"] = "Funton4";
+#mpObject["bufferSections"][1]["_codeSection"]["_codeNodes"][0]["_description"] = "用于把视角空间转换为某某空间C2D";
+#mpObject["bufferSections"][1]["_codeSection"]["_codeNodes"][0]["_codeText"] = "";
+#mpObject["bufferSections"][1]["_codeSection"]["_codeNodes"]["remove"] = function (element) {
+    if (!this.includes(element)) {
+        return null;
+    }
+    return this.splice(this.indexOf(element), 1)[0];
+};
+#mpObject["bufferSections"][2]=new BufferSection();
+#mpObject["bufferSections"][2]["_name"] = "Asdaasd3";
+#mpObject["bufferSections"][2]["_description"] = "描述";
+#mpObject["bufferSections"][2]["_dataNodes"]=new Array();
+#mpObject["bufferSections"][2]["_dataNodes"]["remove"] = function (element) {
+    if (!this.includes(element)) {
+        return null;
+    }
+    return this.splice(this.indexOf(element), 1)[0];
+};
+#mpObject["bufferSections"][2]["_codeSection"]=new CodeSection();
+#mpObject["bufferSections"][2]["_codeSection"]["_name"] = "new";
+#mpObject["bufferSections"][2]["_codeSection"]["_description"] = "new";
+#mpObject["bufferSections"][2]["_codeSection"]["_codeNodes"]=new Array();
+#mpObject["bufferSections"][2]["_codeSection"]["_codeNodes"][0]=new CodeDataJavaScript();
+#mpObject["bufferSections"][2]["_codeSection"]["_codeNodes"][0]["_name"] = "名称";
+#mpObject["bufferSections"][2]["_codeSection"]["_codeNodes"][0]["_description"] = "描述";
+#mpObject["bufferSections"][2]["_codeSection"]["_codeNodes"][0]["_codeText"] = "";
+#mpObject["bufferSections"][2]["_codeSection"]["_codeNodes"]["remove"] = function (element) {
+    if (!this.includes(element)) {
+        return null;
+    }
+    return this.splice(this.indexOf(element), 1)[0];
+};
+#mpObject["bufferSections"]["remove"] = function (element) {
+    if (!this.includes(element)) {
+        return null;
+    }
+    return this.splice(this.indexOf(element), 1)[0];
+};
+#mpObject["mainCodeData"]=new CodeDataJavaScript();
+#mpObject["mainCodeData"]["_name"] = "main";
+#mpObject["mainCodeData"]["_description"] = "函数入口";
+#mpObject["mainCodeData"]["_codeText"] = "";

@@ -2,6 +2,7 @@ body {
     background-color: #121212;
     color: white;
     margin: 0;
+    overflow-x:hidden;
 }
 
 canvas {
@@ -24,7 +25,7 @@ tooltip {
     display: flex;
     background-color: #0c0c0c;
     border-bottom: 1.5px dashed #d5903b85;
-    /border-style:ridge;
+    /border-style: ridge;
 }
 
 #codeDiv {
@@ -51,6 +52,7 @@ tooltip {
 }
 
 /* ÃƒÆ’Ã‚Â©Ãƒâ€šÃ‚Â¡Ãƒâ€šÃ‚Â¶ÃƒÆ’Ã‚Â§Ãƒâ€šÃ‚Â«Ãƒâ€šÃ‚Â¯ÃƒÆ’Ã‚Â¥Ãƒâ€¦Ã¢â‚¬â„¢Ãƒâ€šÃ‚ÂºÃƒÆ’Ã‚Â¥Ãƒâ€¦Ã‚Â¸Ãƒâ€¦Ã‚Â¸ÃƒÆ’Ã‚Â§ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂºÃƒâ€šÃ‚Â¸ÃƒÆ’Ã‚Â¥ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦Ãƒâ€šÃ‚Â³ */
+
 .bufferSection {
     position: relative;
     flex-grow: 1;
@@ -85,9 +87,71 @@ tooltip {
     visibility: visible;
     top: 50%;
     left: 36px;
-    color:#ffe1a9;
+    color: #ffe1a9;
     text-shadow: 0 0 4px #ffa500fa;
     transform: translateY(-50%) translateY(-1.2px);
+}
+
+.bufferSection>.top-remove {
+    position: absolute;
+    top:50%;
+    right: 100%;
+    width:12px;
+    height:12px;
+    transform:translateY(40%);
+    color:#cd0a0aad;
+    text-align:center;
+    line-height:10px;
+    font-size:16px;
+    transition: 0.5s;
+    border-radius:50%;
+    border:1px solid #cd0a0aa1;
+    cursor:none;
+}
+
+.bufferSection>.top-remove:hover{
+    transform:translateY(70%) scale(2) translateX(20%);
+    color:#cd0a0a;
+    transition: 0.1s;
+    border:0px solid #cd0a0a;
+}
+.bufferSection>.top-remove:hover>tooltip{
+    visibility: visible;
+    top: 50%;
+    right: -9px;
+    transform: translateY(-50%) translateY(-1.1px) scale(0.5);
+    color:#cd0a0a;
+}
+
+.codeSection>.top-add {
+    position: absolute;
+    bottom:50%;
+    right: 0%;
+    width:12px;
+    height:12px;
+    transform:translateY(-40%);
+    color:#b2832ebd;
+    text-align:center;
+    line-height:10px;
+    font-size:16px;
+    transition: 0.5s;
+    border-radius:50%;
+    border:1px solid #ffa500b8;
+    cursor:none;
+}
+
+.codeSection>.top-add:hover{
+    transform:translateY(-70%) scale(2) translateX(-30%);
+    color:orange;
+    transition: 0.1s;
+    border:0px solid #ffa500;
+}
+.codeSection>.top-add:hover>tooltip{
+    visibility: visible;
+    top: 50%;
+    right: -7px;
+    transform: translateY(-50%) translateY(-1.1px) scale(0.5);
+    color:orange;
 }
 
 .bsSelected>point {
@@ -123,6 +187,7 @@ tooltip {
     transition: 0.2s;
     width: 9px;
     height: 9px;
+    cursor:none;
 }
 
 .bufferSection .bufferOperator.ui-sortable-helper {
@@ -151,18 +216,22 @@ tooltip {
     left: 12px;
     transform: translateY(-50%) translateY(-0.5px);
 }
-.bufferOperator.BufferDataF1>tooltip{
-    color:#fece5e;
+
+.bufferOperator.BufferDataF1>tooltip {
+    color: #fece5e;
 }
+
 .bufferOperator.BufferDataF1>div {
     background-color: #ffffff00;
     width: 70%;
     height: 70%;
     border: 1px solid #ffb915;
 }
-.bufferOperator.BufferDataTexture>tooltip{
-    color:pink;
+
+.bufferOperator.BufferDataTexture>tooltip {
+    color: pink;
 }
+
 .bufferOperator.BufferDataTexture>div {
     background-color: #fe3d5fa3;
     border: 1px solid #ff002d;
@@ -196,12 +265,13 @@ tooltip {
     box-shadow: 0 0 8px 1px #ffa5009e;
     transition: 0.1s;
 }
-.codeSection:hover>tooltip{
-    visibility:visible;
+
+.codeSection:hover>tooltip {
+    visibility: visible;
     top: 17px;
     left: 50%;
     transform: translateX(-50%);
-    color:#ffe1a9;
+    color: #ffe1a9;
     text-shadow: 0 0 4px #ffa500fa;
 }
 
@@ -228,6 +298,7 @@ tooltip {
     min-width: 7px;
     max-width: 15px;
     height: 100%;
+    cursor:none;
 }
 
 .codeSection>ul>.placeholder {
@@ -248,11 +319,11 @@ tooltip {
     flex-grow: 0;
 }
 
-.codeSection>ul>.margin-helper{
+.codeSection>ul>.margin-helper {
     position: relative;
     display: block;
     flex-grow: 0;
-    margin:auto;
+    margin: auto;
 }
 
 .codeOperator>div {
@@ -264,7 +335,7 @@ tooltip {
     width: 60%;
     border-radius: 30%;
     border: 1px solid #efa71f;
-    background-color:#9191917d;
+    background-color: #9191917d;
     transition: 0.5s;
 }
 
@@ -273,39 +344,37 @@ tooltip {
     transition: 0.1s;
     box-shadow: 0 0 6px 0px #ffa5009e;
 }
-.codeOperator:hover>tooltip{
-    visibility:visible;
+
+.codeOperator:hover>tooltip {
+    visibility: visible;
     top: -17px;
     left: 50%;
     transform: translateX(-50%);
-    color:#ffba3cde;
+    color: #ffba3cde;
 }
 
 /* ÃƒÆ’Ã‚Â§Ãƒâ€šÃ‚Â¼ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œÃƒÆ’Ã‚Â¥Ãƒâ€šÃ‚Â­Ãƒâ€¹Ã…â€œÃƒÆ’Ã‚Â¥Ãƒâ€¦Ã¢â‚¬â„¢Ãƒâ€šÃ‚ÂºÃƒÆ’Ã‚Â¥Ãƒâ€¦Ã‚Â¸Ãƒâ€¦Ã‚Â¸ÃƒÆ’Ã‚Â§ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂºÃƒâ€šÃ‚Â¸ÃƒÆ’Ã‚Â¥ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦Ãƒâ€šÃ‚Â³ */
+
 .contentDiv {
     border: 1px solid #feb93abf;
-    border-radius:2px;
+    border-radius: 2px;
     margin: 2px;
-    display:flex;
+    display: flex;
 }
 
-.contentDiv>.name{
-    font-size:16px;
-    margin:2px;
+.contentDiv>.name {
+    font-size: 16px;
+    margin: 2px;
 }
 
-.contentDiv>.description{
-    margin:2px;
-    color:gray;
+.contentDiv>.description {
+    margin: 2px;
+    color: gray;
 }
 
-.contentDiv.BufferDataF1 {
-    
-}
+.contentDiv.BufferDataF1 {}
 
-.contentDiv.BufferDataF1>.name {
-    
-}
+.contentDiv.BufferDataF1>.name {}
 
 .contentDiv.BufferDataF1>.x:before {
     content: "x:";
@@ -316,8 +385,9 @@ tooltip {
 }
 
 /* ÃƒÆ’Ã‚Â¤Ãƒâ€šÃ‚Â»Ãƒâ€šÃ‚Â£ÃƒÆ’Ã‚Â§Ãƒâ€šÃ‚Â Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¥Ãƒâ€¦Ã¢â‚¬â„¢Ãƒâ€šÃ‚ÂºÃƒÆ’Ã‚Â¥Ãƒâ€¦Ã‚Â¸Ãƒâ€¦Ã‚Â¸ÃƒÆ’Ã‚Â§ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂºÃƒâ€šÃ‚Â¸ÃƒÆ’Ã‚Â¥ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦Ãƒâ€šÃ‚Â³ */
-.ui-tabs .ui-tabs-nav.ui-tabs-xExtended{
-    background:#121212;
+
+.ui-tabs .ui-tabs-nav.ui-tabs-xExtended {
+    background: #121212;
 }
 
 .ui-tabs-active tabTitle {
@@ -336,7 +406,7 @@ tabDescription {
     transition: font-size 0.4s;
 }
 
-#codeContentDiv{
+#codeContentDiv {
     border: 1px solid #c38d27;
 }
 
@@ -346,7 +416,7 @@ tabDescription {
     overflow-y: auto;
     padding: 10px;
     color: wheat;
-    font-size: 14px;
+    font-family: monospace;
 }
 
 .codeTextDiv [contenteditable=plaintext-only] {

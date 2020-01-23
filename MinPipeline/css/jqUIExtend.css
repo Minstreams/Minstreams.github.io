@@ -1,4 +1,4 @@
-/* Sortable项目在被拖动的时候缩成球 */
+/* Sortableé¡¹ç›®åœ¨è¢«æ‹–åŠ¨çš„æ—¶å€™ç¼©æˆçƒ */
 
 .ui-sortable-helper.ui-tabs-tab {
     transform: scale(0.7) translateY(3px);
@@ -37,6 +37,10 @@
     filter: hue-rotate(325deg);
     opacity: 100%;
     transition: 0s;
+}
+
+.mainCodeLi .ui-tabs-close{
+    display:none;
 }
 
 .ui-tabs-tab.ui-state-default>.ui-tabs-anchor {

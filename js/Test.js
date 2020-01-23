@@ -128,3 +128,24 @@ mpData.bufferSections[0]._dataNodes[0].Boardcast("texData");
                 TestAlert();
             }
         </script>-->
+
+
+
+if (!this.data("c2d")) this.data("c2d", this[0].getContext("2d"));
+let width = target["_width"];
+let height = target["_height"];
+//一些注释
+if ((width != this[0].width) || (height != this[0].height)) {
+    // resize
+    this[0].width = width;
+    this[0].height = height;
+	this.data("imgData", 
+              this.data("c2d").getImageData(0, 0, width, height));
+}
+if (!this.data("imgData")) 
+    this.data("imgData", 
+              this.data("c2d").getImageData(0, 0, width, height));
+
+this.data("imgData").data.set(target["_" + propertyName]);
+this.data("c2d").putImageData(this.data("imgData"), 0, 0);
+

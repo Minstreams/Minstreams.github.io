@@ -7,9 +7,15 @@
     <link rel="stylesheet" href="../JQuery/jquery-ui.css">
     <link rel="stylesheet" href="css/jqUIExtend.css">
     <link rel="stylesheet" href="css/mpCss.css">
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+        integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
     <script src="../JQuery/jquery.mousewheel.min.js"></script>
+    <link rel="stylesheet" href="../codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="css/codewarm.css">
+    <script src="../codemirror/lib/codemirror.js"></script>
+    <script src="../codemirror/mode/javascript/javascript.js"></script>
     <script src="js/MinPipelineCore.js"></script>
 </head>
 
@@ -21,11 +27,12 @@
             <ul>
             </ul>
         </div>
-        <button id = "tB">All the tabs</button>
-        <button id = "rB">Run</button>
-        <div id="codeReferenceDiv"></div>
+        <button id="dB" style="float:right">LogData</button>
+        <button id="rB" style="float:right">Run</button>
+        <!--<div id="codeReferenceDiv"></div>-->
     </div>
 
+    <mpData style="display:none;"></mpData>
     <script src="mpTest.js"></script>
     <pipeline></pipeline>
     <noscript>抱歉，你的浏览器不支持 JavaScript!</noscript>
