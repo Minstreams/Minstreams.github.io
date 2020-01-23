@@ -394,7 +394,7 @@ var counter = 0;
 var mpDataFile = getQueryString("mpData");
 if (mpDataFile) {
     let filee = mpDataFile + ".txt";
-    console.log($("mpData").load("Access-Control-Allow-Origin:" + window.location.pathname.match(/^.*\//) + filee));
+    console.log($("mpData").load(filee));
 }
 if ($("mpData").text()) {
     console.log($("mpData").text());
