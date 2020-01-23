@@ -406,12 +406,7 @@ $("#dB").click(function () {
     jstring = MPJSON.stringify(mpData);
 
     console.log(jstring);
-    localStorage.setItem("mpDataString", jstring);
-});
-$("#rdB").click(function () {
-    if (jstring) {
-        mpData = JSON.parse(jstring);
-    }
+    $("mpData").text(jstring);
 });
 
 jstring = localStorage.getItem("mpDataString");
