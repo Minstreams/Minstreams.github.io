@@ -86,7 +86,7 @@
 #mpObject["bufferSections"][1]["_codeSection"]["_codeNodes"][0]=new CodeDataJavaScript();
 #mpObject["bufferSections"][1]["_codeSection"]["_codeNodes"][0]["_name"] = "Update";
 #mpObject["bufferSections"][1]["_codeSection"]["_codeNodes"][0]["_description"] = "渲染循环主体";
-#mpObject["bufferSections"][1]["_codeSection"]["_codeNodes"][0]["_codeText"] = "time = Date.now();\n\nuv.x+=0.004;\nuv.y+=0.0066;\nif(uv.x>1)uv.x=0;\nif(uv.y>1)uv.y=0;\n\ncolor.xyzw = [\n  Math.sin(time*0.013)*0.5+0.5,\n  Math.sin(time*0.01+30)*0.5+0.5,\n  Math.sin(time*2*0.01)*0.5+0.5,\n  1\n  ];\n\nSetColor();\n\nnextFrame(Update);";
+#mpObject["bufferSections"][1]["_codeSection"]["_codeNodes"][0]["_codeText"] = "time = Date.now();\n\nuv.x+=0.004;\nuv.y+=0.0066;\nif(uv.x>1)uv.x=0;\nif(uv.y>1)uv.y=0;\n\ncolor.xyzw = [\n  Math.sin(time*0.013)*0.5+0.5,\n  Math.sin(time*0.01+30)*0.5+0.5,\n  Math.sin(time*2*0.01)*0.5+0.5,\n  Math.sin(uv.x*Math.PI)*Math.sin(uv.y*Math.PI)\n  ];\n\nSetColor();\n\nnextFrame(Update);";
 #mpObject["mainCodeData"]=new CodeDataJavaScript();
 #mpObject["mainCodeData"]["_name"] = "main";
 #mpObject["mainCodeData"]["_description"] = "函数入口";
