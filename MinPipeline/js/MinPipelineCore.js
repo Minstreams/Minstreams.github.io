@@ -316,16 +316,16 @@ class MPData extends MPPrototype {
                 let dn = this.bufferSections[si]._dataNodes;
                 for (let di = 0; di < dn.length; di++) {
                     let avater = mpDataName + ".bufferSections[" + si + "]._dataNodes[" + di + "].avater.";
-                    cc = cc.replace(new RegExp('([^._#@\$]?)\\b' + dn[di]._name + '\\b\.', "g"), "$1" + avater);
-                    cc = cc.replace(new RegExp('([^._#@\$]?)\\b' + dn[di]._name + '\\b', "g"), "$1" + avater + "self");
+                    cc = cc.replace(new RegExp('([^\\._#@\\$])\\b' + dn[di]._name + '\\.', "g"), "$1" + avater);
+                    cc = cc.replace(new RegExp('([^\\._#@\\$])\\b' + dn[di]._name + '\\b', "g"), "$1" + avater + "self");
                 }
                 if (si + 1 < this.bufferSections.length) {
                     let dnf = this.bufferSections[si + 1]._dataNodes;
                     for (let di = 0; di < dnf.length; di++) {
                         let avater = mpDataName + ".bufferSections[" + (si + 1) + "]._dataNodes[" + di + "].avater.";
                         cc = cc
-                            .replace(new RegExp('([^._#@\$]?)\\b' + dnf[di]._name + '\\b\.', "g"), "$1" + avater)
-                            .replace(new RegExp('([^._#@\$]?)\\b' + dnf[di]._name + '\\b', "g"), "$1" + avater + "self");
+                            .replace(new RegExp('([^\\._#@\\$])\\b' + dnf[di]._name + '\\.', "g"), "$1" + avater)
+                            .replace(new RegExp('([^\\._#@\\$])\\b' + dnf[di]._name + '\\b', "g"), "$1" + avater + "self");
                     }
                 }
                 code += cc;
@@ -467,27 +467,27 @@ class BufferDataF1 extends BufferDataPrototype {
          */
         this._x = x || this._x || 0;
         let d = this;
-        this.avater ={
-            get self(){
-                return this._x;
+        this.avater = {
+            get self() {
+                return d._x;
             },
             set self(val) {
-                this._x = val;
-                this.Boardcast("x");
+                d._x = val;
+                d.Boardcast("x");
             },
-            get x(){
-                return this._x;
+            get x() {
+                return d._x;
             },
             set x(val) {
-                this._x = val;
-                this.Boardcast("x");
+                d._x = val;
+                d.Boardcast("x");
             },
-            get r(){
-                return this._x;
+            get r() {
+                return d._x;
             },
             set r(val) {
-                this._x = val;
-                this.Boardcast("x");
+                d._x = val;
+                d.Boardcast("x");
             },
         }
     }
