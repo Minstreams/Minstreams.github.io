@@ -27,8 +27,9 @@
             <ul>
             </ul>
         </div>
-        <button id="dB" style="float:right">LogData</button>
         <button id="rB" style="float:right">Run</button>
+        <button id="dB" style="float:right">保存</button>
+        <button id="cB" style="float:left">清空并刷新</button>
         <!--<div id="codeReferenceDiv"></div>-->
         <div id="errorLog"></div>
     </div>
@@ -55,6 +56,10 @@
 #mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][0]["_name"] = "SetColor";
 #mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][0]["_description"] = "设置颜色";
 #mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][0]["_codeText"] = "let i = 1/256;\nOutColor.color(uv.x-i,uv.y,color.xyzw);\nOutColor.color(uv.x,uv.y,color.xyzw);\nOutColor.color(uv.x+i,uv.y,color.xyzw);\nOutColor.color(uv.x-i,uv.y-i,color.xyzw);\nOutColor.color(uv.x,uv.y-i,color.xyzw);\nOutColor.color(uv.x+i,uv.y-i,color.xyzw);\nOutColor.color(uv.x-i,uv.y+i,color.xyzw);\nOutColor.color(uv.x,uv.y+i,color.xyzw);\nOutColor.color(uv.x+i,uv.y+i,color.xyzw);";
+#mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][1]=new CodeDataJavaScript();
+#mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][1]["_name"] = "ClearCanvas";
+#mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][1]["_description"] = "清除画布";
+#mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][1]["_codeText"] = "OutColor([0,0,0,0]);";
 #mpObject["bufferSections"][1]=new BufferSection();
 #mpObject["bufferSections"][1]["_name"] = "表层数据";
 #mpObject["bufferSections"][1]["_description"] = "第一层数据";
@@ -62,7 +67,7 @@
 #mpObject["bufferSections"][1]["_dataNodes"][0]=new BufferDataF1();
 #mpObject["bufferSections"][1]["_dataNodes"][0]["_name"] = "time";
 #mpObject["bufferSections"][1]["_dataNodes"][0]["_description"] = "记录当前时间";
-#mpObject["bufferSections"][1]["_dataNodes"][0]["_x"]=new Number();
+#mpObject["bufferSections"][1]["_dataNodes"][0]["_x"] = 1579859927408;
 #mpObject["bufferSections"][1]["_dataNodes"][1]=new BufferDataF1();
 #mpObject["bufferSections"][1]["_dataNodes"][1]["_name"] = "timer";
 #mpObject["bufferSections"][1]["_dataNodes"][1]["_description"] = "暂时没什么用";
@@ -70,15 +75,15 @@
 #mpObject["bufferSections"][1]["_dataNodes"][2]=new BufferDataF2();
 #mpObject["bufferSections"][1]["_dataNodes"][2]["_name"] = "uv";
 #mpObject["bufferSections"][1]["_dataNodes"][2]["_description"] = "uv坐标，0~1";
-#mpObject["bufferSections"][1]["_dataNodes"][2]["_x"]=new Number();
-#mpObject["bufferSections"][1]["_dataNodes"][2]["_y"]=new Number();
+#mpObject["bufferSections"][1]["_dataNodes"][2]["_x"] = 0.07039999999998439;
+#mpObject["bufferSections"][1]["_dataNodes"][2]["_y"] = 0.43040000000006196;
 #mpObject["bufferSections"][1]["_dataNodes"][3]=new BufferDataF4();
 #mpObject["bufferSections"][1]["_dataNodes"][3]["_name"] = "color";
 #mpObject["bufferSections"][1]["_dataNodes"][3]["_description"] = "记录颜色，0~1";
-#mpObject["bufferSections"][1]["_dataNodes"][3]["_x"]=new Number();
-#mpObject["bufferSections"][1]["_dataNodes"][3]["_y"]=new Number();
-#mpObject["bufferSections"][1]["_dataNodes"][3]["_z"]=new Number();
-#mpObject["bufferSections"][1]["_dataNodes"][3]["_w"]=new Number();
+#mpObject["bufferSections"][1]["_dataNodes"][3]["_x"] = 0.25150670818552734;
+#mpObject["bufferSections"][1]["_dataNodes"][3]["_y"] = 0.941896989911083;
+#mpObject["bufferSections"][1]["_dataNodes"][3]["_z"] = 0.02049153512044477;
+#mpObject["bufferSections"][1]["_dataNodes"][3]["_w"] = 0.21414628152100074;
 #mpObject["bufferSections"][1]["_codeSection"]=new CodeSection();
 #mpObject["bufferSections"][1]["_codeSection"]["_name"] = "渲染循环";
 #mpObject["bufferSections"][1]["_codeSection"]["_description"] = "new";
@@ -86,11 +91,11 @@
 #mpObject["bufferSections"][1]["_codeSection"]["_codeNodes"][0]=new CodeDataJavaScript();
 #mpObject["bufferSections"][1]["_codeSection"]["_codeNodes"][0]["_name"] = "Update";
 #mpObject["bufferSections"][1]["_codeSection"]["_codeNodes"][0]["_description"] = "渲染循环主体";
-#mpObject["bufferSections"][1]["_codeSection"]["_codeNodes"][0]["_codeText"] = "time = Date.now();\n\nuv.x+=0.004;\nuv.y+=0.0066;\nif(uv.x>1)uv.x=0;\nif(uv.y>1)uv.y=0;\n\ncolor.xyzw = [\n  Math.sin(time*0.013)*0.5+0.5,\n  Math.sin(time*0.01+30)*0.5+0.5,\n  Math.sin(time*2*0.01)*0.5+0.5,\n  Math.sin(uv.x*Math.PI)*Math.sin(uv.y*Math.PI)\n  ];\n\nSetColor();\n\nnextFrame(Update);";
+#mpObject["bufferSections"][1]["_codeSection"]["_codeNodes"][0]["_codeText"] = "time = Date.now();\n\nuv.x+=0.0041;\nuv.y+=0.0066;\nif(uv.x>1)uv.x-=1;\nif(uv.y>1)uv.y-=1;\n\ncolor.xyzw = [\n  Math.sin(time*0.013)*0.5+0.5,\n  Math.sin(time*0.01+30)*0.5+0.5,\n  Math.sin(time*2*0.01)*0.5+0.5,\n  Math.sin(uv.x*Math.PI)*Math.sin(uv.y*Math.PI)\n  ];\n\nSetColor();\n\nnextFrame(Update);";
 #mpObject["mainCodeData"]=new CodeDataJavaScript();
 #mpObject["mainCodeData"]["_name"] = "main";
 #mpObject["mainCodeData"]["_description"] = "函数入口";
-#mpObject["mainCodeData"]["_codeText"] = "\n Update();\n ";
+#mpObject["mainCodeData"]["_codeText"] = "ClearCanvas();\nUpdate();\n";
     </pre>
     <script src="mpTest.js">
     </script>

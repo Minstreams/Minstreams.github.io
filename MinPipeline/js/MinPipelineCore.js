@@ -331,7 +331,7 @@ class MPData extends MPPrototype {
                 code += cc;
             }
         }
-        code += this.mainCodeData._codeText;
+        code += this.mainCodeData._codeText + "\n";
         return code;
     }
 }

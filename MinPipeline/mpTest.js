@@ -420,20 +420,26 @@ var counter = 0;
 var mpDataFile = getQueryString("mpData");
 if (mpDataFile) {
     let filee = mpDataFile;
-    console.log($("#mpData").load(filee, function () {
-        MPJSON.parse(mpData, $("#mpData").text(), "mpData");
-    }));
+    console.log($("#mpData").load(filee));
 }
-else if ($("#mpData").text()) {
+
+if ($("#mpData").text()) {
     MPJSON.parse(mpData, $("#mpData").text(), "mpData");
 }
 
 $("#rB").click(Run);
 $("#dB").click(function () {
+    $(".codeText").UpdateProperty();
+
     jstring = MPJSON.stringify(mpData);
 
     console.log(jstring);
     $("#mpData").text(jstring);
+    localStorage.setItem("mpDataString", jstring);
+});
+$("#cB").click(function () {
+    localStorage.removeItem("mpDataString");
+    location.reload(true);
 });
 
 jstring = localStorage.getItem("mpDataString");
@@ -441,7 +447,7 @@ if (jstring) {
     console.log("【LoadData!】");
     MPJSON.parse(mpData, jstring, "mpData");
 
-    localStorage.removeItem("mpDataString");
+    //sessionStorage.removeItem("mpDataString");
 }
 
 //添加主函数标签
