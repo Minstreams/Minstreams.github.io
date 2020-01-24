@@ -4,7 +4,7 @@ mpTest.js:422
 #mpObject["bufferSections"]=new Array();
 #mpObject["bufferSections"][0]=new BufferSection();
 #mpObject["bufferSections"][0]["_name"] = "输出";
-#mpObject["bufferSections"][0]["_description"] = "最终输出";
+#mpObject["bufferSections"][0]["_description"] = "测试数据";
 #mpObject["bufferSections"][0]["_dataNodes"]=new Array();
 #mpObject["bufferSections"][0]["_dataNodes"][0]=new BufferDataTexture();
 #mpObject["bufferSections"][0]["_dataNodes"][0]["_name"] = "OutColor";
