@@ -397,14 +397,19 @@ try {
         //Save All
         $(".codeText").UpdateProperty();
 
+        StopFrame();
+
+
         var script = "try{console.log('Run!');";
         script += mpData.codeToJs("mpData");
         script += "$('canvas').RespondProperty();}catch(err){$('#errorLog').text('【ERROR】'+err.message);}"
         $('#errorLog').text("");
 
-        _stopMark = false;
+        requestAnimationFrame(function () {
+            _stopMark = false;
+            $("pipeline").empty().append($("<script>< /script>").html(script));
+        });
 
-        $("pipeline").empty().append($("<script>< /script>").html(script));
     }
 }
 catch (err) {
