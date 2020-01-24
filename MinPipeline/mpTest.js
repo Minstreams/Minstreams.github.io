@@ -409,9 +409,11 @@ var counter = 0;
 var mpDataFile = getQueryString("mpData");
 if (mpDataFile) {
     let filee = mpDataFile;
-    console.log($("#mpData").load(filee));
+    console.log($("#mpData").load(filee, function () {
+        MPJSON.parse(mpData, $("#mpData").text(), "mpData");
+    }));
 }
-if ($("#mpData").text()) {
+else if ($("#mpData").text()) {
     MPJSON.parse(mpData, $("#mpData").text(), "mpData");
 }
 
