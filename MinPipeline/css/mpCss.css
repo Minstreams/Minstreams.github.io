@@ -6,7 +6,7 @@ body {
 }
 
 canvas {
-    border-style: dashed;
+    
 }
 
 tooltip {
@@ -217,10 +217,37 @@ tooltip {
     transform: translateY(-50%) translateY(-0.5px);
 }
 
+.bufferOperator.BufferDataF4>tooltip{
+    color: #fe875e;
+}
+.bufferOperator.BufferDataF3>tooltip{
+    color: #fec25e;
+}
+.bufferOperator.BufferDataF2>tooltip{
+    color: #fec25e;
+}
 .bufferOperator.BufferDataF1>tooltip {
     color: #fece5e;
 }
 
+.bufferOperator.BufferDataF4>div{
+    background-color: #ffffff00;
+    width: 70%;
+    height: 70%;
+    border: 3px solid #fe1919;
+    }
+.bufferOperator.BufferDataF3>div{
+    background-color: #ffffff00;
+    width: 70%;
+    height: 70%;
+    border: 3px solid #fe7019;
+    }
+.bufferOperator.BufferDataF2>div{
+    background-color: #ffffff00;
+    width: 70%;
+    height: 70%;
+    border: 2px solid #fe8019;
+    }
 .bufferOperator.BufferDataF1>div {
     background-color: #ffffff00;
     width: 70%;
@@ -355,33 +382,99 @@ tooltip {
 
 /* ÃƒÆ’Ã‚Â§Ãƒâ€šÃ‚Â¼ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œÃƒÆ’Ã‚Â¥Ãƒâ€šÃ‚Â­Ãƒâ€¹Ã…â€œÃƒÆ’Ã‚Â¥Ãƒâ€¦Ã¢â‚¬â„¢Ãƒâ€šÃ‚ÂºÃƒÆ’Ã‚Â¥Ãƒâ€¦Ã‚Â¸Ãƒâ€¦Ã‚Â¸ÃƒÆ’Ã‚Â§ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂºÃƒâ€šÃ‚Â¸ÃƒÆ’Ã‚Â¥ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦Ãƒâ€šÃ‚Â³ */
 
+#bufferDiv>.name{
+    float:right;
+    margin:0 0 20px 8px;
+    font-size:2em;
+}
+
+#bufferDiv>.description{
+    float:right;
+    position:absolute;
+    top:40px;
+    right:2px;
+    margin:0;
+    color:gray;
+    font-size:0.6em;
+}
+
+
 .contentDiv {
     border: 1px solid #feb93abf;
     border-radius: 2px;
     margin: 2px;
     display: flex;
+    position:relative;
 }
 
 .contentDiv>.name {
-    font-size: 16px;
-    margin: 2px;
+    position:absolute;
+    background-color:#121212;
+    right:0px;
+    top:0px;
+    font-size: 0.7em;
+    margin: 1px 0px;
+    line-height:1em;
 }
 
 .contentDiv>.description {
-    margin: 2px;
+    margin: 0px;
+    position:absolute;
+    right:0px;
+    top:11px;
     color: gray;
+    font-size:0.5em;
 }
 
 .contentDiv.BufferDataF1 {}
 
 .contentDiv.BufferDataF1>.name {}
 
+.contentDiv.BufferDataF4>.z:after,
+.contentDiv.BufferDataF4>.y:after,
+.contentDiv.BufferDataF4>.x:after,
+.contentDiv.BufferDataF3>.y:after,
+.contentDiv.BufferDataF3>.x:after,
+.contentDiv.BufferDataF2>.x:after {
+    content: ",";
+}
+.contentDiv.BufferDataF4>.x:before,
+.contentDiv.BufferDataF3>.x:before,
+.contentDiv.BufferDataF2>.x:before,
 .contentDiv.BufferDataF1>.x:before {
-    content: "x:";
+    content: "【";
+}
+.contentDiv.BufferDataF4>.w:after,
+.contentDiv.BufferDataF3>.z:after,
+.contentDiv.BufferDataF2>.y:after,
+.contentDiv.BufferDataF1>.x:after {
+    content: "】";
 }
 
+.contentDiv.BufferDataF4>.x,
+.contentDiv.BufferDataF3>.x,
+.contentDiv.BufferDataF2>.x,
 .contentDiv.BufferDataF1>.x {
     color: orange;
+    flex-grow:1;
+}
+
+.contentDiv.BufferDataF4>.y,
+.contentDiv.BufferDataF3>.y,
+.contentDiv.BufferDataF2>.y {
+    color: #fe8019;
+    flex-grow:1;
+}
+
+.contentDiv.BufferDataF4>.z,
+.contentDiv.BufferDataF3>.z {
+    color: #fe5f19;
+    flex-grow:1;
+}
+
+.contentDiv.BufferDataF4>.w {
+    color: #fe19db;
+    flex-grow:1;
 }
 
 /* ÃƒÆ’Ã‚Â¤Ãƒâ€šÃ‚Â»Ãƒâ€šÃ‚Â£ÃƒÆ’Ã‚Â§Ãƒâ€šÃ‚Â Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¥Ãƒâ€¦Ã¢â‚¬â„¢Ãƒâ€šÃ‚ÂºÃƒÆ’Ã‚Â¥Ãƒâ€¦Ã‚Â¸Ãƒâ€¦Ã‚Â¸ÃƒÆ’Ã‚Â§ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂºÃƒâ€šÃ‚Â¸ÃƒÆ’Ã‚Â¥ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦Ãƒâ€šÃ‚Â³ */

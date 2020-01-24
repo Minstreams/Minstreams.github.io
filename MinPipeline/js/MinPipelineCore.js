@@ -1,3 +1,20 @@
+function isNumber(obj) {
+    let res = typeof obj;
+    return res == "number";
+}
+
+var _stopMark = false;
+function StopFrame() {
+    _stopMark = true;
+}
+function nextFrame(fName) {
+    $('canvas').RespondProperty();
+    if (_stopMark) {
+        return;
+    }
+    requestAnimationFrame(fName);
+}
+
 /**Array的扩充方法，删除元素。
  * 没有做异常处理，若删除不存在的元素大概会崩溃吧
  * @param {any} element 要删除的元素
@@ -37,6 +54,7 @@ var propertyBindTemplate = {
             this.text(target["_" + propertyName]);
         },
         updateFunc: function (target, propertyName) {
+            if (!this.text()) return;
             target["_" + propertyName] = this.text().replace(/[\f\n\r\t\v]/g, "").replace(/ +/g, " ");
         },
         updateEvent: "blur remove",
@@ -54,9 +72,10 @@ var propertyBindTemplate = {
     },
     number: {
         respondFunc: function (target, propertyName) {
-            this.text(target["_" + propertyName]);
+            this.text(target["_" + propertyName].toFixed(4));
         },
         updateFunc: function (target, propertyName) {
+            if (!this.text()) return;
             target["_" + propertyName] = new Number(this.text().replace(/[^0-9.-]/g, ""));
         },
         updateEvent: "blur remove",
@@ -86,6 +105,7 @@ var propertyBindTemplate = {
             this.text(target["_" + propertyName]);
         },
         updateFunc: function (target, propertyName) {
+            if (!this.text()) return;
             target["_" + propertyName] = this.text().replace(/\W/g, "");
         },
         updateEvent: "blur remove",
@@ -259,7 +279,7 @@ class MPPrototype {
         /**名称数据
          * @type {string}
          */
-        this._name = name || "名称";
+        this._name = name || "Name";
         /**描述数据
          * @type {string}
          */
@@ -292,10 +312,21 @@ class MPData extends MPPrototype {
             let cs = this.bufferSections[si]._codeSection;
             for (let ci = 0; ci < cs._codeNodes.length; ci++) {
                 let cn = cs._codeNodes[ci];
-                let cc = "function " + cn._name + "(){" + cn._codeText + "}";
+                let cc = "function " + cn._name + "(){\n" + cn._codeText + "\n}";
                 let dn = this.bufferSections[si]._dataNodes;
                 for (let di = 0; di < dn.length; di++) {
-                    cc = cc.replace(new RegExp('\\b' + dn[di]._name + '\\b', "g"), mpDataName + ".bufferSections[" + si + "]._dataNodes[" + di + "].avater");
+                    let avater = mpDataName + ".bufferSections[" + si + "]._dataNodes[" + di + "].avater.";
+                    cc = cc.replace(new RegExp('([^._#@\$]?)\\b' + dn[di]._name + '\\b\.', "g"), "$1" + avater);
+                    cc = cc.replace(new RegExp('([^._#@\$]?)\\b' + dn[di]._name + '\\b', "g"), "$1" + avater + "self");
+                }
+                if (si + 1 < this.bufferSections.length) {
+                    let dnf = this.bufferSections[si + 1]._dataNodes;
+                    for (let di = 0; di < dnf.length; di++) {
+                        let avater = mpDataName + ".bufferSections[" + (si + 1) + "]._dataNodes[" + di + "].avater.";
+                        cc = cc
+                            .replace(new RegExp('([^._#@\$]?)\\b' + dnf[di]._name + '\\b\.', "g"), "$1" + avater)
+                            .replace(new RegExp('([^._#@\$]?)\\b' + dnf[di]._name + '\\b', "g"), "$1" + avater + "self");
+                    }
                 }
                 code += cc;
             }
@@ -425,13 +456,6 @@ class BufferDataPrototype extends MPPrototype {
  * @description 一个一维浮点数
  */
 class BufferDataF1 extends BufferDataPrototype {
-    get avater() {
-        return this._x;
-    }
-    set avater(val) {
-        this._x = val;
-        this.Boardcast("x");
-    }
 
     /**@param {string} name Buffer数据项名称
      * @param {string} description Buffer数据项描述
@@ -442,11 +466,702 @@ class BufferDataF1 extends BufferDataPrototype {
         /**@type {number}
          */
         this._x = x || this._x || 0;
+        let d = this;
+        this.avater ={
+            get self(){
+                return this._x;
+            },
+            set self(val) {
+                this._x = val;
+                this.Boardcast("x");
+            },
+            get x(){
+                return this._x;
+            },
+            set x(val) {
+                this._x = val;
+                this.Boardcast("x");
+            },
+            get r(){
+                return this._x;
+            },
+            set r(val) {
+                this._x = val;
+                this.Boardcast("x");
+            },
+        }
     }
 
     LoadUI(contentDiv) {
         super.LoadUI(contentDiv);
         contentDiv.append($("<div></div>").BindProperty(this, "x", "number"));
+    }
+}
+
+/**@name 二维浮点数据项
+ * @description 一个二维浮点数
+ */
+class BufferDataF2 extends BufferDataPrototype {
+    /**@param {string} name Buffer数据项名称
+     * @param {string} description Buffer数据项描述
+     * @param {number} x x
+     * @param {number} y y
+     */
+    constructor(name, description, x, y) {
+        super(name, description);
+        /**@type {number}
+         */
+        this._x = x || this._x || 0;
+        /**@type {number}
+         */
+        this._y = y || this._y || 0;
+        let d = this;
+        this.avater = {
+            get x() {
+                return d._x;
+            },
+            set x(val) {
+                d._x = val;
+                d.Boardcast("x");
+            },
+            get y() {
+                return d._y;
+            },
+            set y(val) {
+                d._y = val;
+                d.Boardcast("y");
+            },
+            get xy() {
+                return [d._x, d._y];
+            },
+            set xy(val) {
+                if (isNumber(val)) {
+                    d._x = val;
+                    d._y = val;
+                }
+                else {
+                    d._x = val[0];
+                    d._y = val[1];
+                }
+                d.Boardcast("x");
+                d.Boardcast("y");
+            },
+            get self() {
+                return [d._x, d._y];
+            },
+            set self(val) {
+                if (isNumber(val)) {
+                    d._x = val;
+                    d._y = val;
+                }
+                else {
+                    d._x = val[0];
+                    d._y = val[1];
+                }
+                d.Boardcast("x");
+                d.Boardcast("y");
+            },
+        }
+    }
+
+    LoadUI(contentDiv) {
+        super.LoadUI(contentDiv);
+        contentDiv.append($("<div></div>").BindProperty(this, "x", "number"));
+        contentDiv.append($("<div></div>").BindProperty(this, "y", "number"));
+    }
+}
+
+/**@name 三维浮点数据项
+ * @description 一个三维浮点数
+ */
+class BufferDataF3 extends BufferDataPrototype {
+    /**@param {string} name Buffer数据项名称
+     * @param {string} description Buffer数据项描述
+     * @param {number} x x
+     * @param {number} y y
+     * @param {number} z z
+     */
+    constructor(name, description, x, y, z) {
+        super(name, description);
+        /**@type {number}
+         */
+        this._x = x || this._x || 0;
+        /**@type {number}
+         */
+        this._y = y || this._y || 0;
+        /**@type {number}
+         */
+        this._z = z || this._z || 0;
+        let d = this;
+        this.avater = {
+            get x() {
+                return d._x;
+            },
+            set x(val) {
+                d._x = val;
+                d.Boardcast("x");
+            },
+            get r() {
+                return d._x;
+            },
+            set r(val) {
+                d._x = val;
+                d.Boardcast("x");
+            },
+            get y() {
+                return d._y;
+            },
+            set y(val) {
+                d._y = val;
+                d.Boardcast("y");
+            },
+            get g() {
+                return d._y;
+            },
+            set g(val) {
+                d._y = val;
+                d.Boardcast("y");
+            },
+            get z() {
+                return d._z;
+            },
+            set z(val) {
+                d._z = val;
+                d.Boardcast("z");
+            },
+            get b() {
+                return d._z;
+            },
+            set b(val) {
+                d._z = val;
+                d.Boardcast("z");
+            },
+            get xy() {
+                return [d._x, d._y];
+            },
+            set xy(val) {
+                if (isNumber(val)) {
+                    d._x = val;
+                    d._y = val;
+                }
+                else {
+                    d._x = val[0];
+                    d._y = val[1];
+                }
+                d.Boardcast("x");
+                d.Boardcast("y");
+            },
+            get rb() {
+                return [d._x, d._y];
+            },
+            set rb(val) {
+                if (isNumber(val)) {
+                    d._x = val;
+                    d._y = val;
+                }
+                else {
+                    d._x = val[0];
+                    d._y = val[1];
+                }
+                d.Boardcast("x");
+                d.Boardcast("y");
+            },
+            get xz() {
+                return [d._x, d._z];
+            },
+            set xz(val) {
+                if (isNumber(val)) {
+                    d._x = val;
+                    d._z = val;
+                }
+                else {
+                    d._x = val[0];
+                    d._z = val[1];
+                }
+                d.Boardcast("x");
+                d.Boardcast("z");
+            },
+            get rb() {
+                return [d._x, d._z];
+            },
+            set rb(val) {
+                if (isNumber(val)) {
+                    d._x = val;
+                    d._z = val;
+                }
+                else {
+                    d._x = val[0];
+                    d._z = val[1];
+                }
+                d.Boardcast("x");
+                d.Boardcast("z");
+            },
+            get yz() {
+                return [d._y, d._z];
+            },
+            set yz(val) {
+                if (isNumber(val)) {
+                    d._y = val;
+                    d._z = val;
+                }
+                else {
+                    d._y = val[0];
+                    d._z = val[1];
+                }
+                d.Boardcast("y");
+                d.Boardcast("z");
+            },
+            get gb() {
+                return [d._y, d._z];
+            },
+            set gb(val) {
+                if (isNumber(val)) {
+                    d._y = val;
+                    d._z = val;
+                }
+                else {
+                    d._y = val[0];
+                    d._z = val[1];
+                }
+                d.Boardcast("y");
+                d.Boardcast("z");
+            },
+            get xyz() {
+                return [d._x, d._y, d._z];
+            },
+            set xyz(val) {
+                if (isNumber(val)) {
+                    d._x = val;
+                    d._y = val;
+                    d._z = val;
+                }
+                else {
+                    d._x = val[0];
+                    d._y = val[1];
+                    d._z = val[2];
+                }
+                d.Boardcast("x");
+                d.Boardcast("y");
+                d.Boardcast("z");
+            },
+            get rgb() {
+                return [d._x, d._y, d._z];
+            },
+            set rgb(val) {
+                if (isNumber(val)) {
+                    d._x = val;
+                    d._y = val;
+                    d._z = val;
+                }
+                else {
+                    d._x = val[0];
+                    d._y = val[1];
+                    d._z = val[2];
+                }
+                d.Boardcast("x");
+                d.Boardcast("y");
+                d.Boardcast("z");
+            },
+            get self() {
+                return [d._x, d._y, d._z];
+            },
+            set self(val) {
+                if (isNumber(val)) {
+                    d._x = val;
+                    d._y = val;
+                    d._z = val;
+                }
+                else {
+                    d._x = val[0];
+                    d._y = val[1];
+                    d._z = val[2];
+                }
+                d.Boardcast("x");
+                d.Boardcast("y");
+                d.Boardcast("z");
+            },
+        }
+    }
+
+    LoadUI(contentDiv) {
+        super.LoadUI(contentDiv);
+        contentDiv.append($("<div></div>").BindProperty(this, "x", "number"));
+        contentDiv.append($("<div></div>").BindProperty(this, "y", "number"));
+        contentDiv.append($("<div></div>").BindProperty(this, "z", "number"));
+    }
+}
+
+/**@name 四维浮点数据项
+ * @description 一个四维浮点数
+ */
+class BufferDataF4 extends BufferDataPrototype {
+    /**@param {string} name Buffer数据项名称
+     * @param {string} description Buffer数据项描述
+     * @param {number} x x
+     * @param {number} y y
+     * @param {number} z z
+     * @param {number} w w
+     */
+    constructor(name, description, x, y, z, w) {
+        super(name, description);
+        /**@type {number}
+         */
+        this._x = x || this._x || 0;
+        /**@type {number}
+         */
+        this._y = y || this._y || 0;
+        /**@type {number}
+         */
+        this._z = z || this._z || 0;
+        /**@type {number}
+         */
+        this._w = w || this._w || 0;
+        let d = this;
+        this.avater = {
+            get x() {
+                return d._x;
+            },
+            set x(val) {
+                d._x = val;
+                d.Boardcast("x");
+            },
+            get r() {
+                return d._x;
+            },
+            set r(val) {
+                d._x = val;
+                d.Boardcast("x");
+            },
+            get y() {
+                return d._y;
+            },
+            set y(val) {
+                d._y = val;
+                d.Boardcast("y");
+            },
+            get g() {
+                return d._y;
+            },
+            set g(val) {
+                d._y = val;
+                d.Boardcast("y");
+            },
+            get z() {
+                return d._z;
+            },
+            set z(val) {
+                d._z = val;
+                d.Boardcast("z");
+            },
+            get b() {
+                return d._z;
+            },
+            set b(val) {
+                d._z = val;
+                d.Boardcast("z");
+            },
+            get w() {
+                return d._w;
+            },
+            set w(val) {
+                d._w = val;
+                d.Boardcast("w");
+            },
+            get a() {
+                return d._w;
+            },
+            set a(val) {
+                d._w = val;
+                d.Boardcast("w");
+            },
+            get xy() {
+                return [d._x, d._y];
+            },
+            set xy(val) {
+                if (isNumber(val)) {
+                    d._x = val;
+                    d._y = val;
+                }
+                else {
+                    d._x = val[0];
+                    d._y = val[1];
+                }
+                d.Boardcast("x");
+                d.Boardcast("y");
+            },
+            get rb() {
+                return [d._x, d._y];
+            },
+            set rb(val) {
+                if (isNumber(val)) {
+                    d._x = val;
+                    d._y = val;
+                }
+                else {
+                    d._x = val[0];
+                    d._y = val[1];
+                }
+                d.Boardcast("x");
+                d.Boardcast("y");
+            },
+            get xz() {
+                return [d._x, d._z];
+            },
+            set xz(val) {
+                if (isNumber(val)) {
+                    d._x = val;
+                    d._z = val;
+                }
+                else {
+                    d._x = val[0];
+                    d._z = val[1];
+                }
+                d.Boardcast("x");
+                d.Boardcast("z");
+            },
+            get rb() {
+                return [d._x, d._z];
+            },
+            set rb(val) {
+                if (isNumber(val)) {
+                    d._x = val;
+                    d._z = val;
+                }
+                else {
+                    d._x = val[0];
+                    d._z = val[1];
+                }
+                d.Boardcast("x");
+                d.Boardcast("z");
+            },
+            get yz() {
+                return [d._y, d._z];
+            },
+            set yz(val) {
+                if (isNumber(val)) {
+                    d._y = val;
+                    d._z = val;
+                }
+                else {
+                    d._y = val[0];
+                    d._z = val[1];
+                }
+                d.Boardcast("y");
+                d.Boardcast("z");
+            },
+            get gb() {
+                return [d._y, d._z];
+            },
+            set gb(val) {
+                if (isNumber(val)) {
+                    d._y = val;
+                    d._z = val;
+                }
+                else {
+                    d._y = val[0];
+                    d._z = val[1];
+                }
+                d.Boardcast("y");
+                d.Boardcast("z");
+            },
+            get xw() {
+                return [d._x, d._w];
+            },
+            set xw(val) {
+                if (isNumber(val)) {
+                    d._x = val;
+                    d._w = val;
+                }
+                else {
+                    d._x = val[0];
+                    d._w = val[1];
+                }
+                d.Boardcast("x");
+                d.Boardcast("w");
+            },
+            get ra() {
+                return [d._x, d._w];
+            },
+            set ra(val) {
+                if (isNumber(val)) {
+                    d._x = val;
+                    d._w = val;
+                }
+                else {
+                    d._x = val[0];
+                    d._w = val[1];
+                }
+                d.Boardcast("x");
+                d.Boardcast("w");
+            },
+            get yw() {
+                return [d._y, d._w];
+            },
+            set yw(val) {
+                if (isNumber(val)) {
+                    d._y = val;
+                    d._w = val;
+                }
+                else {
+                    d._y = val[0];
+                    d._w = val[1];
+                }
+                d.Boardcast("y");
+                d.Boardcast("w");
+            },
+            get ga() {
+                return [d._y, d._w];
+            },
+            set ga(val) {
+                if (isNumber(val)) {
+                    d._y = val;
+                    d._w = val;
+                }
+                else {
+                    d._y = val[0];
+                    d._w = val[1];
+                }
+                d.Boardcast("y");
+                d.Boardcast("w");
+            },
+            get zw() {
+                return [d._z, d._w];
+            },
+            set zw(val) {
+                if (isNumber(val)) {
+                    d._z = val;
+                    d._w = val;
+                }
+                else {
+                    d._z = val[0];
+                    d._w = val[1];
+                }
+                d.Boardcast("z");
+                d.Boardcast("w");
+            },
+            get ba() {
+                return [d._z, d._w];
+            },
+            set ba(val) {
+                if (isNumber(val)) {
+                    d._z = val;
+                    d._w = val;
+                }
+                else {
+                    d._z = val[0];
+                    d._w = val[1];
+                }
+                d.Boardcast("z");
+                d.Boardcast("w");
+            },
+            get xyz() {
+                return [d._x, d._y, d._z];
+            },
+            set xyz(val) {
+                if (isNumber(val)) {
+                    d._x = val;
+                    d._y = val;
+                    d._z = val;
+                }
+                else {
+                    d._x = val[0];
+                    d._y = val[1];
+                    d._z = val[2];
+                }
+                d.Boardcast("x");
+                d.Boardcast("y");
+                d.Boardcast("z");
+            },
+            get rgb() {
+                return [d._x, d._y, d._z];
+            },
+            set rgb(val) {
+                if (isNumber(val)) {
+                    d._x = val;
+                    d._y = val;
+                    d._z = val;
+                }
+                else {
+                    d._x = val[0];
+                    d._y = val[1];
+                    d._z = val[2];
+                }
+                d.Boardcast("x");
+                d.Boardcast("y");
+                d.Boardcast("z");
+            },
+            get xyzw() {
+                return [d._x, d._y, d._z, d._w];
+            },
+            set xyzw(val) {
+                if (isNumber(val)) {
+                    d._x = val;
+                    d._y = val;
+                    d._z = val;
+                    d._w = val;
+                }
+                else {
+                    d._x = val[0];
+                    d._y = val[1];
+                    d._z = val[2];
+                    d._w = val[3];
+                }
+                d.Boardcast("x");
+                d.Boardcast("y");
+                d.Boardcast("z");
+                d.Boardcast("w");
+            },
+            get rgba() {
+                return [d._x, d._y, d._z, d._w];
+            },
+            set rgba(val) {
+                if (isNumber(val)) {
+                    d._x = val;
+                    d._y = val;
+                    d._z = val;
+                    d._w = val;
+                }
+                else {
+                    d._x = val[0];
+                    d._y = val[1];
+                    d._z = val[2];
+                    d._w = val[3];
+                }
+                d.Boardcast("x");
+                d.Boardcast("y");
+                d.Boardcast("z");
+                d.Boardcast("w");
+            },
+            get self() {
+                return [d._x, d._y, d._z, d._w];
+            },
+            set self(val) {
+                if (isNumber(val)) {
+                    d._x = val;
+                    d._y = val;
+                    d._z = val;
+                    d._w = val;
+                }
+                else {
+                    d._x = val[0];
+                    d._y = val[1];
+                    d._z = val[2];
+                    d._w = val[3];
+                }
+                d.Boardcast("x");
+                d.Boardcast("y");
+                d.Boardcast("z");
+                d.Boardcast("w");
+            },
+        }
+    }
+
+    LoadUI(contentDiv) {
+        super.LoadUI(contentDiv);
+        contentDiv.append($("<div></div>").BindProperty(this, "x", "number"));
+        contentDiv.append($("<div></div>").BindProperty(this, "y", "number"));
+        contentDiv.append($("<div></div>").BindProperty(this, "z", "number"));
+        contentDiv.append($("<div></div>").BindProperty(this, "w", "number"));
     }
 }
 
@@ -486,6 +1201,90 @@ class BufferDataTexture extends BufferDataPrototype {
     constructor(name, description, width, height) {
         super(name, description);
         this.Resize(width, height);
+        let d = this;
+        this.avater = {
+            color(x, y, val) {
+                if (x < 0) x = 0;
+                if (x >= d._width) x = d._width - 1;
+                if (y < 0) y = 0;
+                if (y >= d._height) y = d._height - 1;
+                if (y === undefined) {
+                    if (isNumber(x)) {
+                        for (let i = 0; i < d._texData.length; i += 4) {
+                            d._texData[i] = Math.floor(x * 256);
+                            d._texData[i + 1] = Math.floor(x * 256);
+                            d._texData[i + 2] = Math.floor(x * 256);
+                            d._texData[i + 3] = 255;
+                        }
+                    }
+                    else {
+                        for (let i = 0; i < d._texData.length; i += 4) {
+                            d._texData[i] = Math.floor(x[0] * 256);
+                            d._texData[i + 1] = Math.floor(x[1] * 256);
+                            d._texData[i + 2] = Math.floor(x[2] * 256);
+                            d._texData[i + 3] = Math.floor(x[3] * 256);
+                        }
+                    }
+                }
+                else if (val === undefined) {
+                    if (x <= 1 && y <= 1) {
+                        x = Math.floor(x * d._width);
+                        y = Math.floor(y * d._height);
+                    }
+                    let pos = (y * d._width + x) * 4;
+                    return [d._texData[pos + 0] / 255, d._texData[pos + 1] / 255, d._texData[pos + 2] / 255, d._texData[pos + 3] / 255];
+                }
+                else {
+                    if (x <= 1 && y <= 1) {
+                        x = Math.floor(x * d._width);
+                        y = Math.floor(y * d._height);
+                    }
+                    let pos = (y * d._width + x) * 4;
+
+                    if (isNumber(val)) {
+                        d._texData[pos] = Math.floor(val * 256);
+                        d._texData[pos + 1] = Math.floor(val * 256);
+                        d._texData[pos + 2] = Math.floor(val * 256);
+                        d._texData[pos + 3] = Math.floor(val * 256);
+                    }
+                    else {
+                        d._texData[pos] = Math.floor(val[0] * 256);
+                        d._texData[pos + 1] = Math.floor(val[1] * 256);
+                        d._texData[pos + 2] = Math.floor(val[2] * 256);
+                        d._texData[pos + 3] = Math.floor(val[3] * 256);
+                    }
+                }
+            },
+            get width() {
+                return d._width;
+            },
+            set width(val) {
+                d._width = val;
+                d.Resize();
+            },
+            get w() {
+                return d._width;
+            },
+            set w(val) {
+                d._width = val;
+                d.Resize();
+            },
+            get height() {
+                return d._height;
+            },
+            set height(val) {
+                d._height = val;
+                d.Resize();
+            },
+            get h() {
+                return d._height;
+            },
+            set h(val) {
+                d._height = val;
+                d.Resize();
+            },
+        }
+        this.avater.self = this.avater.color;
     }
 
     LoadUI(contentDiv) {
@@ -522,13 +1321,13 @@ var MPJSON = {
         function serializeInternal(o, path) {
             for (key in o) {
                 var value = o[key];
-                if (key.match(/^Boardcast/)) {
+                if (key.match(/(?:^Boardcast|avater|remove)/)) {
                     // 此为排除条件
                     continue;
                 }
                 if (typeof value != "object") {
                     if (typeof value == "string") {
-                        result += "\n" + path + "[" + (isNaN(key) ? "\"" + key + "\"" : key) + "] = " + "\"" + value.replace(/\"/g, "\\\"") + "\"" + ";";
+                        result += "\n" + path + "[" + (isNaN(key) ? "\"" + key + "\"" : key) + "] = " + "\"" + value.replace(/\"/g, "\\\"").replace(/[\n\r]/g, "\\n") + "\"" + ";";
                     } else {
                         result += "\n" + path + "[" + (isNaN(key) ? "\"" + key + "\"" : key) + "] = " + value + ";";
                     }

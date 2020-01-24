@@ -3,7 +3,7 @@ const canvasMaxWidth = 1900;
 var enableComplexAnimation = true;
 
 // some inline functions
-function inRange(value, min, max) {
+function isInRange(value, min, max) {
     return value >= min && value < max;
 }
 function clamp01(value) {
@@ -74,7 +74,7 @@ var lastT = 0;      // 计时器
 var deltaT = 0.05;     // 计时器
 // 封装一个动画
 function doAnimation(min, max, anim, animFunc) {
-    if (inRange(y, min - window.innerHeight, max)) {
+    if (isInRange(y, min - window.innerHeight, max)) {
         if (!anim.b) {
             anim.b = true;
             anim.t = 0;

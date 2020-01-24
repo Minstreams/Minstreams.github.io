@@ -90,6 +90,7 @@ function AddBufferSectionTopDiv(mpData, bs, preElement) {
         },
         update: function (event, ui) {
             // 在这里对元素重新排序
+            StopFrame();
             if (!ui.item[0].parentNode) return;
             console.log("update", ui.item.index() + "|sender:" + (ui.sender ? ui.sender[0] : null) + "|data:" + ui.item.data("dataObject"));
             let fromArray = (ui.sender ? ui.sender : ui.item.parent()).data("dataArray");
@@ -110,6 +111,7 @@ function AddBufferSectionTopDiv(mpData, bs, preElement) {
         beforeStop: function (event, ui) {
             if (ui.position.top > 150) {
                 // 删除
+                StopFrame();
                 ui.item.parent().data("dataArray").remove(ui.item.data("dataObject"));
                 ui.item.remove();
                 bsul.sortable("refresh");
@@ -180,6 +182,7 @@ function AddBufferSectionTopDiv(mpData, bs, preElement) {
         beforeStop: function (event, ui) {
             if (ui.position.top > 150) {
                 // 删除
+                StopFrame();
                 ui.item.parent().data("dataArray").remove(ui.item.data("dataObject"));
                 ui.item.remove();
                 bcul.sortable("refresh");
@@ -214,6 +217,7 @@ function AddBufferSectionTopDiv(mpData, bs, preElement) {
 
     // 删除按钮
     let removeDiv = $("<div>-</div>").addClass("top-remove").appendTo(bsDiv).disableSelection().click(function (e) {
+        StopFrame();
         let index = mpData.bufferSections.indexOf(bs);
         if (index <= 0) {
             console.log("不允许删除第一个节点");
@@ -243,9 +247,17 @@ function AddBufferSectionTopDiv(mpData, bs, preElement) {
         }, "slow", "easeInCubic", function () { bsDiv.remove(); bcDiv.remove() });
         stopBubbling(e);
     }).append($("<tooltip></tooltip>").text("删除此数据节点"));
+    // 添加按钮
     let addDiv = $("<div>+</div>").addClass("top-add").appendTo(bcDiv).disableSelection().click(function (e) {
+        StopFrame();
         let index = mpData.bufferSections.indexOf(bs);
-        let newBs = new BufferSection("New", "New", [new BufferDataF1("Name", "Des"), new BufferDataTexture("Name", "Des")]);
+        let newBs = new BufferSection("New", "New", [
+            new BufferDataF1("Name", "Des"),
+            new BufferDataF2("Name", "Des"),
+            new BufferDataF3("Name", "Des"),
+            new BufferDataF4("Name", "Des"),
+            new BufferDataTexture("Name", "Des")
+        ]);
         mpData.bufferSections.splice(index + 1, 0, newBs);
         AddBufferSectionTopDiv(mpData, newBs, bcDiv);
         stopBubbling(e);
@@ -387,6 +399,9 @@ function Run() {
     var script = "console.log('Run!');";
     script += mpData.codeToJs("mpData");
     script += "$('canvas').RespondProperty();"
+
+    _stopMark = false;
+
     $("pipeline").empty().append($("<script>< /script>").html(script));
 }
 
@@ -394,11 +409,10 @@ var counter = 0;
 var mpDataFile = getQueryString("mpData");
 if (mpDataFile) {
     let filee = mpDataFile + ".txt";
-    console.log($("mpData").load(filee));
+    console.log($("#mpData").load(filee));
 }
-if ($("mpData").text()) {
-    console.log($("mpData").text());
-    MPJSON.parse(mpData, $("mpData").text(), "mpData");
+if ($("#mpData").text()) {
+    MPJSON.parse(mpData, $("#mpData").text(), "mpData");
 }
 
 $("#rB").click(Run);
@@ -406,7 +420,7 @@ $("#dB").click(function () {
     jstring = MPJSON.stringify(mpData);
 
     console.log(jstring);
-    $("mpData").text(jstring);
+    $("#mpData").text(jstring);
 });
 
 jstring = localStorage.getItem("mpDataString");
