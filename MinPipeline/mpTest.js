@@ -392,18 +392,23 @@ mpData.bufferSections[1]._codeSection._codeNodes =
         new CodeDataJavaScript("Funton4", "用于把视角空间转换为某某空间C2D"),
     ];
 
-function Run() {
-    //Save All
-    $(".codeText").UpdateProperty();
+try {
+    function Run() {
+        //Save All
+        $(".codeText").UpdateProperty();
 
-    var script = "try{console.log('Run!');";
-    script += mpData.codeToJs("mpData");
-    script += "$('canvas').RespondProperty();}catch(err){$('#errorLog').text('【ERROR】'+err.message);}"
-    $('#errorLog').text("");
+        var script = "try{console.log('Run!');";
+        script += mpData.codeToJs("mpData");
+        script += "$('canvas').RespondProperty();}catch(err){$('#errorLog').text('【ERROR】'+err.message);}"
+        $('#errorLog').text("");
 
-    _stopMark = false;
+        _stopMark = false;
 
-    $("pipeline").empty().append($("<script>< /script>").html(script));
+        $("pipeline").empty().append($("<script>< /script>").html(script));
+    }
+}
+catch (err) {
+    $('#errorLog').text('【ERROR】' + err.message);
 }
 
 var counter = 0;

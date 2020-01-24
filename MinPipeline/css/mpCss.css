@@ -2,12 +2,10 @@ body {
     background-color: #121212;
     color: white;
     margin: 0;
-    overflow-x:hidden;
+    overflow-x: hidden;
 }
 
-canvas {
-    
-}
+canvas {}
 
 tooltip {
     visibility: hidden;
@@ -25,7 +23,6 @@ tooltip {
     display: flex;
     background-color: #0c0c0c;
     border-bottom: 1.5px dashed #d5903b85;
-    /border-style: ridge;
 }
 
 #codeDiv {
@@ -94,64 +91,66 @@ tooltip {
 
 .bufferSection>.top-remove {
     position: absolute;
-    top:50%;
+    top: 50%;
     right: 100%;
-    width:12px;
-    height:12px;
-    transform:translateY(40%);
-    color:#cd0a0aad;
-    text-align:center;
-    line-height:10px;
-    font-size:16px;
+    width: 12px;
+    height: 12px;
+    transform: translateY(40%);
+    color: #cd0a0aad;
+    text-align: center;
+    line-height: 10px;
+    font-size: 16px;
     transition: 0.5s;
-    border-radius:50%;
-    border:1px solid #cd0a0aa1;
-    cursor:none;
+    border-radius: 50%;
+    border: 1px solid #cd0a0aa1;
+    cursor: none;
 }
 
-.bufferSection>.top-remove:hover{
-    transform:translateY(70%) scale(2) translateX(20%);
-    color:#cd0a0a;
+.bufferSection>.top-remove:hover {
+    transform: translateY(70%) scale(2) translateX(20%);
+    color: #cd0a0a;
     transition: 0.1s;
-    border:0px solid #cd0a0a;
+    border: 0px solid #cd0a0a;
 }
-.bufferSection>.top-remove:hover>tooltip{
+
+.bufferSection>.top-remove:hover>tooltip {
     visibility: visible;
     top: 50%;
     right: -9px;
     transform: translateY(-50%) translateY(-1.1px) scale(0.5);
-    color:#cd0a0a;
+    color: #cd0a0a;
 }
 
 .codeSection>.top-add {
     position: absolute;
-    bottom:50%;
+    bottom: 50%;
     right: 0%;
-    width:12px;
-    height:12px;
-    transform:translateY(-40%);
-    color:#b2832ebd;
-    text-align:center;
-    line-height:10px;
-    font-size:16px;
+    width: 12px;
+    height: 12px;
+    transform: translateY(-40%);
+    color: #b2832ebd;
+    text-align: center;
+    line-height: 10px;
+    font-size: 16px;
     transition: 0.5s;
-    border-radius:50%;
-    border:1px solid #ffa500b8;
-    cursor:none;
+    border-radius: 50%;
+    border: 1px solid #ffa500b8;
+    cursor: none;
 }
 
-.codeSection>.top-add:hover{
-    transform:translateY(-70%) scale(2) translateX(-30%);
-    color:orange;
+.codeSection>.top-add:hover {
+    transform: translateY(-70%) scale(2) translateX(-30%);
+    color: orange;
     transition: 0.1s;
-    border:0px solid #ffa500;
+    border: 0px solid #ffa500;
 }
-.codeSection>.top-add:hover>tooltip{
+
+.codeSection>.top-add:hover>tooltip {
     visibility: visible;
     top: 50%;
     right: -7px;
     transform: translateY(-50%) translateY(-1.1px) scale(0.5);
-    color:orange;
+    color: orange;
 }
 
 .bsSelected>point {
@@ -187,7 +186,7 @@ tooltip {
     transition: 0.2s;
     width: 9px;
     height: 9px;
-    cursor:none;
+    cursor: none;
 }
 
 .bufferSection .bufferOperator.ui-sortable-helper {
@@ -217,37 +216,43 @@ tooltip {
     transform: translateY(-50%) translateY(-0.5px);
 }
 
-.bufferOperator.BufferDataF4>tooltip{
+.bufferOperator.BufferDataF4>tooltip {
     color: #fe875e;
 }
-.bufferOperator.BufferDataF3>tooltip{
+
+.bufferOperator.BufferDataF3>tooltip {
     color: #fec25e;
 }
-.bufferOperator.BufferDataF2>tooltip{
+
+.bufferOperator.BufferDataF2>tooltip {
     color: #fec25e;
 }
+
 .bufferOperator.BufferDataF1>tooltip {
     color: #fece5e;
 }
 
-.bufferOperator.BufferDataF4>div{
+.bufferOperator.BufferDataF4>div {
     background-color: #ffffff00;
     width: 70%;
     height: 70%;
     border: 3px solid #fe1919;
-    }
-.bufferOperator.BufferDataF3>div{
+}
+
+.bufferOperator.BufferDataF3>div {
     background-color: #ffffff00;
     width: 70%;
     height: 70%;
     border: 3px solid #fe7019;
-    }
-.bufferOperator.BufferDataF2>div{
+}
+
+.bufferOperator.BufferDataF2>div {
     background-color: #ffffff00;
     width: 70%;
     height: 70%;
     border: 2px solid #fe8019;
-    }
+}
+
 .bufferOperator.BufferDataF1>div {
     background-color: #ffffff00;
     width: 70%;
@@ -325,7 +330,7 @@ tooltip {
     min-width: 7px;
     max-width: 15px;
     height: 100%;
-    cursor:none;
+    cursor: none;
 }
 
 .codeSection>ul>.placeholder {
@@ -382,99 +387,83 @@ tooltip {
 
 /* ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¼ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¥ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â­ÃƒÆ’Ã¢â‚¬Â¹Ãƒâ€¦Ã¢â‚¬Å“ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¥ÃƒÆ’Ã¢â‚¬Â¦ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚ÂºÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¥ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂºÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¥ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³ */
 
-#bufferDiv>.name{
-    float:right;
-    margin:0 0 20px 8px;
-    font-size:2em;
+#bufferDiv>.name {
+    float: right;
+    margin: 0 0 20px 8px;
+    font-size: 2em;
 }
 
-#bufferDiv>.description{
-    float:right;
-    position:absolute;
-    top:40px;
-    right:2px;
-    margin:0;
-    color:gray;
-    font-size:0.6em;
+#bufferDiv>.description {
+    float: right;
+    position: absolute;
+    top: 40px;
+    right: 2px;
+    margin: 0;
+    color: gray;
+    font-size: 0.6em;
 }
-
 
 .contentDiv {
     border: 1px solid #feb93abf;
     border-radius: 2px;
     margin: 2px;
     display: flex;
-    position:relative;
+    position: relative;
 }
 
 .contentDiv>.name {
-    position:absolute;
-    background-color:#121212;
-    right:0px;
-    top:0px;
+    position: absolute;
+    background-color: #121212;
+    right: 0px;
+    top: 0px;
     font-size: 0.7em;
     margin: 1px 0px;
-    line-height:1em;
+    line-height: 1em;
 }
 
 .contentDiv>.description {
     margin: 0px;
-    position:absolute;
-    right:0px;
-    top:11px;
+    position: absolute;
+    right: 0px;
+    top: 11px;
     color: gray;
-    font-size:0.5em;
+    font-size: 0.5em;
 }
 
 .contentDiv.BufferDataF1 {}
 
 .contentDiv.BufferDataF1>.name {}
 
-.contentDiv.BufferDataF4>.z:after,
-.contentDiv.BufferDataF4>.y:after,
-.contentDiv.BufferDataF4>.x:after,
-.contentDiv.BufferDataF3>.y:after,
-.contentDiv.BufferDataF3>.x:after,
-.contentDiv.BufferDataF2>.x:after {
+.contentDiv.BufferDataF4>.z:after, .contentDiv.BufferDataF4>.y:after, .contentDiv.BufferDataF4>.x:after, .contentDiv.BufferDataF3>.y:after, .contentDiv.BufferDataF3>.x:after, .contentDiv.BufferDataF2>.x:after {
     content: ",";
 }
-.contentDiv.BufferDataF4>.x:before,
-.contentDiv.BufferDataF3>.x:before,
-.contentDiv.BufferDataF2>.x:before,
-.contentDiv.BufferDataF1>.x:before {
-    content: "ã€";
-}
-.contentDiv.BufferDataF4>.w:after,
-.contentDiv.BufferDataF3>.z:after,
-.contentDiv.BufferDataF2>.y:after,
-.contentDiv.BufferDataF1>.x:after {
-    content: "ã€‘";
+
+.contentDiv.BufferDataF4>.x:before, .contentDiv.BufferDataF3>.x:before, .contentDiv.BufferDataF2>.x:before, .contentDiv.BufferDataF1>.x:before {
+    content: "【";
 }
 
-.contentDiv.BufferDataF4>.x,
-.contentDiv.BufferDataF3>.x,
-.contentDiv.BufferDataF2>.x,
-.contentDiv.BufferDataF1>.x {
+.contentDiv.BufferDataF4>.w:after, .contentDiv.BufferDataF3>.z:after, .contentDiv.BufferDataF2>.y:after, .contentDiv.BufferDataF1>.x:after {
+    content: "】";
+}
+
+.contentDiv.BufferDataF4>.x, .contentDiv.BufferDataF3>.x, .contentDiv.BufferDataF2>.x, .contentDiv.BufferDataF1>.x {
     color: orange;
-    flex-grow:1;
+    flex-grow: 1;
 }
 
-.contentDiv.BufferDataF4>.y,
-.contentDiv.BufferDataF3>.y,
-.contentDiv.BufferDataF2>.y {
+.contentDiv.BufferDataF4>.y, .contentDiv.BufferDataF3>.y, .contentDiv.BufferDataF2>.y {
     color: #fe8019;
-    flex-grow:1;
+    flex-grow: 1;
 }
 
-.contentDiv.BufferDataF4>.z,
-.contentDiv.BufferDataF3>.z {
+.contentDiv.BufferDataF4>.z, .contentDiv.BufferDataF3>.z {
     color: #fe5f19;
-    flex-grow:1;
+    flex-grow: 1;
 }
 
 .contentDiv.BufferDataF4>.w {
     color: #fe19db;
-    flex-grow:1;
+    flex-grow: 1;
 }
 
 /* ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¤ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â»ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â£ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚ÂÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¥ÃƒÆ’Ã¢â‚¬Â¦ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚ÂºÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¥ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂºÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¥ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³ */
@@ -532,9 +521,9 @@ tabDescription {
     color: cyan;
 }
 
-#errorLog{
-    font-size:0.8em;
-    margin:4px 12px;
-    color:#ff4040;
-    text-shadow:0 0 6px red;
+#errorLog {
+    font-size: 0.8em;
+    margin: 4px 12px;
+    color: #ff4040;
+    text-shadow: 0 0 6px red;
 }
