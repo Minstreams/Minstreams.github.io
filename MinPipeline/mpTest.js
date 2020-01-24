@@ -408,7 +408,7 @@ function Run() {
 var counter = 0;
 var mpDataFile = getQueryString("mpData");
 if (mpDataFile) {
-    let filee = mpDataFile + ".txt";
+    let filee = mpDataFile;
     console.log($("#mpData").load(filee));
 }
 if ($("#mpData").text()) {
