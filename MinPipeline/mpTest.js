@@ -396,9 +396,10 @@ function Run() {
     //Save All
     $(".codeText").UpdateProperty();
 
-    var script = "console.log('Run!');";
+    var script = "try{console.log('Run!');";
     script += mpData.codeToJs("mpData");
-    script += "$('canvas').RespondProperty();"
+    script += "$('canvas').RespondProperty();}catch(err){$('#errorLog').text('【ERROR】'+err.message);}"
+    $('#errorLog').text("");
 
     _stopMark = false;
 
