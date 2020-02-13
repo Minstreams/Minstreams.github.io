@@ -10,6 +10,7 @@
 </head>
 
 <body>
+    <div id="v" contenteditable="true">1</div>
     <div id="i" contenteditable="true">9</div>
     <div id="tB"></div>
     <p>zzz</p>
@@ -30,8 +31,9 @@
             $("#tB")
                 .click(function () {
                     $("p").text("Click!");
+                    let vv = new Number($("#v").text());
                     let iv = new Number($("#i").text());
-                    navigator.vibrate([1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv, 1, iv,]);
+                    navigator.vibrate([vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv, vv, iv,]);
                 })
                 .on("mousedown", function () {
                     vib = setInterval(function () {
