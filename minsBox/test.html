@@ -13,6 +13,7 @@
     <div id="tB"></div>
     <p>zzz</p>
     <script>
+        var vib;
         (function vibration() {
             navigator.vibrate = navigator.vibrate
                 || navigator.webkitVibrate
@@ -25,10 +26,21 @@
             } else {
                 $("p").text("不支持设备震动！");
             }
-            $("#tB").click(function () {
-                $("p").text("Click!");
-                navigator.vibrate(500);
-            });
+            $("#tB")
+                .click(function () {
+                    $("p").text("Click!");
+                    navigator.vibrate(500);
+                })
+                .on("mousedown", function () {
+                    vib = setInterval(function () {
+                        navigator.vibrate(1);
+                    }, 3);
+                    $("p").text("Down!");
+                })
+                .on("mouseup", function () {
+                    if (vib) clearInterval(vib);
+                    $("p").text("Up!");
+                });
         })();
     </script>
     <noscript>抱歉，你的浏览器不支持 JavaScript!</noscript>
