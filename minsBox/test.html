@@ -11,6 +11,7 @@
 
 <body>
     <div id="tB"></div>
+    <p></p>
     <script>
         function vibration() {
             navigator.vibrate = navigator.vibrate
@@ -20,9 +21,12 @@
 
             if (navigator.vibrate) {
                 // 支持
-                console.log("支持设备震动！");
+                $("p").text("支持设备震动！");
+            } else {
+                $("p").text("不支持设备震动！");
             }
             $("tB").click(function () {
+                $("p").text("Click!");
                 navigator.vibrate(500);
             });
         }
