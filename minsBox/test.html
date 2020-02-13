@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <title>test</title>
+    <link rel="stylesheet" type="text/css" href="css/MyStyle.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div id="tB"></div>
+    <script>
+        function vibration() {
+            navigator.vibrate = navigator.vibrate
+                || navigator.webkitVibrate
+                || navigator.mozVibrate
+                || navigator.msVibrate;
+
+            if (navigator.vibrate) {
+                // 支持
+                console.log("支持设备震动！");
+            }
+            $("tB").click(function () {
+                navigator.vibrate(500);
+            });
+        }
+    </script>
+    <noscript>抱歉，你的浏览器不支持 JavaScript!</noscript>
+</body>
+
+</html>
