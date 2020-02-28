@@ -434,34 +434,34 @@ tooltip {
 
 .contentDiv.BufferDataF1>.name {}
 
-.contentDiv.BufferDataF4>.z:after, .contentDiv.BufferDataF4>.y:after, .contentDiv.BufferDataF4>.x:after, .contentDiv.BufferDataF3>.y:after, .contentDiv.BufferDataF3>.x:after, .contentDiv.BufferDataF2>.x:after {
+.contentDiv.BufferDataF4>.avater2:after, .contentDiv.BufferDataF4>.avater1:after, .contentDiv.BufferDataF4>.avater0:after, .contentDiv.BufferDataF3>.avater1:after, .contentDiv.BufferDataF3>.avater0:after, .contentDiv.BufferDataF2>.avater0:after {
     content: ",";
 }
 
-.contentDiv.BufferDataF4>.x:before, .contentDiv.BufferDataF3>.x:before, .contentDiv.BufferDataF2>.x:before, .contentDiv.BufferDataF1>.x:before {
-    content: "【";
+.contentDiv.BufferDataF4>.avater0:before, .contentDiv.BufferDataF3>.avater0:before, .contentDiv.BufferDataF2>.avater0:before, .contentDiv.BufferDataF1>.x:before {
+    content: "[";
 }
 
-.contentDiv.BufferDataF4>.w:after, .contentDiv.BufferDataF3>.z:after, .contentDiv.BufferDataF2>.y:after, .contentDiv.BufferDataF1>.x:after {
-    content: "】";
+.contentDiv.BufferDataF4>.avater3:after, .contentDiv.BufferDataF3>.avater2:after, .contentDiv.BufferDataF2>.avater1:after, .contentDiv.BufferDataF1>.x:after {
+    content: "]";
 }
 
-.contentDiv.BufferDataF4>.x, .contentDiv.BufferDataF3>.x, .contentDiv.BufferDataF2>.x, .contentDiv.BufferDataF1>.x {
+.contentDiv.BufferDataF4>.avater0, .contentDiv.BufferDataF3>.avater0, .contentDiv.BufferDataF2>.avater0, .contentDiv.BufferDataF1>.x {
     color: orange;
     flex-grow: 1;
 }
 
-.contentDiv.BufferDataF4>.y, .contentDiv.BufferDataF3>.y, .contentDiv.BufferDataF2>.y {
+.contentDiv.BufferDataF4>.avater1, .contentDiv.BufferDataF3>.avater1, .contentDiv.BufferDataF2>.avater1 {
     color: #fe8019;
     flex-grow: 1;
 }
 
-.contentDiv.BufferDataF4>.z, .contentDiv.BufferDataF3>.z {
+.contentDiv.BufferDataF4>.avater2, .contentDiv.BufferDataF3>.avater2 {
     color: #fe5f19;
     flex-grow: 1;
 }
 
-.contentDiv.BufferDataF4>.w {
+.contentDiv.BufferDataF4>.avater3 {
     color: #fe19db;
     flex-grow: 1;
 }

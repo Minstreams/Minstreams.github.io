@@ -1,142 +1,155 @@
-function isNumber(obj) {
-    let res = typeof obj;
-    return res == "number";
-}
+/**MinPipeline的基础结构 */
 
-var _stopMark = false;
-function StopFrame() {
-    _stopMark = true;
-}
-function nextFrame(fName) {
-    $('canvas').RespondProperty();
-    if (_stopMark) {
-        return;
-    }
-    requestAnimationFrame(fName);
-}
 
-/**Array的扩充方法，删除元素。
- * 没有做异常处理，若删除不存在的元素大概会崩溃吧
- * @param {any} element 要删除的元素
- * @return 此元素
+/**所有respondFunc的集合
+ * @respondFunc 是数据改变时元素的响应方法
  */
-Array.prototype.remove = function (element) {
-    if (!this.includes(element)) {
-        return null;
-    }
-    return this.splice(this.indexOf(element), 1)[0];
+var respondFunctions = {
+    /**简单输出为text */
+    simpleText: function (target, propertyName) {
+        this.text(target[propertyName]);
+    },
+    /**保留小数点4位 */
+    fixed4: function (target, propertyName) {
+        this.text(target[propertyName].toFixed(4));
+    },
+    /**嵌套数据保留小数点4位 */
+    avaterFixed4: function (target, propertyName) {
+        this.text(target.avater[propertyName.replace('avater', '')].toFixed(4));
+    },
 };
 
-/**阻止事件冒泡传播
- * @param {Event} e 事件变量
+/**所有updateFunc的集合
+ * @updateFunc 是通过元素更新数据的方法
  */
-function stopBubbling(e) {
-    e = window.event || e;
-    if (e.stopPropagation) {
-        e.stopPropagation();      //阻止事件 冒泡传播
-    } else {
-        e.cancelBubble = true;   //ie兼容
-    }
-}
+var updateFunctions = {
+    /**不能为空，去掉特殊字符，去掉连续空格 */
+    normalText: function (target, propertyName) {
+        if (!this.text()) return;
+        target["_" + propertyName] = this.text().replace(/[\f\n\r\t\v]/g, "").replace(/ +/g, " ");
+    },
+    /**限定为数字 */
+    number: function (target, propertyName) {
+        if (!this.text()) return;
+        target["_" + propertyName] = new Number(this.text().replace(/[^0-9.-]/g, ""));
+    },
+    /**限定为嵌套数据数字 */
+    avaterNumber: function (target, propertyName) {
+        if (!this.text()) return;
+        target.avater[propertyName.replace('avater', '')] = new Number(this.text().replace(/[^0-9.-]/g, ""));
+    },
+    /**不更新数据 */
+    diabled: function (target, propertyName) { },
+    /**去除所有空格 */
+    noSpace: function (target, propertyName) {
+        if (!this.text()) return;
+        target["_" + propertyName] = this.text().replace(/\W/g, "");
+    },
+};
 
-/**获取rul参数 */
-function getQueryString(name) {
-    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-    var r = window.location.search.substr(1).match(reg);
-    if (r != null) return decodeURI(r[2]); return null;
-}
+/**所有OnBind方法的集合 
+ * @onBind 是绑定时额外调用的函数，用于添加特定功能
+ */
+var onBindFunctions = {
+    /**双击可编辑 */
+    dbClickToEdit: function () {
+        this.on("dblclick", function () { $(this).attr({ contentEditable: 'plaintext-only', spellCheck: false }).focus(); })
+            .on("blur", function () { this.removeAttribute("contenteditable"); this.removeAttribute("spellcheck"); })
+            .keydown(function (e) {
+                if (e.which == 13) {
+                    // 阻止回车事件，从而阻止换行
+                    e.preventDefault();
+                    this.blur();
+                }
+            });
+    },
+    /**双击可编辑，屏蔽空格 */
+    dbClickToEditNoSpace: function () {
+        this
+            .on("dblclick", function () { $(this).attr({ contentEditable: 'plaintext-only', spellCheck: false }).focus(); })
+            .on("blur", function () { this.removeAttribute("contenteditable"); this.removeAttribute("spellcheck"); })
+            .keydown(function (e) {
+                if (e.which == 13) {
+                    // 阻止回车事件，从而阻止换行
+                    e.preventDefault();
+                    this.blur();
+                }
+                else if (e.which == 32) {
+                    // 阻止空格
+                    e.preventDefault();
+                }
+            });
+    },
+    /**禁止选择 */
+    disableSelection: function () {
+        this.disableSelection();
+    },
+};
 
-
-/**各种元素的绑定模板 */
+/**各种元素的绑定模板
+ * @respondFunc 是数据改变时元素的响应方法
+ * @updateFunc 是通过元素更新数据的方法
+ * @updateEvent 是元素更新数据的事件表列
+ * @onBind 是绑定时额外调用的函数，用于添加特定功能
+ */
 var propertyBindTemplate = {
+    /**描述性文字元素 */
     text: {
-        respondFunc: function (target, propertyName) {
-            this.text(target["_" + propertyName]);
-        },
-        updateFunc: function (target, propertyName) {
-            if (!this.text()) return;
-            target["_" + propertyName] = this.text().replace(/[\f\n\r\t\v]/g, "").replace(/ +/g, " ");
-        },
+        respondFunc: respondFunctions.simpleText,
+        updateFunc: updateFunctions.normalText,
         updateEvent: "blur remove",
-        onBind: function () {
-            this.on("dblclick", function () { $(this).attr({ contentEditable: 'plaintext-only', spellCheck: false }).focus(); })
-                .on("blur", function () { this.removeAttribute("contenteditable"); this.removeAttribute("spellcheck"); })
-                .keydown(function (e) {
-                    if (e.which == 13) {
-                        // 阻止回车事件，从而阻止换行
-                        e.preventDefault();
-                        this.blur();
-                    }
-                });
-        }
+        onBind: onBindFunctions.dbClickToEdit,
     },
+    /**数字元素 */
     number: {
-        respondFunc: function (target, propertyName) {
-            this.text(target["_" + propertyName].toFixed(4));
-        },
-        updateFunc: function (target, propertyName) {
-            if (!this.text()) return;
-            target["_" + propertyName] = new Number(this.text().replace(/[^0-9.-]/g, ""));
-        },
+        respondFunc: respondFunctions.fixed4,
+        updateFunc: updateFunctions.number,
         updateEvent: "blur remove",
-        onBind: function () {
-            this.on("dblclick", function () { $(this).attr({ contentEditable: 'plaintext-only', spellCheck: false }).focus(); })
-                .on("blur", function () { this.removeAttribute("contenteditable"); this.removeAttribute("spellcheck"); })
-                .keydown(function (e) {
-                    if (e.which == 13) {
-                        // 阻止回车事件，从而阻止换行
-                        e.preventDefault();
-                        this.blur();
-                    }
-                });
-        }
+        onBind: onBindFunctions.dbClickToEdit,
     },
+    /**嵌套数字 */
+    avaterNumber: {
+        respondFunc: respondFunctions.avaterFixed4,
+        updateFunc: updateFunctions.avaterNumber,
+        updateEvent: "blur remove",
+        onBind: onBindFunctions.dbClickToEdit,
+    },
+    /**只读数字 */
+    displayNumber: {
+        respondFunc: respondFunctions.fixed4,
+        updateFunc: updateFunctions.diabled,
+        onBind: onBindFunctions.disableSelection,
+    },
+    /**只读元素 */
     display: {
-        respondFunc: function (target, propertyName) {
-            this.text(target["_" + propertyName]);
-        },
-        updateFunc: function (target, propertyName) { },
-        onBind: function () {
-            this.disableSelection();
-        }
+        respondFunc: respondFunctions.simpleText,
+        updateFunc: updateFunctions.diabled,
+        onBind: onBindFunctions.disableSelection,
     },
+    /**嵌套数据只读数字 */
+    avaterDisplayNumber: {
+        respondFunc: respondFunctions.avaterFixed4,
+        updateFunc: updateFunctions.diabled,
+        onBind: onBindFunctions.disableSelection,
+    },
+    /**名称 */
     name: {
-        respondFunc: function (target, propertyName) {
-            this.text(target["_" + propertyName]);
-        },
-        updateFunc: function (target, propertyName) {
-            if (!this.text()) return;
-            target["_" + propertyName] = this.text().replace(/\W/g, "");
-        },
+        respondFunc: respondFunctions.simpleText,
+        updateFunc: updateFunctions.noSpace,
         updateEvent: "blur remove",
-        onBind: function () {
-            this
-                .on("dblclick", function () { $(this).attr({ contentEditable: 'plaintext-only', spellCheck: false }).focus(); })
-                .on("blur", function () { this.removeAttribute("contenteditable"); this.removeAttribute("spellcheck"); })
-                .keydown(function (e) {
-                    if (e.which == 13) {
-                        // 阻止回车事件，从而阻止换行
-                        e.preventDefault();
-                        this.blur();
-                    }
-                    else if (e.which == 32) {
-                        // 阻止空格
-                        e.preventDefault();
-                    }
-                });
-        }
+        onBind: onBindFunctions.dbClickToEditNoSpace,
     },
     code: {
         respondFunc: function (target, propertyName) {
             console.log("code doesn't need to respond!");
         },
         updateFunc: function (target, propertyName) {
-            target["_" + propertyName] = this.data("mirror").getValue();
+            target["_" + propertyName] = $('<div>').text(this.data("mirror").getValue()).html();
         },
         updateEvent: "blur remove",
         onBind: function (target, propertyName) {
             var cmr = CodeMirror(this[0], {
-                value: target["_" + propertyName],
+                value: $('<div>').html(target["_" + propertyName]).text(),
                 lineNumbers: true,
                 mode: "javascript",
                 theme: "codewarm",
@@ -227,16 +240,6 @@ $.fn.extend({
         this.filter(":data(respondFunc)").each(function () { $(this).data("respondFunc")(); });
         return this;
     },
-    /**检查是否所有元素都符合条件
-     * @return {boolean} 结果
-     */
-    every: function (checkFunc) {
-        let result = true;
-        this.each(function (index) {
-            if (!checkFunc.call(this, index)) result = false;
-        });
-        return result;
-    }
 });
 
 /**@name MP数据原型
@@ -312,7 +315,7 @@ class MPData extends MPPrototype {
             let cs = this.bufferSections[si]._codeSection;
             for (let ci = 0; ci < cs._codeNodes.length; ci++) {
                 let cn = cs._codeNodes[ci];
-                let cc = "function " + cn._name + "(){\n" + cn._codeText + "\n}";
+                let cc = "function " + cn._name + "(){\n" + $('<div>').html(cn._codeText).text() + "\n}";
                 let dn = this.bufferSections[si]._dataNodes;
                 for (let di = 0; di < dn.length; di++) {
                     let avater = mpDataName + ".bufferSections[" + si + "]._dataNodes[" + di + "].avater.";
@@ -337,7 +340,6 @@ class MPData extends MPPrototype {
 }
 
 
-
 //#region 代码相关
 /**@name 代码section
  * @description 保存了若干代码数据的一个节点
@@ -356,6 +358,7 @@ class CodeSection extends MPPrototype {
     }
 }
 
+
 /**@name 代码数据项父类原型
  * @description 应该是抽象类，包含代码数据项共有的描述数据，以及一些上下文信息
  */
@@ -367,12 +370,14 @@ class CodeDataPrototype extends MPPrototype {
         this.Boardcast("codeText");
     }
 
-
     /**@param {string} name Code数据项名称
      * @param {string} description Code数据项描述
      * @param {string} codeText Code源代码
      */
     constructor(name, description, codeText) {
+        if (new.target === CodeDataPrototype) {
+            throw new Error("CodeDataPrototype是抽象类！不能有实例！");
+        }
         super(name, description);
         /**@type {string}
          */
@@ -452,718 +457,7 @@ class BufferDataPrototype extends MPPrototype {
     }
 }
 
-/**@name 一维浮点数据项
- * @description 一个一维浮点数
- */
-class BufferDataF1 extends BufferDataPrototype {
 
-    /**@param {string} name Buffer数据项名称
-     * @param {string} description Buffer数据项描述
-     * @param {number} x x
-     */
-    constructor(name, description, x) {
-        super(name, description);
-        /**@type {number}
-         */
-        this._x = x || this._x || 0;
-        let d = this;
-        this.avater = {
-            get self() {
-                return d._x;
-            },
-            set self(val) {
-                d._x = val;
-                d.Boardcast("x");
-            },
-            get x() {
-                return d._x;
-            },
-            set x(val) {
-                d._x = val;
-                d.Boardcast("x");
-            },
-            get r() {
-                return d._x;
-            },
-            set r(val) {
-                d._x = val;
-                d.Boardcast("x");
-            },
-        }
-    }
-
-    LoadUI(contentDiv) {
-        super.LoadUI(contentDiv);
-        contentDiv.append($("<div></div>").BindProperty(this, "x", "number"));
-    }
-}
-
-/**@name 二维浮点数据项
- * @description 一个二维浮点数
- */
-class BufferDataF2 extends BufferDataPrototype {
-    /**@param {string} name Buffer数据项名称
-     * @param {string} description Buffer数据项描述
-     * @param {number} x x
-     * @param {number} y y
-     */
-    constructor(name, description, x, y) {
-        super(name, description);
-        /**@type {number}
-         */
-        this._x = x || this._x || 0;
-        /**@type {number}
-         */
-        this._y = y || this._y || 0;
-        let d = this;
-        this.avater = {
-            get x() {
-                return d._x;
-            },
-            set x(val) {
-                d._x = val;
-                d.Boardcast("x");
-            },
-            get y() {
-                return d._y;
-            },
-            set y(val) {
-                d._y = val;
-                d.Boardcast("y");
-            },
-            get xy() {
-                return [d._x, d._y];
-            },
-            set xy(val) {
-                if (isNumber(val)) {
-                    d._x = val;
-                    d._y = val;
-                }
-                else {
-                    d._x = val[0];
-                    d._y = val[1];
-                }
-                d.Boardcast("x");
-                d.Boardcast("y");
-            },
-            get self() {
-                return [d._x, d._y];
-            },
-            set self(val) {
-                if (isNumber(val)) {
-                    d._x = val;
-                    d._y = val;
-                }
-                else {
-                    d._x = val[0];
-                    d._y = val[1];
-                }
-                d.Boardcast("x");
-                d.Boardcast("y");
-            },
-        }
-    }
-
-    LoadUI(contentDiv) {
-        super.LoadUI(contentDiv);
-        contentDiv.append($("<div></div>").BindProperty(this, "x", "number"));
-        contentDiv.append($("<div></div>").BindProperty(this, "y", "number"));
-    }
-}
-
-/**@name 三维浮点数据项
- * @description 一个三维浮点数
- */
-class BufferDataF3 extends BufferDataPrototype {
-    /**@param {string} name Buffer数据项名称
-     * @param {string} description Buffer数据项描述
-     * @param {number} x x
-     * @param {number} y y
-     * @param {number} z z
-     */
-    constructor(name, description, x, y, z) {
-        super(name, description);
-        /**@type {number}
-         */
-        this._x = x || this._x || 0;
-        /**@type {number}
-         */
-        this._y = y || this._y || 0;
-        /**@type {number}
-         */
-        this._z = z || this._z || 0;
-        let d = this;
-        this.avater = {
-            get x() {
-                return d._x;
-            },
-            set x(val) {
-                d._x = val;
-                d.Boardcast("x");
-            },
-            get r() {
-                return d._x;
-            },
-            set r(val) {
-                d._x = val;
-                d.Boardcast("x");
-            },
-            get y() {
-                return d._y;
-            },
-            set y(val) {
-                d._y = val;
-                d.Boardcast("y");
-            },
-            get g() {
-                return d._y;
-            },
-            set g(val) {
-                d._y = val;
-                d.Boardcast("y");
-            },
-            get z() {
-                return d._z;
-            },
-            set z(val) {
-                d._z = val;
-                d.Boardcast("z");
-            },
-            get b() {
-                return d._z;
-            },
-            set b(val) {
-                d._z = val;
-                d.Boardcast("z");
-            },
-            get xy() {
-                return [d._x, d._y];
-            },
-            set xy(val) {
-                if (isNumber(val)) {
-                    d._x = val;
-                    d._y = val;
-                }
-                else {
-                    d._x = val[0];
-                    d._y = val[1];
-                }
-                d.Boardcast("x");
-                d.Boardcast("y");
-            },
-            get rb() {
-                return [d._x, d._y];
-            },
-            set rb(val) {
-                if (isNumber(val)) {
-                    d._x = val;
-                    d._y = val;
-                }
-                else {
-                    d._x = val[0];
-                    d._y = val[1];
-                }
-                d.Boardcast("x");
-                d.Boardcast("y");
-            },
-            get xz() {
-                return [d._x, d._z];
-            },
-            set xz(val) {
-                if (isNumber(val)) {
-                    d._x = val;
-                    d._z = val;
-                }
-                else {
-                    d._x = val[0];
-                    d._z = val[1];
-                }
-                d.Boardcast("x");
-                d.Boardcast("z");
-            },
-            get rb() {
-                return [d._x, d._z];
-            },
-            set rb(val) {
-                if (isNumber(val)) {
-                    d._x = val;
-                    d._z = val;
-                }
-                else {
-                    d._x = val[0];
-                    d._z = val[1];
-                }
-                d.Boardcast("x");
-                d.Boardcast("z");
-            },
-            get yz() {
-                return [d._y, d._z];
-            },
-            set yz(val) {
-                if (isNumber(val)) {
-                    d._y = val;
-                    d._z = val;
-                }
-                else {
-                    d._y = val[0];
-                    d._z = val[1];
-                }
-                d.Boardcast("y");
-                d.Boardcast("z");
-            },
-            get gb() {
-                return [d._y, d._z];
-            },
-            set gb(val) {
-                if (isNumber(val)) {
-                    d._y = val;
-                    d._z = val;
-                }
-                else {
-                    d._y = val[0];
-                    d._z = val[1];
-                }
-                d.Boardcast("y");
-                d.Boardcast("z");
-            },
-            get xyz() {
-                return [d._x, d._y, d._z];
-            },
-            set xyz(val) {
-                if (isNumber(val)) {
-                    d._x = val;
-                    d._y = val;
-                    d._z = val;
-                }
-                else {
-                    d._x = val[0];
-                    d._y = val[1];
-                    d._z = val[2];
-                }
-                d.Boardcast("x");
-                d.Boardcast("y");
-                d.Boardcast("z");
-            },
-            get rgb() {
-                return [d._x, d._y, d._z];
-            },
-            set rgb(val) {
-                if (isNumber(val)) {
-                    d._x = val;
-                    d._y = val;
-                    d._z = val;
-                }
-                else {
-                    d._x = val[0];
-                    d._y = val[1];
-                    d._z = val[2];
-                }
-                d.Boardcast("x");
-                d.Boardcast("y");
-                d.Boardcast("z");
-            },
-            get self() {
-                return [d._x, d._y, d._z];
-            },
-            set self(val) {
-                if (isNumber(val)) {
-                    d._x = val;
-                    d._y = val;
-                    d._z = val;
-                }
-                else {
-                    d._x = val[0];
-                    d._y = val[1];
-                    d._z = val[2];
-                }
-                d.Boardcast("x");
-                d.Boardcast("y");
-                d.Boardcast("z");
-            },
-        }
-    }
-
-    LoadUI(contentDiv) {
-        super.LoadUI(contentDiv);
-        contentDiv.append($("<div></div>").BindProperty(this, "x", "number"));
-        contentDiv.append($("<div></div>").BindProperty(this, "y", "number"));
-        contentDiv.append($("<div></div>").BindProperty(this, "z", "number"));
-    }
-}
-
-/**@name 四维浮点数据项
- * @description 一个四维浮点数
- */
-class BufferDataF4 extends BufferDataPrototype {
-    /**@param {string} name Buffer数据项名称
-     * @param {string} description Buffer数据项描述
-     * @param {number} x x
-     * @param {number} y y
-     * @param {number} z z
-     * @param {number} w w
-     */
-    constructor(name, description, x, y, z, w) {
-        super(name, description);
-        /**@type {number}
-         */
-        this._x = x || this._x || 0;
-        /**@type {number}
-         */
-        this._y = y || this._y || 0;
-        /**@type {number}
-         */
-        this._z = z || this._z || 0;
-        /**@type {number}
-         */
-        this._w = w || this._w || 0;
-        let d = this;
-        this.avater = {
-            get x() {
-                return d._x;
-            },
-            set x(val) {
-                d._x = val;
-                d.Boardcast("x");
-            },
-            get r() {
-                return d._x;
-            },
-            set r(val) {
-                d._x = val;
-                d.Boardcast("x");
-            },
-            get y() {
-                return d._y;
-            },
-            set y(val) {
-                d._y = val;
-                d.Boardcast("y");
-            },
-            get g() {
-                return d._y;
-            },
-            set g(val) {
-                d._y = val;
-                d.Boardcast("y");
-            },
-            get z() {
-                return d._z;
-            },
-            set z(val) {
-                d._z = val;
-                d.Boardcast("z");
-            },
-            get b() {
-                return d._z;
-            },
-            set b(val) {
-                d._z = val;
-                d.Boardcast("z");
-            },
-            get w() {
-                return d._w;
-            },
-            set w(val) {
-                d._w = val;
-                d.Boardcast("w");
-            },
-            get a() {
-                return d._w;
-            },
-            set a(val) {
-                d._w = val;
-                d.Boardcast("w");
-            },
-            get xy() {
-                return [d._x, d._y];
-            },
-            set xy(val) {
-                if (isNumber(val)) {
-                    d._x = val;
-                    d._y = val;
-                }
-                else {
-                    d._x = val[0];
-                    d._y = val[1];
-                }
-                d.Boardcast("x");
-                d.Boardcast("y");
-            },
-            get rb() {
-                return [d._x, d._y];
-            },
-            set rb(val) {
-                if (isNumber(val)) {
-                    d._x = val;
-                    d._y = val;
-                }
-                else {
-                    d._x = val[0];
-                    d._y = val[1];
-                }
-                d.Boardcast("x");
-                d.Boardcast("y");
-            },
-            get xz() {
-                return [d._x, d._z];
-            },
-            set xz(val) {
-                if (isNumber(val)) {
-                    d._x = val;
-                    d._z = val;
-                }
-                else {
-                    d._x = val[0];
-                    d._z = val[1];
-                }
-                d.Boardcast("x");
-                d.Boardcast("z");
-            },
-            get rb() {
-                return [d._x, d._z];
-            },
-            set rb(val) {
-                if (isNumber(val)) {
-                    d._x = val;
-                    d._z = val;
-                }
-                else {
-                    d._x = val[0];
-                    d._z = val[1];
-                }
-                d.Boardcast("x");
-                d.Boardcast("z");
-            },
-            get yz() {
-                return [d._y, d._z];
-            },
-            set yz(val) {
-                if (isNumber(val)) {
-                    d._y = val;
-                    d._z = val;
-                }
-                else {
-                    d._y = val[0];
-                    d._z = val[1];
-                }
-                d.Boardcast("y");
-                d.Boardcast("z");
-            },
-            get gb() {
-                return [d._y, d._z];
-            },
-            set gb(val) {
-                if (isNumber(val)) {
-                    d._y = val;
-                    d._z = val;
-                }
-                else {
-                    d._y = val[0];
-                    d._z = val[1];
-                }
-                d.Boardcast("y");
-                d.Boardcast("z");
-            },
-            get xw() {
-                return [d._x, d._w];
-            },
-            set xw(val) {
-                if (isNumber(val)) {
-                    d._x = val;
-                    d._w = val;
-                }
-                else {
-                    d._x = val[0];
-                    d._w = val[1];
-                }
-                d.Boardcast("x");
-                d.Boardcast("w");
-            },
-            get ra() {
-                return [d._x, d._w];
-            },
-            set ra(val) {
-                if (isNumber(val)) {
-                    d._x = val;
-                    d._w = val;
-                }
-                else {
-                    d._x = val[0];
-                    d._w = val[1];
-                }
-                d.Boardcast("x");
-                d.Boardcast("w");
-            },
-            get yw() {
-                return [d._y, d._w];
-            },
-            set yw(val) {
-                if (isNumber(val)) {
-                    d._y = val;
-                    d._w = val;
-                }
-                else {
-                    d._y = val[0];
-                    d._w = val[1];
-                }
-                d.Boardcast("y");
-                d.Boardcast("w");
-            },
-            get ga() {
-                return [d._y, d._w];
-            },
-            set ga(val) {
-                if (isNumber(val)) {
-                    d._y = val;
-                    d._w = val;
-                }
-                else {
-                    d._y = val[0];
-                    d._w = val[1];
-                }
-                d.Boardcast("y");
-                d.Boardcast("w");
-            },
-            get zw() {
-                return [d._z, d._w];
-            },
-            set zw(val) {
-                if (isNumber(val)) {
-                    d._z = val;
-                    d._w = val;
-                }
-                else {
-                    d._z = val[0];
-                    d._w = val[1];
-                }
-                d.Boardcast("z");
-                d.Boardcast("w");
-            },
-            get ba() {
-                return [d._z, d._w];
-            },
-            set ba(val) {
-                if (isNumber(val)) {
-                    d._z = val;
-                    d._w = val;
-                }
-                else {
-                    d._z = val[0];
-                    d._w = val[1];
-                }
-                d.Boardcast("z");
-                d.Boardcast("w");
-            },
-            get xyz() {
-                return [d._x, d._y, d._z];
-            },
-            set xyz(val) {
-                if (isNumber(val)) {
-                    d._x = val;
-                    d._y = val;
-                    d._z = val;
-                }
-                else {
-                    d._x = val[0];
-                    d._y = val[1];
-                    d._z = val[2];
-                }
-                d.Boardcast("x");
-                d.Boardcast("y");
-                d.Boardcast("z");
-            },
-            get rgb() {
-                return [d._x, d._y, d._z];
-            },
-            set rgb(val) {
-                if (isNumber(val)) {
-                    d._x = val;
-                    d._y = val;
-                    d._z = val;
-                }
-                else {
-                    d._x = val[0];
-                    d._y = val[1];
-                    d._z = val[2];
-                }
-                d.Boardcast("x");
-                d.Boardcast("y");
-                d.Boardcast("z");
-            },
-            get xyzw() {
-                return [d._x, d._y, d._z, d._w];
-            },
-            set xyzw(val) {
-                if (isNumber(val)) {
-                    d._x = val;
-                    d._y = val;
-                    d._z = val;
-                    d._w = val;
-                }
-                else {
-                    d._x = val[0];
-                    d._y = val[1];
-                    d._z = val[2];
-                    d._w = val[3];
-                }
-                d.Boardcast("x");
-                d.Boardcast("y");
-                d.Boardcast("z");
-                d.Boardcast("w");
-            },
-            get rgba() {
-                return [d._x, d._y, d._z, d._w];
-            },
-            set rgba(val) {
-                if (isNumber(val)) {
-                    d._x = val;
-                    d._y = val;
-                    d._z = val;
-                    d._w = val;
-                }
-                else {
-                    d._x = val[0];
-                    d._y = val[1];
-                    d._z = val[2];
-                    d._w = val[3];
-                }
-                d.Boardcast("x");
-                d.Boardcast("y");
-                d.Boardcast("z");
-                d.Boardcast("w");
-            },
-            get self() {
-                return [d._x, d._y, d._z, d._w];
-            },
-            set self(val) {
-                if (isNumber(val)) {
-                    d._x = val;
-                    d._y = val;
-                    d._z = val;
-                    d._w = val;
-                }
-                else {
-                    d._x = val[0];
-                    d._y = val[1];
-                    d._z = val[2];
-                    d._w = val[3];
-                }
-                d.Boardcast("x");
-                d.Boardcast("y");
-                d.Boardcast("z");
-                d.Boardcast("w");
-            },
-        }
-    }
-
-    LoadUI(contentDiv) {
-        super.LoadUI(contentDiv);
-        contentDiv.append($("<div></div>").BindProperty(this, "x", "number"));
-        contentDiv.append($("<div></div>").BindProperty(this, "y", "number"));
-        contentDiv.append($("<div></div>").BindProperty(this, "z", "number"));
-        contentDiv.append($("<div></div>").BindProperty(this, "w", "number"));
-    }
-}
 
 /**@name 贴图数据项
  * @description 一维，二维，三维等长度的贴图，本质上是固定尺寸的数组
@@ -1204,56 +498,76 @@ class BufferDataTexture extends BufferDataPrototype {
         let d = this;
         this.avater = {
             color(x, y, val) {
-                if (x < 0) x = 0;
-                if (x >= d._width) x = d._width - 1;
-                if (y < 0) y = 0;
-                if (y >= d._height) y = d._height - 1;
-                if (y === undefined) {
-                    if (isNumber(x)) {
-                        for (let i = 0; i < d._texData.length; i += 4) {
-                            d._texData[i] = Math.floor(x * 256);
-                            d._texData[i + 1] = Math.floor(x * 256);
-                            d._texData[i + 2] = Math.floor(x * 256);
-                            d._texData[i + 3] = 255;
+                switch (arguments.length) {
+                    case 1:
+                        let t = x.constructor.name;
+                        switch (t) {
+                            case 'Number':
+                                let c = to8Bit(x * 256);
+                                for (let i = 0; i < d._texData.length; i += 4) {
+                                    d._texData[i] = c;
+                                    d._texData[i + 1] = c;
+                                    d._texData[i + 2] = C;
+                                    d._texData[i + 3] = 255;
+                                }
+                                return;
+                            case 'Vector3':
+                                for (let i = 0; i < d._texData.length; i += 4) {
+                                    d._texData[i] = to8Bit(x.x);
+                                    d._texData[i + 1] = to8Bit(x.y);
+                                    d._texData[i + 2] = to8Bit(x.z);
+                                    d._texData[i + 3] = 255;
+                                }
+                                return;
+                            case 'Vector4':
+                                for (let i = 0; i < d._texData.length; i += 4) {
+                                    d._texData[i] = to8Bit(x.x);
+                                    d._texData[i + 1] = to8Bit(x.y);
+                                    d._texData[i + 2] = to8Bit(x.z);
+                                    d._texData[i + 3] = to8Bit(x.w);;
+                                }
+                                return;
                         }
-                    }
-                    else {
-                        for (let i = 0; i < d._texData.length; i += 4) {
-                            d._texData[i] = Math.floor(x[0] * 256);
-                            d._texData[i + 1] = Math.floor(x[1] * 256);
-                            d._texData[i + 2] = Math.floor(x[2] * 256);
-                            d._texData[i + 3] = Math.floor(x[3] * 256);
+                        break;
+                    case 2:
+                    case 3:
+                        if (typeof x != 'number' || typeof y != 'number') break;
+                        x = x < 0 ? 0 : (x > d._width ? d._width - 1 : x);
+                        y = y < 0 ? 0 : (y > d._height ? d._height - 1 : y);
+                        let pos = (y * d._width + x) * 4;
+                        if (val === undefined) {
+                            // 只有两个参数，返回对应的颜色
+                            return vec4(
+                                d._texData[pos + 0] / 255,
+                                d._texData[pos + 1] / 255,
+                                d._texData[pos + 2] / 255,
+                                d._texData[pos + 3] / 255
+                            );
                         }
-                    }
+                        switch (val.constructor.name) {
+                            case 'Number':
+                                let c = to8Bit(val);
+                                d._texData[pos + 0] = c;
+                                d._texData[pos + 1] = c;
+                                d._texData[pos + 2] = c;
+                                d._texData[pos + 3] = c;
+                                return;
+                            case 'Vector3':
+                                d._texData[pos + 0] = to8Bit(val.x);
+                                d._texData[pos + 1] = to8Bit(val.y);
+                                d._texData[pos + 2] = to8Bit(val.z);
+                                d._texData[pos + 3] = 255;
+                                return;
+                            case 'Vector4':
+                                d._texData[pos + 0] = to8Bit(val.x);
+                                d._texData[pos + 1] = to8Bit(val.y);
+                                d._texData[pos + 2] = to8Bit(val.z);
+                                d._texData[pos + 3] = to8Bit(val.w);
+                                return;
+                        }
+                        break;
                 }
-                else if (val === undefined) {
-                    if (x <= 1 && y <= 1) {
-                        x = Math.floor(x * d._width);
-                        y = Math.floor(y * d._height);
-                    }
-                    let pos = (y * d._width + x) * 4;
-                    return [d._texData[pos + 0] / 255, d._texData[pos + 1] / 255, d._texData[pos + 2] / 255, d._texData[pos + 3] / 255];
-                }
-                else {
-                    if (x <= 1 && y <= 1) {
-                        x = Math.floor(x * d._width);
-                        y = Math.floor(y * d._height);
-                    }
-                    let pos = (y * d._width + x) * 4;
-
-                    if (isNumber(val)) {
-                        d._texData[pos] = Math.floor(val * 256);
-                        d._texData[pos + 1] = Math.floor(val * 256);
-                        d._texData[pos + 2] = Math.floor(val * 256);
-                        d._texData[pos + 3] = Math.floor(val * 256);
-                    }
-                    else {
-                        d._texData[pos] = Math.floor(val[0] * 256);
-                        d._texData[pos + 1] = Math.floor(val[1] * 256);
-                        d._texData[pos + 2] = Math.floor(val[2] * 256);
-                        d._texData[pos + 3] = Math.floor(val[3] * 256);
-                    }
-                }
+                throw new Error("color()接收了不支持的参数类型!");
             },
             get width() {
                 return d._width;
@@ -1296,32 +610,17 @@ class BufferDataTexture extends BufferDataPrototype {
 
 
 /**MP对象专用序列化方法 */
-var MPJSON = {
-    /**记录构造函数 */
-    _parseContructors: {
-        "MPData": MPData.constructor,
-        "CodeSection": CodeSection.constructor,
-        "CodeDataJavaScript": CodeDataJavaScript.constructor,
-        "BufferSection": BufferSection.constructor,
-        "BufferDataF1": BufferDataF1.constructor,
-        "BufferDataTexture": BufferDataTexture.constructor,
-    },
+var MPOS = {
     /**将MP对象转化为json字符串
      * @param {MPPrototype} obj MP对象
      * @return {string} json字符串
      */
     stringify: function (obj) {
-        // return JSON.stringify(obj, function (key, value) {
-        //     if (key.match(/^(?:Boardcast|_texData)/)) return;
-        //     if (key === "_name") value = this.constructor.name + "|" + value;
-        //     console.log("key:" + key + (value ? "|" + value.constructor.name : "") + "|" + value + this);
-        //     return value;
-        // });
         let result = "";
         function serializeInternal(o, path) {
             for (key in o) {
                 var value = o[key];
-                if (key.match(/(?:^Boardcast|avater|remove)/)) {
+                if (key.match(/(?:^Boardcast|remove|avater)/)) {
                     // 此为排除条件
                     continue;
                 }
@@ -1355,22 +654,6 @@ var MPJSON = {
      */
     parse: function (obj, str, name) {
         if (!str) return;
-        // let objArray = new Array();
-        // let pcon = this._parseContructors;
-        // return JSON.parse(str, function (key, value) {
-        //     if (!objArray.includes(this)) {
-        //         objArray.push(this);
-        //         if (this._name) {
-        //             let reg = /^(.*)\|(.*)$/;
-        //             this._name = this._name.replace(reg, '$2');
-        //             pcon[RegExp.$1].call(this);
-        //         }
-        //     }
-        //     if (key === "_name") {
-        //         console.log(value);
-        //     }
-        //     return value;
-        // });
         str = str.replace(/#mpObject/g, name);
         eval(str);
     }

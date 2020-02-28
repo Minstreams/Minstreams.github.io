@@ -18,11 +18,11 @@
 #mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][0]=new CodeDataJavaScript();
 #mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][0]["_name"] = "SetColor";
 #mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][0]["_description"] = "设置颜色";
-#mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][0]["_codeText"] = "let i = 1/256;\nOutColor.color(uv.x-i,uv.y-i-i,color.xyzw);\nOutColor.color(uv.x,uv.y-i-i,color.xyzw);\nOutColor.color(uv.x+i,uv.y-i-i,color.xyzw);\nOutColor.color(uv.x-i,uv.y-i,color.xyzw);\nOutColor.color(uv.x-i-i,uv.y-i,color.xyzw);\nOutColor.color(uv.x,uv.y-i,color.xyzw);\nOutColor.color(uv.x+i,uv.y-i,color.xyzw);\nOutColor.color(uv.x+i+i,uv.y-i,color.xyzw);\nOutColor.color(uv.x-i,uv.y,color.xyzw);\nOutColor.color(uv.x-i-i,uv.y,color.xyzw);\nOutColor.color(uv.x,uv.y,color.xyzw);\nOutColor.color(uv.x+i,uv.y,color.xyzw);\nOutColor.color(uv.x-i,uv.y+i,color.xyzw);\nOutColor.color(uv.x+i+i,uv.y,color.xyzw);\nOutColor.color(uv.x-i-i,uv.y+i,color.xyzw);\nOutColor.color(uv.x,uv.y+i,color.xyzw);\nOutColor.color(uv.x+i,uv.y+i,color.xyzw);\nOutColor.color(uv.x+i+i,uv.y+i,color.xyzw);\nOutColor.color(uv.x-i,uv.y+i+i,color.xyzw);\nOutColor.color(uv.x,uv.y+i+i,color.xyzw);\nOutColor.color(uv.x+i,uv.y+i+i,color.xyzw);";
+#mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][0]["_codeText"] = "let uv8 = vec2(to8Bit(uv.x),to8Bit(uv.y));\n\nOutColor(uv8.x-1,uv8.y-2,color);\nOutColor(uv8.x,uv8.y-2,color);\nOutColor(uv8.x+1,uv8.y-2,color);\n\nOutColor(uv8.x-2,uv8.y-1,color);\nOutColor(uv8.x-1,uv8.y-1,color);\nOutColor(uv8.x,uv8.y-1,color);\nOutColor(uv8.x+1,uv8.y-1,color);\nOutColor(uv8.x+2,uv8.y-1,color);\nOutColor(uv8.x-2,uv8.y,color);\nOutColor(uv8.x-1,uv8.y,color);\nOutColor(uv8.x,uv8.y,color);\nOutColor(uv8.x+1,uv8.y,color);\nOutColor(uv8.x+2,uv8.y,color);\nOutColor(uv8.x-2,uv8.y+1,color);\nOutColor(uv8.x-1,uv8.y+1,color);\nOutColor(uv8.x,uv8.y+1,color);\nOutColor(uv8.x+1,uv8.y+1,color);\nOutColor(uv8.x+2,uv8.y+1,color);\n\nOutColor(uv8.x-1,uv8.y+2,color);\nOutColor(uv8.x,uv8.y+2,color);\nOutColor(uv8.x+1,uv8.y+2,color);\n";
 #mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][1]=new CodeDataJavaScript();
 #mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][1]["_name"] = "ClearCanvas";
 #mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][1]["_description"] = "清除画布";
-#mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][1]["_codeText"] = "OutColor([0,0,0,0]);";
+#mpObject["bufferSections"][0]["_codeSection"]["_codeNodes"][1]["_codeText"] = "OutColor(vec4(0));\n";
 #mpObject["bufferSections"][1]=new BufferSection();
 #mpObject["bufferSections"][1]["_name"] = "表层数据";
 #mpObject["bufferSections"][1]["_description"] = "第一层数据";
@@ -30,7 +30,7 @@
 #mpObject["bufferSections"][1]["_dataNodes"][0]=new BufferDataF1();
 #mpObject["bufferSections"][1]["_dataNodes"][0]["_name"] = "time";
 #mpObject["bufferSections"][1]["_dataNodes"][0]["_description"] = "记录当前时间";
-#mpObject["bufferSections"][1]["_dataNodes"][0]["_x"] = 1579861876001;
+#mpObject["bufferSections"][1]["_dataNodes"][0]["_x"] = 1582881227873;
 #mpObject["bufferSections"][1]["_dataNodes"][1]=new BufferDataF1();
 #mpObject["bufferSections"][1]["_dataNodes"][1]["_name"] = "timer";
 #mpObject["bufferSections"][1]["_dataNodes"][1]["_description"] = "暂时没什么用";
@@ -54,7 +54,7 @@
 #mpObject["bufferSections"][1]["_codeSection"]["_codeNodes"][0]=new CodeDataJavaScript();
 #mpObject["bufferSections"][1]["_codeSection"]["_codeNodes"][0]["_name"] = "Update";
 #mpObject["bufferSections"][1]["_codeSection"]["_codeNodes"][0]["_description"] = "渲染循环主体";
-#mpObject["bufferSections"][1]["_codeSection"]["_codeNodes"][0]["_codeText"] = "time = Date.now();\n\nuv.x+=0.004133*1.5;\nuv.y+=0.0076*1.5;\nif(uv.x>1)uv.x-=1;\nif(uv.y>1)uv.y-=1;\n\nlet g = Math.sin(time*0.005)*0.5+0.5;\nlet b = Math.sin(time*0.005+0.5)*0.5+0.5;\nlet r = 1- b*g;\nlet a = Math.sin(uv.x*Math.PI)*Math.sin(uv.y*Math.PI);\n\ncolor.xyzw = [r,g,b,a];\n\nSetColor();\n\nnextFrame(Update);";
+#mpObject["bufferSections"][1]["_codeSection"]["_codeNodes"][0]["_codeText"] = "time = Date.now();\n\nuv.x+=0.004133*1.5;\nuv.y+=0.0076*1.5;\nif(uv.x&gt;1)uv.x-=1;\nif(uv.y&gt;1)uv.y-=1;\n\nlet g = Math.sin(time*0.005)*0.5+0.5;\nlet b = Math.sin(time*0.005+0.5)*0.5+0.5;\nlet r = 1- b*g;\nlet a = Math.sin(uv.x*Math.PI)*Math.sin(uv.y*Math.PI);\n\ncolor = vec4(r,g,b,a);\n\nSetColor();\n\nnextFrame(Update);";
 #mpObject["mainCodeData"]=new CodeDataJavaScript();
 #mpObject["mainCodeData"]["_name"] = "main";
 #mpObject["mainCodeData"]["_description"] = "函数入口";

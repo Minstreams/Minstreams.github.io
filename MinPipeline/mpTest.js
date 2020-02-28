@@ -1,21 +1,5 @@
 /**总数据 */
 var mpData = new MPData("test", "test");
-mpData.bufferSections.push(
-    new BufferSection("输出", "最终输出", [
-        new BufferDataTexture("OutColor", "最终输出的颜色", 512, 512),
-        new BufferDataF1("kkk"),
-        new BufferDataF1("kkk"),
-        new BufferDataF1("kkk"),
-        new BufferDataF1("kkk"),
-        new BufferDataF1("kkk"),
-        new BufferDataF1("kkk"),
-        new BufferDataF1("kkk"),
-        new BufferDataF1("kkk"),
-        new BufferDataF1("kkk")
-    ])
-);
-mpData.bufferSections.push(new BufferSection("Asdasdasd2", "asdasd", [new BufferDataTexture("Real")]));
-mpData.bufferSections.push(new BufferSection("Asdaasd3"));
 
 
 
@@ -90,7 +74,7 @@ function AddBufferSectionTopDiv(mpData, bs, preElement) {
         },
         update: function (event, ui) {
             // 在这里对元素重新排序
-            StopFrame();
+            __StopFrame();
             if (!ui.item[0].parentNode) return;
             console.log("update", ui.item.index() + "|sender:" + (ui.sender ? ui.sender[0] : null) + "|data:" + ui.item.data("dataObject"));
             let fromArray = (ui.sender ? ui.sender : ui.item.parent()).data("dataArray");
@@ -111,7 +95,7 @@ function AddBufferSectionTopDiv(mpData, bs, preElement) {
         beforeStop: function (event, ui) {
             if (ui.position.top > 150) {
                 // 删除
-                StopFrame();
+                __StopFrame();
                 ui.item.parent().data("dataArray").remove(ui.item.data("dataObject"));
                 ui.item.remove();
                 bsul.sortable("refresh");
@@ -182,7 +166,7 @@ function AddBufferSectionTopDiv(mpData, bs, preElement) {
         beforeStop: function (event, ui) {
             if (ui.position.top > 150) {
                 // 删除
-                StopFrame();
+                __StopFrame();
                 ui.item.parent().data("dataArray").remove(ui.item.data("dataObject"));
                 ui.item.remove();
                 bcul.sortable("refresh");
@@ -217,7 +201,7 @@ function AddBufferSectionTopDiv(mpData, bs, preElement) {
 
     // 删除按钮
     let removeDiv = $("<div>-</div>").addClass("top-remove").appendTo(bsDiv).disableSelection().click(function (e) {
-        StopFrame();
+        __StopFrame();
         let index = mpData.bufferSections.indexOf(bs);
         if (index <= 0) {
             console.log("不允许删除第一个节点");
@@ -249,7 +233,7 @@ function AddBufferSectionTopDiv(mpData, bs, preElement) {
     }).append($("<tooltip></tooltip>").text("删除此数据节点"));
     // 添加按钮
     let addDiv = $("<div>+</div>").addClass("top-add").appendTo(bcDiv).disableSelection().click(function (e) {
-        StopFrame();
+        __StopFrame();
         let index = mpData.bufferSections.indexOf(bs);
         let newBs = new BufferSection("New", "New", [
             new BufferDataF1("Name", "Des"),
@@ -275,9 +259,6 @@ function AddBufferSectionTopDiv(mpData, bs, preElement) {
 
 
 
-
-
-
 //#region Code标签相关
 var tabs = $("#codeContentDiv").tabs({
     classes: {
@@ -286,6 +267,30 @@ var tabs = $("#codeContentDiv").tabs({
 });
 var targetScrollLeft = 0;   //辅助计算横向滚动位置
 var tabCounter = 0;     //辅助变量，防止标签id重复
+
+// Code标签排序功能
+tabs.find(".ui-tabs-nav").sortable({
+    axis: "x",
+    distance: 15,
+    stop: function (e, ui) {
+        tabs.tabs("refresh");
+        // 排序后自动选择最新标签
+        tabs.tabs("option", "active", ui.item.index());
+    },
+    items: "li:not(.mainCodeLi)",    // 主代码项固定
+});
+// Code标签横向滚动
+$("#codeContentDiv>.ui-tabs-nav").mousewheel(function (event) {
+    /**左右滚动系数 */
+    const myDeltaFactor = 0.25;
+    targetScrollLeft -= event.deltaFactor * event.deltaY * myDeltaFactor;
+    let max = $(this)[0].scrollWidth - $(this)[0].clientWidth;
+    targetScrollLeft = targetScrollLeft < 0 ? 0 : targetScrollLeft > max ? max : targetScrollLeft;
+
+    $(this).stop().animate({ scrollLeft: targetScrollLeft }, "fast", "easeOutCubic");
+});
+
+
 
 /**新增一个Code标签
  * @param {CodeDataPrototype} codeDataObject 对应的code数据项
@@ -341,70 +346,29 @@ function AddCodeTab(codeDataObject) {
     return tabLi;
 }
 
-// Code标签排序功能
-tabs.find(".ui-tabs-nav").sortable({
-    axis: "x",
-    distance: 15,
-    stop: function (e, ui) {
-        tabs.tabs("refresh");
-        // 排序后自动选择最新标签
-        tabs.tabs("option", "active", ui.item.index());
-    },
-    items: "li:not(.mainCodeLi)",    // 主代码项固定
-});
-// Code标签横向滚动
-$("#codeContentDiv>.ui-tabs-nav").mousewheel(function (event) {
-    /**左右滚动系数 */
-    const myDeltaFactor = 0.25;
-    targetScrollLeft -= event.deltaFactor * event.deltaY * myDeltaFactor;
-    let max = $(this)[0].scrollWidth - $(this)[0].clientWidth;
-    targetScrollLeft = targetScrollLeft < 0 ? 0 : targetScrollLeft > max ? max : targetScrollLeft;
-
-    $(this).stop().animate({ scrollLeft: targetScrollLeft }, "fast", "easeOutCubic");
-});
-
-
 
 //#endregion
 
 
 
-
-
-mpData.bufferSections[0]._codeSection._codeNodes =
-    [
-        new CodeDataJavaScript("Funtion1", "用于把视角空间转换为某某空间"),
-        new CodeDataJavaScript("Funtion2", "用于把视角空间转换为某某空间C2D"),
-        new CodeDataJavaScript("Funtion3", "用于把视角空间转换为某某空间C2D"),
-        new CodeDataJavaScript("Funtion4", "用于把视角空间转换为某某空间C2D"),
-        new CodeDataJavaScript("Funtion5", "用于把视角空间转换为某某空间C2D"),
-        new CodeDataJavaScript("Funtion6", "用于把视角空间转换为某某空间C2D"),
-        new CodeDataJavaScript("Funtion7", "用于把视角空间转换为某某空间C2D"),
-        new CodeDataJavaScript("Funtion8", "用于把视角空间转换为某某空间C2D"),
-        new CodeDataJavaScript("Funtion9", "用于把视角空间转换为某某空间C2D"),
-        new CodeDataJavaScript("Funtion10", "用于把视角空间转换为某某空间C2D"),
-    ];
-mpData.bufferSections[1]._codeSection._codeNodes =
-    [
-        new CodeDataJavaScript("Funtin1", "用于把视角空间转换为某某空间"),
-        new CodeDataJavaScript("Funton2", "用于把视角空间转换为某某空间C2D"),
-        new CodeDataJavaScript("Funton3", "用于把视角空间转换为某某空间C2D"),
-        new CodeDataJavaScript("Funton4", "用于把视角空间转换为某某空间C2D"),
-    ];
-
 try {
+    //运行代码
     function Run() {
-        //Save All
+        //停止之前的代码
+        __StopFrame();
+        //Save All 保存所有代码
         $(".codeText").UpdateProperty();
 
-        StopFrame();
-
-
-        var script = "try{console.log('Run!');";
+        //在控制台输出“Run！”并将整个代码块放入try中
+        var script = "try{console.log('Run!');\n";
+        //载入并整合代码
         script += mpData.codeToJs("mpData");
-        script += "$('canvas').RespondProperty();}catch(err){$('#errorLog').text('【ERROR】'+err.message);}"
+        //捕获异常，并输出到errorLog中
+        script += "$('canvas').RespondProperty();\n}\ncatch(err){\n\t$('#errorLog').text('【ERROR】'+err.message+JSON.stringify(err.stack));\n}"
+        //重置errorLog
         $('#errorLog').text("");
 
+        //在下一帧开始运行
         requestAnimationFrame(function () {
             _stopMark = false;
             $("pipeline").empty().append($("<script>< /script>").html(script));
@@ -416,42 +380,22 @@ catch (err) {
     $('#errorLog').text('【ERROR】' + err.message);
 }
 
-var counter = 0;
-var mpDataFile = getQueryString("mpData");
-if (mpDataFile) {
-    let filee = mpDataFile;
-    console.log($("#mpData").load(filee));
-}
 
-if ($("#mpData").text()) {
-    MPJSON.parse(mpData, $("#mpData").text(), "mpData");
-}
 
 $("#rB").click(Run);
 $("#dB").click(function () {
     $(".codeText").UpdateProperty();
-
-    jstring = MPJSON.stringify(mpData);
+    jstring = MPOS.stringify(mpData);
 
     console.log(jstring);
-    $("#mpData").text(jstring);
-    localStorage.setItem("mpDataString", jstring);
 });
 $("#cB").click(function () {
-    localStorage.removeItem("mpDataString");
     location.reload(true);
 });
 
-jstring = localStorage.getItem("mpDataString");
-if (jstring) {
-    console.log("【LoadData!】");
-    MPJSON.parse(mpData, jstring, "mpData");
-
-    //sessionStorage.removeItem("mpDataString");
-}
 
 //添加主函数标签
-(function AddMainEntryCodeTab(mpData) {
+function AddMainEntryCodeTab(mpData) {
     let codeDataObject = mpData.mainCodeData;
     // 标签页
     let tabLi = $("<li></li>").addClass("mainCodeLi").append(
@@ -479,8 +423,34 @@ if (jstring) {
     tabs.tabs("refresh");
     tabs.tabs("option", "active", 0);
     return tabLi;
-})(mpData);
+};
 
-mpData.bufferSections.forEach(bs => AddBufferSectionTopDiv(mpData, bs));
+// 通过url参数载入对应数据，默认载入一个文件
+var mpDataFile = getQueryString("mpData") || "default";
+$.get("mpData/" + mpDataFile, function (data, status) {
+    MPOS.parse(mpData, data, "mpData");
+    console.log(mpDataFile);
+    console.log(data);
 
-$("#topDiv").children(".bufferSection").first().click();
+    AddMainEntryCodeTab(mpData);
+    mpData.bufferSections.forEach(bs => AddBufferSectionTopDiv(mpData, bs));
+    $("#topDiv").children(".bufferSection").first().click();
+});
+
+var tt1 = {
+    a: 1,
+    b: 2,
+    length:5
+}
+var tt2 = ['t1', 't2', 't3', 't4', 't5'];
+tt1 = { ...tt1, ...tt2 };
+function outAlertAll() {
+    let out = '';
+    for (a in arguments) {
+        out += arguments[a] + '/';
+    };
+    alert(out);
+}
+
+outAlertAll(...Array.from(tt1));
+// alert(JSON.stringify(tt1) + JSON.stringify(tt2) + tt1['y'] + tt2.y);
