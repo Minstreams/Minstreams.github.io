@@ -240,7 +240,8 @@ function AddBufferSectionTopDiv(mpData, bs, preElement) {
             new BufferDataF2("Name", "Des"),
             new BufferDataF3("Name", "Des"),
             new BufferDataF4("Name", "Des"),
-            new BufferDataTexture("Name", "Des")
+            new BufferDataTexture("Name", "Des"),
+            new BufferDataMatrix("Name", "Des"),
         ]);
         mpData.bufferSections.splice(index + 1, 0, newBs);
         AddBufferSectionTopDiv(mpData, newBs, bcDiv);
@@ -427,20 +428,32 @@ function AddMainEntryCodeTab(mpData) {
 
 // 通过url参数载入对应数据，默认载入一个文件
 var mpDataFile = getQueryString("mpData") || "default";
-$.get("mpData/" + mpDataFile, function (data, status) {
-    MPOS.parse(mpData, data, "mpData");
+// try {
+//     $.get("mpData/" + mpDataFile, function (data, status) {
+//         MPOS.parse(mpData, data, "mpData");
+//         console.log(mpDataFile);
+//         console.log(data);
+
+//         AddMainEntryCodeTab(mpData);
+//         mpData.bufferSections.forEach(bs => AddBufferSectionTopDiv(mpData, bs));
+//         $("#topDiv").children(".bufferSection").first().click();
+//     });
+// }
+// catch (err) {
+    var daata = $("tempData").html();
+    MPOS.parse(mpData, daata, "mpData");
     console.log(mpDataFile);
-    console.log(data);
+    console.log(daata);
 
     AddMainEntryCodeTab(mpData);
     mpData.bufferSections.forEach(bs => AddBufferSectionTopDiv(mpData, bs));
     $("#topDiv").children(".bufferSection").first().click();
-});
+// }
 
 var tt1 = {
     a: 1,
     b: 2,
-    length:5
+    length: 5
 }
 var tt2 = ['t1', 't2', 't3', 't4', 't5'];
 tt1 = { ...tt1, ...tt2 };

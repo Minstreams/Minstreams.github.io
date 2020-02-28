@@ -23,6 +23,7 @@ class BufferDataF1 extends BufferDataPrototype {
     }
 
     get x() { return this._x; }
+    set x(val) { this._x; this.Boardcast("x"); }
 
     LoadUI(contentDiv) {
         super.LoadUI(contentDiv);
@@ -46,14 +47,14 @@ function vec2(x, y) {
             if (x.constructor.name === 'Number' && y.constructor.name === 'Number') return new Vector2(x, y);
             break;
     }
+
     throw new Error("vec2()接收了不支持的参数类型!");
 }
 /**代码编辑器操作的实际数据类型 */
 class Vector2 {
     constructor(x, y, callback) {
-        this.length = 2;
-        this[0] = x || 0;
-        this[1] = y || 0;
+        this._x = x || 0;
+        this._y = y || 0;
         this._callback = callback || nullFunc;
     }
     // 运算符重载
@@ -71,17 +72,22 @@ class Vector2 {
     static __Vec2MulVec2(l, r) { return vec2(l.x * r.x, l.y * r.y); }
     static __Vec2DivVec2(l, r) { return vec2(l.x / r.x, l.y / r.y); }
 
-    get x() { return this[0]; }
-    get r() { return this[0]; }
-    get y() { return this[1]; }
-    get g() { return this[1]; }
-    set x(val) { this[0] = val; this._callback('avater0'); }
-    set r(val) { this[0] = val; this._callback('avater0'); }
-    set y(val) { this[1] = val; this._callback('avater1'); }
-    set g(val) { this[1] = val; this._callback('avater1'); }
-    get self() { return vec2(this[0], this[1]); }
-    get xy() { return vec2(this[0], this[1]); }
-    get rg() { return vec2(this[0], this[1]); }
+
+    // 访问器
+    get length() { return 2; }
+    get x() { return this._x; }
+    get r() { return this._x; }
+    get 0() { return this._x; }
+    get y() { return this._y; }
+    get g() { return this._y; }
+    get 1() { return this._y; }
+    set x(val) { this._x = val; this._callback('x'); }
+    set r(val) { this._x = val; this._callback('x'); }
+    set y(val) { this._y = val; this._callback('y'); }
+    set g(val) { this._y = val; this._callback('y'); }
+    get self() { return vec2(this._x, this._y); }
+    get xy() { return vec2(this._x, this._y); }
+    get rg() { return vec2(this._x, this._y); }
     set self(val) {
         switch (val.constructor.name) {
             case 'Number':
@@ -120,8 +126,8 @@ class BufferDataF2 extends BufferDataPrototype {
 
     LoadUI(contentDiv) {
         super.LoadUI(contentDiv);
-        contentDiv.append($("<div></div>").BindProperty(this, 'avater0', "avaterNumber"));
-        contentDiv.append($("<div></div>").BindProperty(this, 'avater1', "avaterNumber"));
+        contentDiv.append($("<div></div>").BindProperty(this, "x", "avaterNumber"));
+        contentDiv.append($("<div></div>").BindProperty(this, "y", "avaterNumber"));
     }
 }
 //#endregion
@@ -155,9 +161,9 @@ function vec3(x, y, z) {
 }
 class Vector3 {
     constructor(x, y, z, callback) {
-        this[0] = x;
-        this[1] = y;
-        this[2] = z;
+        this._x = x;
+        this._y = y;
+        this._z = z;
         this._callback = callback || nullFunc;
     }
 
@@ -177,24 +183,28 @@ class Vector3 {
     static __Vec3DivVec3(l, r) { return vec3(l.x / r.x, l.y / r.y, l.z / r.z); }
 
     // 访问器
-    get x() { return this[0]; }
-    get r() { return this[0]; }
-    get y() { return this[1]; }
-    get g() { return this[1]; }
-    get z() { return this[2]; }
-    get b() { return this[2]; }
-    set x(val) { this[0] = val; this._callback('avater0'); }
-    set r(val) { this[0] = val; this._callback('avater0'); }
-    set y(val) { this[1] = val; this._callback('avater1'); }
-    set g(val) { this[1] = val; this._callback('avater1'); }
-    set z(val) { this[2] = val; this._callback('avater2'); }
-    set b(val) { this[2] = val; this._callback('avater2'); }
-    get xy() { return vec2(this[0], this[1]); }
-    get rg() { return vec2(this[0], this[1]); }
-    get xz() { return vec2(this[0], this[2]); }
-    get rb() { return vec2(this[0], this[2]); }
-    get yz() { return vec2(this[1], this[2]); }
-    get gb() { return vec2(this[1], this[2]); }
+    get length() { return 3; }
+    get x() { return this._x; }
+    get r() { return this._x; }
+    get 0() { return this._x; }
+    get y() { return this._y; }
+    get g() { return this._y; }
+    get 1() { return this._y; }
+    get z() { return this._z; }
+    get b() { return this._z; }
+    get 2() { return this._z; }
+    set x(val) { this._x = val; this._callback('x'); }
+    set r(val) { this._x = val; this._callback('x'); }
+    set y(val) { this._y = val; this._callback('y'); }
+    set g(val) { this._y = val; this._callback('y'); }
+    set z(val) { this._z = val; this._callback('z'); }
+    set b(val) { this._z = val; this._callback('z'); }
+    get xy() { return vec2(this._x, this._y); }
+    get rg() { return vec2(this._x, this._y); }
+    get xz() { return vec2(this._x, this._z); }
+    get rb() { return vec2(this._x, this._z); }
+    get yz() { return vec2(this._y, this._z); }
+    get gb() { return vec2(this._y, this._z); }
     set xy(val) {
         switch (val.constructor.name) {
             case 'Number':
@@ -240,9 +250,9 @@ class Vector3 {
         }
     }
     set gb(val) { this.yz = val; }
-    get self() { return vec3(this[0], this[1], this[2]); }
-    get xyz() { return vec3(this[0], this[1], this[2]); }
-    get rgb() { return vec3(this[0], this[1], this[2]); }
+    get self() { return vec3(this._x, this._y, this._z); }
+    get xyz() { return vec3(this._x, this._y, this._z); }
+    get rgb() { return vec3(this._x, this._y, this._z); }
     set self(val) {
         switch (val.constructor.name) {
             case 'Number':
@@ -321,9 +331,9 @@ class BufferDataF3 extends BufferDataPrototype {
 
     LoadUI(contentDiv) {
         super.LoadUI(contentDiv);
-        contentDiv.append($("<div></div>").BindProperty(this, 'avater0', "avaterNumber"));
-        contentDiv.append($("<div></div>").BindProperty(this, 'avater1', "avaterNumber"));
-        contentDiv.append($("<div></div>").BindProperty(this, 'avater2', "avaterNumber"));
+        contentDiv.append($("<div></div>").BindProperty(this, "x", "avaterNumber"));
+        contentDiv.append($("<div></div>").BindProperty(this, "y", "avaterNumber"));
+        contentDiv.append($("<div></div>").BindProperty(this, "z", "avaterNumber"));
     }
 }
 //#endregion
@@ -367,10 +377,10 @@ function vec4(x, y, z, w) {
 
 class Vector4 {
     constructor(x, y, z, w, callback) {
-        this[0] = x;
-        this[1] = y;
-        this[2] = z;
-        this[3] = w;
+        this._x = x;
+        this._y = y;
+        this._z = z;
+        this._w = w;
         this._callback = callback || nullFunc;
     }
 
@@ -390,34 +400,39 @@ class Vector4 {
     static __Vec4DivVec4(l, r) { return vec4(l.x / r.x, l.y / r.y, l.z / r.z, l.w / r.w); }
 
     // 访问器
-    get x() { return this[0]; }
-    get r() { return this[0]; }
-    get y() { return this[1]; }
-    get g() { return this[1]; }
-    get z() { return this[2]; }
-    get b() { return this[2]; }
-    get w() { return this[3]; }
-    get a() { return this[3]; }
-    set x(val) { this[0] = val; this._callback('avater0'); }
-    set r(val) { this[0] = val; this._callback('avater0'); }
-    set y(val) { this[1] = val; this._callback('avater1'); }
-    set g(val) { this[1] = val; this._callback('avater1'); }
-    set z(val) { this[2] = val; this._callback('avater2'); }
-    set b(val) { this[2] = val; this._callback('avater2'); }
-    set w(val) { this[3] = val; this._callback('avater3'); }
-    set a(val) { this[3] = val; this._callback('avater3'); }
-    get xy() { return vec2(this[0], this[1]); }
-    get rg() { return vec2(this[0], this[1]); }
-    get xz() { return vec2(this[0], this[2]); }
-    get rb() { return vec2(this[0], this[2]); }
-    get yz() { return vec2(this[1], this[2]); }
-    get gb() { return vec2(this[1], this[2]); }
-    get xw() { return vec2(this[0], this[3]); }
-    get ra() { return vec2(this[0], this[3]); }
-    get yw() { return vec2(this[1], this[3]); }
-    get ga() { return vec2(this[1], this[3]); }
-    get zw() { return vec2(this[2], this[3]); }
-    get ba() { return vec2(this[2], this[3]); }
+    get length() { return 4; }
+    get x() { return this._x; }
+    get r() { return this._x; }
+    get 0() { return this._x; }
+    get y() { return this._y; }
+    get g() { return this._y; }
+    get 1() { return this._y; }
+    get z() { return this._z; }
+    get b() { return this._z; }
+    get 2() { return this._z; }
+    get w() { return this._w; }
+    get a() { return this._w; }
+    get 3() { return this._w; }
+    set x(val) { this._x = val; this._callback('x'); }
+    set r(val) { this._x = val; this._callback('x'); }
+    set y(val) { this._y = val; this._callback('y'); }
+    set g(val) { this._y = val; this._callback('y'); }
+    set z(val) { this._z = val; this._callback('z'); }
+    set b(val) { this._z = val; this._callback('z'); }
+    set w(val) { this._w = val; this._callback('w'); }
+    set a(val) { this._w = val; this._callback('w'); }
+    get xy() { return vec2(this._x, this._y); }
+    get rg() { return vec2(this._x, this._y); }
+    get xz() { return vec2(this._x, this._z); }
+    get rb() { return vec2(this._x, this._z); }
+    get yz() { return vec2(this._y, this._z); }
+    get gb() { return vec2(this._y, this._z); }
+    get xw() { return vec2(this._x, this._w); }
+    get ra() { return vec2(this._x, this._w); }
+    get yw() { return vec2(this._y, this._w); }
+    get ga() { return vec2(this._y, this._w); }
+    get zw() { return vec2(this._z, this._w); }
+    get ba() { return vec2(this._z, this._w); }
     set xy(val) {
         switch (val.constructor.name) {
             case 'Number':
@@ -508,8 +523,8 @@ class Vector4 {
         }
     }
     set ba(val) { this.zw = val; }
-    get xyz() { return vec3(this[0], this[1], this[2]); }
-    get rgb() { return vec3(this[0], this[1], this[2]); }
+    get xyz() { return vec3(this._x, this._y, this._z); }
+    get rgb() { return vec3(this._x, this._y, this._z); }
     set xyz(val) {
         switch (val.constructor.name) {
             case 'Number':
@@ -527,9 +542,9 @@ class Vector4 {
         }
     }
     set rgb(val) { this.self = val; }
-    get self() { return vec4(this[0], this[1], this[2], this[3]); }
-    get xyzw() { return vec4(this[0], this[1], this[2], this[3]); }
-    get rgba() { return vec4(this[0], this[1], this[2], this[3]); }
+    get self() { return vec4(this._x, this._y, this._z, this._w); }
+    get xyzw() { return vec4(this._x, this._y, this._z, this._w); }
+    get rgba() { return vec4(this._x, this._y, this._z, this._w); }
     set self(val) {
         switch (val.constructor.name) {
             case 'Vector4':
@@ -571,10 +586,10 @@ class BufferDataF4 extends BufferDataPrototype {
 
     LoadUI(contentDiv) {
         super.LoadUI(contentDiv);
-        contentDiv.append($("<div></div>").BindProperty(this, 'avater0', "avaterNumber"));
-        contentDiv.append($("<div></div>").BindProperty(this, 'avater1', "avaterNumber"));
-        contentDiv.append($("<div></div>").BindProperty(this, 'avater2', "avaterNumber"));
-        contentDiv.append($("<div></div>").BindProperty(this, 'avater3', "avaterNumber"));
+        contentDiv.append($("<div></div>").BindProperty(this, "x", "avaterNumber"));
+        contentDiv.append($("<div></div>").BindProperty(this, "y", "avaterNumber"));
+        contentDiv.append($("<div></div>").BindProperty(this, "z", "avaterNumber"));
+        contentDiv.append($("<div></div>").BindProperty(this, "w", "avaterNumber"));
     }
 }
 //#endregion
@@ -694,15 +709,6 @@ var Quaternion = {
             u.z * sinA,
             Math.cos(angle)
         );
-    },
-    LookAtRotation(forward, up) {
-        up = up || vec3(0, 1, 0);
-        forward = Vector3.Normalize(forward);
-        up = Vector3.Normalize(up);
-        let right = Vector3.Cross(forward, up);
-        up = Vector3.Cross(right, forward);
-        let m = Matrix.VectorAsRow(right, up, -forward);
-        return Matrix.GetRotation(m);
     },
     /**输入为两个方向 */
     FromToRotation(from, to) {

@@ -15,7 +15,7 @@ var respondFunctions = {
     },
     /**嵌套数据保留小数点4位 */
     avaterFixed4: function (target, propertyName) {
-        this.text(target.avater[propertyName.replace('avater', '')].toFixed(4));
+        this.text(target.avater["_" + propertyName].toFixed(4));
     },
 };
 
@@ -36,7 +36,7 @@ var updateFunctions = {
     /**限定为嵌套数据数字 */
     avaterNumber: function (target, propertyName) {
         if (!this.text()) return;
-        target.avater[propertyName.replace('avater', '')] = new Number(this.text().replace(/[^0-9.-]/g, ""));
+        target.avater["_" + propertyName] = new Number(this.text().replace(/[^0-9.-]/g, ""));
     },
     /**不更新数据 */
     diabled: function (target, propertyName) { },
@@ -315,7 +315,8 @@ class MPData extends MPPrototype {
             let cs = this.bufferSections[si]._codeSection;
             for (let ci = 0; ci < cs._codeNodes.length; ci++) {
                 let cn = cs._codeNodes[ci];
-                let cc = "function " + cn._name + "(){\n" + $('<div>').html(cn._codeText).text() + "\n}";
+                let innerCc = $('<div>').html(cn._codeText).text();
+                let cc = "function " + cn._name + "(){\n" + __preCal(innerCc) + "\n}\n";
                 let dn = this.bufferSections[si]._dataNodes;
                 for (let di = 0; di < dn.length; di++) {
                     let avater = mpDataName + ".bufferSections[" + si + "]._dataNodes[" + di + "].avater.";
@@ -507,7 +508,7 @@ class BufferDataTexture extends BufferDataPrototype {
                                 for (let i = 0; i < d._texData.length; i += 4) {
                                     d._texData[i] = c;
                                     d._texData[i + 1] = c;
-                                    d._texData[i + 2] = C;
+                                    d._texData[i + 2] = c;
                                     d._texData[i + 3] = 255;
                                 }
                                 return;
