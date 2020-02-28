@@ -467,3 +467,4 @@ function outAlertAll() {
 
 outAlertAll(...Array.from(tt1));
 // alert(JSON.stringify(tt1) + JSON.stringify(tt2) + tt1['y'] + tt2.y);
+

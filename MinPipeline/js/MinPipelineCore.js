@@ -319,6 +319,7 @@ class MPData extends MPPrototype {
                 let cc = "function " + cn._name + "(){\n" + __preCal(innerCc) + "\n}\n";
                 let dn = this.bufferSections[si]._dataNodes;
                 for (let di = 0; di < dn.length; di++) {
+                    if (cn._name == dn[di]._name) continue;
                     let avater = mpDataName + ".bufferSections[" + si + "]._dataNodes[" + di + "].avater.";
                     cc = cc.replace(new RegExp('([^\\._#@\\$])\\b' + dn[di]._name + '\\.', "g"), "$1" + avater);
                     cc = cc.replace(new RegExp('([^\\._#@\\$])\\b' + dn[di]._name + '\\b', "g"), "$1" + avater + "self");
@@ -326,6 +327,7 @@ class MPData extends MPPrototype {
                 if (si + 1 < this.bufferSections.length) {
                     let dnf = this.bufferSections[si + 1]._dataNodes;
                     for (let di = 0; di < dnf.length; di++) {
+                        if (cn._name == dnf[di]._name) continue;
                         let avater = mpDataName + ".bufferSections[" + (si + 1) + "]._dataNodes[" + di + "].avater.";
                         cc = cc
                             .replace(new RegExp('([^\\._#@\\$])\\b' + dnf[di]._name + '\\.', "g"), "$1" + avater)

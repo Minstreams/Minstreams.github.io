@@ -257,7 +257,7 @@ function __preCal(code) {
     code = code.replace(forTester, function (subs) {
         let subEx = subs.substring(4, subs.length - 1).split('⑩');// 用分号分割
         let out = __preCal_Expression(subEx[0]);
-        for (let i = 1; i < subEx; ++i)out += ';' + __preCal_Expression(subEx[i]);
+        for (let i = 1; i < subEx.length; ++i)out += ';' + __preCal_Expression(subEx[i]);
         return 'for(' + out + ')\t';
     });
     // 再处理if语句
@@ -323,6 +323,10 @@ function __preCal_Expression(code) {
 var opTester = /[①②③④]/;
 /**无括号，无等于号 */
 function __preCal_SimpleExpression(code) {
+    // 替换自增、自减符号
+    code = code.replace(/①①/g,'++');
+    code = code.replace(/②②/g,'--');
+
     // 最简表达式直接返回
     if (!opTester.test(code)) return code;
 
