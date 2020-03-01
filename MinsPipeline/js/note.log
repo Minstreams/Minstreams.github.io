@@ -1,0 +1,19 @@
+基础库：
+jquery.js
+myLibrary.js
+
+这些js的引用结构应该是这样：
+mpCore.js           //核心数据结构
+mpRuntimeLibrary.js //运行时库
+-   mpDataNodes.js      //数据项定义
+    -   mpWidgets.js        //控件功能
+    -   mpSerialization.js  //数据序列化功能
+    -   mpCompilation.js    //代码编译运行功能
+        -   mpModule.js         //整合所有模块
+
+以上，缩进代表依赖引用结构，缩进相同的项平行，子项依赖父项
+
+对于文章页面需要再引用 mpWidgetLoader.js 来加载控件；
+对于编辑器页面需要引用 mpEditorLoader.js 来加载页面。
+
+最后在html的body标签须将onload事件注册到相应入口函数

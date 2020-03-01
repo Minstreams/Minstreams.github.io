@@ -1,19 +1,34 @@
-/**总数据 */
-var mpData = new MPData("test", "test");
+/**mp管线编辑器加载器
+ * 用于加载管线编辑器页面
+ * 依赖：
+ * ·    mp套件
+ * ·    jquery-ui.js
+ */
 
+/**存放当前mpData */
+var _mpData;
 
+/**onLoad时调用，加载编辑器界面 */
+function _mpLoadEditor() {
 
-/**函数入口 */
-$(document).ready(function () {
-    //$("#topDiv").addClass("edit-disable");
+}
 
+/**添加一个管线节
+ * @param {_MPSection} section 管线节
+ */
+function _addSection(section){
+    
+}
 
-});
+/**选择缓存节
+ * @this {HTMLDivElement} 指向缓存节Div
+ */
+function _selectBufferSection(){
+    $(this).addClass("bsSelected").siblings(".bsSelected").removeClass('bsSelected');
+}
 
 /**在顶部为BufferSection建立一个交互区域
- * @method 方法名
- * @for 所属类名
- * @param {MPData} mpData 数据容器
+ * @param {_MPData} mpData 数据容器
  * @param {BufferSection} bs 缓存区
  * @param {JQuery<HTMLElement>} preElement 可选参数，若不存在代表直接添加到最后一项，若存在，则插入到对应部分并播放过渡效果
  */
@@ -28,7 +43,7 @@ function AddBufferSectionTopDiv(mpData, bs, preElement) {
         .click(function () {
             bs = bsDiv.data("bs");
             console.log("Click!");
-            console.log($(this.constructor.name));
+
             $(this).addClass("bsSelected").siblings(".bsSelected").removeClass('bsSelected');
             bs.LoadUI($("#bufferDiv").empty());
         });
@@ -258,213 +273,3 @@ function AddBufferSectionTopDiv(mpData, bs, preElement) {
     }
 }
 
-
-
-//#region Code标签相关
-var tabs = $("#codeContentDiv").tabs({
-    classes: {
-        "ui-tabs-nav": "ui-tabs-xExtended"
-    }
-});
-var targetScrollLeft = 0;   //辅助计算横向滚动位置
-var tabCounter = 0;     //辅助变量，防止标签id重复
-
-// Code标签排序功能
-tabs.find(".ui-tabs-nav").sortable({
-    axis: "x",
-    distance: 15,
-    stop: function (e, ui) {
-        tabs.tabs("refresh");
-        // 排序后自动选择最新标签
-        tabs.tabs("option", "active", ui.item.index());
-    },
-    items: "li:not(.mainCodeLi)",    // 主代码项固定
-});
-// Code标签横向滚动
-$("#codeContentDiv>.ui-tabs-nav").mousewheel(function (event) {
-    /**左右滚动系数 */
-    const myDeltaFactor = 0.25;
-    targetScrollLeft -= event.deltaFactor * event.deltaY * myDeltaFactor;
-    let max = $(this)[0].scrollWidth - $(this)[0].clientWidth;
-    targetScrollLeft = targetScrollLeft < 0 ? 0 : targetScrollLeft > max ? max : targetScrollLeft;
-
-    $(this).stop().animate({ scrollLeft: targetScrollLeft }, "fast", "easeOutCubic");
-});
-
-
-
-/**新增一个Code标签
- * @param {CodeDataPrototype} codeDataObject 对应的code数据项
- */
-function AddCodeTab(codeDataObject) {
-    // 检查标签是否重复
-    if (!$("#codeContentDiv>ul>li").every(function (index) { if ($(this).data("codeDataObject") === codeDataObject) { tabs.tabs("option", "active", index); return false; } else return true; })) return;
-
-    let newTabId = codeDataObject.name + tabCounter++;
-
-    // 标签页
-    let tabLi = $("<li></li>").append(
-        $("<a href='#code" + newTabId + "'></a>").append(
-            // Tab标题
-            $("<tabTitle></tabTitle>").BindProperty(codeDataObject, "name", "display"),
-            // Tab描述
-            $("<tabDescription></tabDescription>").BindProperty(codeDataObject, "description", "display")
-        ))
-        .appendTo("#codeContentDiv>ul").data("codeDataObject", codeDataObject);
-    // 标签内容
-    let codeTextDiv = $("<div id='code" + newTabId + "'></div>").addClass("codeTextDiv cm-s-codewarm").appendTo("#codeContentDiv");
-
-    //**以下是对代码块的配置
-    codeTextDiv.append(
-        $("<span>// </span>").addClass("cm-comment"),
-        $("<span></span>").addClass("cm-comment").BindProperty(codeDataObject, "description"),
-        $("<br />").addClass("cm-comment"),
-        $("<span>function </span>").addClass("cm-keyword"),
-        $("<span></span>").addClass("cm-def").BindProperty(codeDataObject, "name", "name"),
-        $("<span>(…){</span>").addClass("cm-operator")
-    );
-
-    //var codeTextArea = $("<div contenteditable='plaintext-only' spellcheck = 'false'></div>").BindProperty(codeDataObject, "codeText", "code").appendTo(codeTextDiv);
-    let codeTextArea = $("<div></div>").BindProperty(codeDataObject, "codeText", "code").appendTo(codeTextDiv);
-
-    codeTextDiv.append(
-        $("<span>}</span>").addClass("cm-operator")
-    );
-
-    // 标签关闭按钮
-    tabLi.append($("<div></div>").addClass("ui-tabs-close").click(function () {
-        // 点击时删除此标签
-        tabLi.remove();
-        codeTextDiv.remove();
-
-        tabs.tabs("refresh");
-    }));
-
-    // 刷新并选中新项
-    tabs.tabs("refresh");
-    tabs.tabs("option", "active", tabLi.index());
-
-    return tabLi;
-}
-
-
-//#endregion
-
-
-
-try {
-    //运行代码
-    function Run() {
-        //停止之前的代码
-        __StopFrame();
-        //Save All 保存所有代码
-        $(".codeText").UpdateProperty();
-
-        //在控制台输出“Run！”并将整个代码块放入try中
-        var script = "try{console.log('Run!');\n";
-        //载入并整合代码
-        script += mpData.codeToJs("mpData");
-        //捕获异常，并输出到errorLog中
-        script += "respondElements = respondElements.add('canvas');RespondEverything();\n}\ncatch(err){\n\t$('#errorLog').text('【ERROR】'+err.message+JSON.stringify(err.stack));\n}"
-        //重置errorLog
-        $('#errorLog').text("");
-
-        //在下一帧开始运行
-        requestAnimationFrame(function () {
-            _stopMark = false;
-            $("pipeline").empty().append($("<script>< /script>").html(script));
-        });
-
-    }
-}
-catch (err) {
-    __StopFrame();
-    $('#errorLog').text('【ERROR】' + err.message);
-}
-
-
-
-$("#rB").click(Run);
-$("#dB").click(function () {
-    $(".codeText").UpdateProperty();
-    jstring = MPOS.stringify(mpData);
-
-    console.log(jstring);
-});
-$("#cB").click(function () {
-    location.reload(true);
-});
-
-
-//添加主函数标签
-function AddMainEntryCodeTab(mpData) {
-    let codeDataObject = mpData.mainCodeData;
-    // 标签页
-    let tabLi = $("<li></li>").addClass("mainCodeLi").append(
-        $("<a href='#mainCode'></a>").append(
-            // Tab标题
-            $("<tabTitle></tabTitle>").BindProperty(codeDataObject, "name", "display"),
-            // Tab描述
-            $("<tabDescription></tabDescription>").BindProperty(codeDataObject, "description", "display")
-        ))
-        .appendTo("#codeContentDiv>ul").data("codeDataObject", codeDataObject);
-    // 标签内容
-    let codeTextDiv = $("<div id='mainCode'></div>").addClass("codeTextDiv cm-s-codewarm").appendTo("#codeContentDiv");
-    //**以下是对代码块的配置
-    codeTextDiv.append(
-        $("<span>// </span>").addClass("cm-comment"),
-        $("<span></span>").addClass("cm-comment").BindProperty(codeDataObject, "description", "display"),
-        $("<br />").addClass("cm-comment"),
-        $("<span>function </span>").addClass("cm-keyword"),
-        $("<span></span>").addClass("cm-def").BindProperty(codeDataObject, "name", "display"),
-        $("<span>(){</span>").addClass("cm-operator"),
-        $("<div></div>").BindProperty(codeDataObject, "codeText", "code"),
-        $("<span>}</span>").addClass("cm-operator")
-    );
-    // 刷新
-    tabs.tabs("refresh");
-    tabs.tabs("option", "active", 0);
-    return tabLi;
-};
-
-// 通过url参数载入对应数据，默认载入一个文件
-var mpDataFile = getQueryString("mpData") || "default";
-// try {
-//     $.get("mpData/" + mpDataFile, function (data, status) {
-//         MPOS.parse(mpData, data, "mpData");
-//         console.log(mpDataFile);
-//         console.log(data);
-
-//         AddMainEntryCodeTab(mpData);
-//         mpData.bufferSections.forEach(bs => AddBufferSectionTopDiv(mpData, bs));
-//         $("#topDiv").children(".bufferSection").first().click();
-//     });
-// }
-// catch (err) {
-var daata = $("tempData").html();
-MPOS.parse(mpData, daata, "mpData");
-console.log(mpDataFile);
-console.log(daata);
-
-AddMainEntryCodeTab(mpData);
-mpData.bufferSections.forEach(bs => AddBufferSectionTopDiv(mpData, bs));
-$("#topDiv").children(".bufferSection").first().click();
-// }
-
-var tt1 = {
-    a: 1,
-    b: 2,
-    length: 5
-}
-var tt2 = ['t1', 't2', 't3', 't4', 't5'];
-tt1 = { ...tt1, ...tt2 };
-function outAlertAll() {
-    let out = '';
-    for (a in arguments) {
-        out += arguments[a] + '/';
-    };
-    alert(out);
-}
-
-outAlertAll(...Array.from(tt1));
-// alert(JSON.stringify(tt1) + JSON.stringify(tt2) + tt1['y'] + tt2.y);
