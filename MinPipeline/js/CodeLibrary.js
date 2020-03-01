@@ -7,10 +7,13 @@ var _stopMark = false;
 function __StopFrame() {
     _stopMark = true;
 }
+
+
 function nextFrame(fName) {
-    $('canvas').RespondProperty();
+    respondElements = respondElements.add('canvas');
     if (_stopMark) {
         return;
     }
+    requestAnimationFrame(RespondEverything);
     requestAnimationFrame(fName);
 }

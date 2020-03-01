@@ -365,7 +365,7 @@ try {
         //载入并整合代码
         script += mpData.codeToJs("mpData");
         //捕获异常，并输出到errorLog中
-        script += "$('canvas').RespondProperty();\n}\ncatch(err){\n\t$('#errorLog').text('【ERROR】'+err.message+JSON.stringify(err.stack));\n}"
+        script += "respondElements = respondElements.add('canvas');RespondEverything();\n}\ncatch(err){\n\t$('#errorLog').text('【ERROR】'+err.message+JSON.stringify(err.stack));\n}"
         //重置errorLog
         $('#errorLog').text("");
 
@@ -378,6 +378,7 @@ try {
     }
 }
 catch (err) {
+    __StopFrame();
     $('#errorLog').text('【ERROR】' + err.message);
 }
 
@@ -440,14 +441,14 @@ var mpDataFile = getQueryString("mpData") || "default";
 //     });
 // }
 // catch (err) {
-    var daata = $("tempData").html();
-    MPOS.parse(mpData, daata, "mpData");
-    console.log(mpDataFile);
-    console.log(daata);
+var daata = $("tempData").html();
+MPOS.parse(mpData, daata, "mpData");
+console.log(mpDataFile);
+console.log(daata);
 
-    AddMainEntryCodeTab(mpData);
-    mpData.bufferSections.forEach(bs => AddBufferSectionTopDiv(mpData, bs));
-    $("#topDiv").children(".bufferSection").first().click();
+AddMainEntryCodeTab(mpData);
+mpData.bufferSections.forEach(bs => AddBufferSectionTopDiv(mpData, bs));
+$("#topDiv").children(".bufferSection").first().click();
 // }
 
 var tt1 = {
@@ -467,4 +468,3 @@ function outAlertAll() {
 
 outAlertAll(...Array.from(tt1));
 // alert(JSON.stringify(tt1) + JSON.stringify(tt2) + tt1['y'] + tt2.y);
-

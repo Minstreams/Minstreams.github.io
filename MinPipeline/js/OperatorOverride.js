@@ -2,12 +2,12 @@
  * 因为运算符重载的方法会在这里注册，所以这个文件要在数据类型库之后引用
  */
 
-// 按运算优先级排序的所有运算符
+// 按运算优先级倒序排序的所有运算符
 var __operators = {
-    '③': 2,
-    '④': 2,
     '①': 1,
     '②': 1,
+    '③': 2,
+    '④': 2,
 };
 
 // 所有的运算符重载方法在此注册
@@ -230,6 +230,7 @@ function __ssspreCal(code) {
 }
 
 var __minCurveTester = /(?<!for|if|while|switch)⑥[^⑥⑦]*⑦/g;
+var __midCurveTester = /⑧[^⑧⑨]*⑨/g;
 var forTester = /for⑥[^⑥⑦]*⑦/g;
 var ifTester = /if⑥[^⑥⑦]*⑦/g;
 var whileTester = /while⑥[^⑥⑦]*⑦/g;
@@ -248,10 +249,15 @@ function __preCal(code) {
 
     // 开始处理
     let t = code;
-    // 先反复去掉括号
+    // 先反复去掉小括号
     do {
         code = t;
         t = code.replace(__minCurveTester, function (subs) { return '(' + __preCal_Parameters(subs.substring(1, subs.length - 1)) + ')'; });
+    } while (t != code);
+    // 反复去掉中括号
+    do {
+        code = t;
+        t = code.replace(__midCurveTester, function (subs) { return '[' + __preCal_Expression(subs.substring(1, subs.length - 1)) + ']'; });
     } while (t != code);
     // 再处理for循环
     code = code.replace(forTester, function (subs) {
@@ -270,6 +276,7 @@ function __preCal(code) {
     // 用分号和\t分割语句
     code = code.replace(/[^⑩\t\{\}]+/g, __preCal_Expression);
 
+    // 恢复分号
     code = code.replace(/⑩/g, ';\n');
 
     return code;
@@ -306,7 +313,7 @@ function __preCal_Expression(code) {
         $1 = RegExp.$1;
         $2 = RegExp.$2;
         $3 = RegExp.$3;
-        return $1 + '=__Get(' + __preCal_Expression($3) + ')';
+        return $1 + (numberTest.test($3) ? '=' + __preCal_Expression($3) : '=__Get(' + __preCal_Expression($3) + ')');
     }
     // 转换判断等号
     if (equalReg.test(code)) {
@@ -321,17 +328,19 @@ function __preCal_Expression(code) {
 
 /**加减乘除的Reg */
 var opTester = /[①②③④]/;
+var numberTest = /^[^a-zA-Z]*$/;
 /**无括号，无等于号 */
 function __preCal_SimpleExpression(code) {
     // 替换自增、自减符号
-    code = code.replace(/①①/g,'++');
-    code = code.replace(/②②/g,'--');
+    code = code.replace(/①①/g, '++');
+    code = code.replace(/②②/g, '--');
 
     // 最简表达式直接返回
     if (!opTester.test(code)) return code;
 
-    let os = [];    // 运算符栈
+    let ops = [];    // 运算符优先级栈
     let es = [''];    // 表达式栈
+    let os = [''];    // 运算符栈
     let ets = [''];   // 表达式后缀栈
     let ps = 0;     // 栈顶指针
 
@@ -344,20 +353,23 @@ function __preCal_SimpleExpression(code) {
 
             // 运算符栈操作
             let op = __operators[o];    // 操作符优先级 operator piority
-            if (ps > 0 && op <= os[ps - 1]) {
+            if (ps > 0 && op <= ops[ps - 1]) {
                 // 运算符优先级低，合并先前运算的表达式
-                es[ps - 1] += es[ps] + ets[ps - 1];
+                if (numberTest.test(es[ps - 1] + es[ps])) { es[ps - 1] += operatorReplacerInversed[os[ps - 1]] + es[ps]; }
+                else if (es[ps - 1] === '') es[ps - 1] = '__Cal(\'\',\'' + operatorReplacerInversed[os[ps - 1]] + '\',' + es[ps] + ')';
+                else es[ps - 1] = '__Cal(' + es[ps - 1] + ',\'' + operatorReplacerInversed[os[ps - 1]] + '\',' + es[ps] + ')';
+                //es[ps - 1] += es[ps] + ets[ps - 1];
                 ps--;
             }
-            os[ps] = op;
-            if (es[ps] === '') {
-                // 如果是单目运算符，第一个参数设为''
-                es[ps] = '\'\'';
-            }
+            os[ps] = o;
+            ops[ps] = op;
+            // if (es[ps] === '') {
+            //     // 如果是单目运算符，第一个参数设为''
+            //     es[ps] = '\'\'';
+            // }
             // 常规运算符
-            es[ps] = '__Cal(' + es[ps] + ',\'' + operatorReplacerInversed[o] + '\',';
-
-            ets[ps] = ')';
+            //es[ps] = '__Cal(' + es[ps] + ',\'' + operatorReplacerInversed[o] + '\',';
+            //ets[ps] = ')';
             // 栈深度加一，并初始化新数据
             ps++;
             es[ps] = '';
@@ -372,7 +384,10 @@ function __preCal_SimpleExpression(code) {
 
     while (ps > 0) {
         ps--;
-        es[ps] += es[ps + 1] + ets[ps];
+        if (numberTest.test(es[ps] + es[ps + 1])) { es[ps] += operatorReplacerInversed[os[ps]] + es[ps + 1]; }
+        else if (es[ps] === '') es[ps] = '__Cal(\'\',\'' + operatorReplacerInversed[os[ps]] + '\',' + es[ps + 1] + ')';
+        else es[ps] = '__Cal(' + es[ps] + ',\'' + operatorReplacerInversed[os[ps]] + '\',' + es[ps + 1] + ')';
+        //es[ps] += es[ps + 1] + ets[ps];
     }
 
     return es[0];
@@ -408,6 +423,8 @@ function __Get(val) {
             return vec3(val);
         case 'Vector4':
             return vec4(val);
+        case 'Matrix':
+            return matrix(val);
         default:
             return val;
     }

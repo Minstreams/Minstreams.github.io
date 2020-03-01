@@ -56,10 +56,10 @@ class Matrix {
     }
     static __MatMulVec4(m, r) {
         return vec4(
-            m[0] * rhs.x + m[1] * rhs.y + m[2] * rhs.z + m[3] * rhs.w,
-            m[4] * rhs.x + m[5] * rhs.y + m[6] * rhs.z + m[7] * rhs.w,
-            m[8] * rhs.x + m[9] * rhs.y + m[10] * rhs.z + m[11] * rhs.w,
-            m[12] * rhs.x + m[13] * rhs.y + m[14] * rhs.z + m[15] * rhs.w
+            m[0] * r.x + m[1] * r.y + m[2] * r.z + m[3] * r.w,
+            m[4] * r.x + m[5] * r.y + m[6] * r.z + m[7] * r.w,
+            m[8] * r.x + m[9] * r.y + m[10] * r.z + m[11] * r.w,
+            m[12] * r.x + m[13] * r.y + m[14] * r.z + m[15] * r.w
         );
     }
 
@@ -140,14 +140,14 @@ class Matrix {
     }
 
     /**默认空矩阵 */
-    get Identity() {
+    static get Identity() {
         return new Matrix(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
     }
     /**应用Vector作为平移矩阵 */
     SetTransition(v3) {
-        this[12] = v3.x;
-        this[13] = v3.y;
-        this[14] = v3.z;
+        this[3] = v3.x;
+        this[7] = v3.y;
+        this[11] = v3.z;
     }
     /**应用四元数作为旋转矩阵 */
     SetRotation(v4) {
@@ -194,6 +194,81 @@ class Matrix {
             v1.y, v2.y, v3.y, v4.y,
             v1.z, v2.z, v3.z, v4.z,
             v1.w, v2.w, v3.w, v4.w
+        );
+    }
+    /**正交投影矩阵的复杂版
+     * @param {number} l x下界,left
+     * @param {number} r x上界,right
+     * @param {number} b y下界,bottom
+     * @param {number} t y上界,top
+     * @param {number} n 深度下界，正数,near
+     * @param {number} f 深度上界，正数，大于n,far
+     */
+    static OrthographicProjectionAdvanced(l, r, b, t, n, f) {
+        return matrix(
+            2 / (r - l), 0, 0, -(r + l) / (r - l),
+            0, 2 / (t - b), 0, -(t + b) / (t - b),
+            0, 0, 1 / (f - n), -n / (f - n),
+            0, 0, 0, 1
+        );
+    }
+    /**正交投影矩阵的简化版
+     * @param {number} w 视野宽度,width
+     * @param {number} h 视野高度,height
+     * @param {number} n 深度下界，正数,near
+     * @param {number} f 深度上界，正数，大于n,far
+     */
+    static OrthographicProjection(w, h, n, f) {
+        return matrix(
+            2 / w, 0, 0, 0,
+            0, 2 / h, 0, 0,
+            0, 0, 1 / (f - n), -n / (f - n),
+            0, 0, 0, 1
+        );
+    }
+    /**透视投影矩阵的复杂版
+         * @param {number} l x下界,left
+         * @param {number} r x上界,right
+         * @param {number} b y下界,bottom
+         * @param {number} t y上界,top
+         * @param {number} n 深度下界，正数,near
+         * @param {number} f 深度上界，正数，大于n,far
+         */
+    static PerspectiveProjectionAdvanced(l, r, b, t, n, f) {
+        return matrix(
+            2 * n / (r - l), 0, -(r + l) / (r - l), 0,
+            0, 2 * n / (t - b), -(t + b) / (t - b), 0,
+            0, 0, f / (f - n), -f * n / (f - n),
+            0, 0, 1, 0
+        );
+    }
+    /**透视投影矩阵的简化版
+     * @param {number} w 视野宽度,width
+     * @param {number} h 视野高度,height
+     * @param {number} n 深度下界，正数,near
+     * @param {number} f 深度上界，正数，大于n,far
+     */
+    static PerspectiveProjection(w, h, n, f) {
+        return matrix(
+            2 * n / w, 0, 0, 0,
+            0, 2 * n / h, 0, 0,
+            0, 0, f / (f - n), -f * n / (f - n),
+            0, 0, 1, 0
+        );
+    }
+    /**垂直可视范围角度a和横纵比ar构成的透视投影矩阵
+         * @param {number} a 垂直可视范围角度,angle
+         * @param {number} ar 横纵比,aspect ratio
+         * @param {number} n 深度下界，正数,near
+         * @param {number} f 深度上界，正数，大于n,far
+         */
+    static PerspectiveProjectionAspect(a, ar, n, f) {
+        let cota_2 = 1 / Math.tan(a / 2);
+        return matrix(
+            cota_2 / ar, 0, 0, 0,
+            0, cota_2, 0, 0,
+            0, 0, f / (f - n), -f * n / (f - n),
+            0, 0, 1, 0
         );
     }
 }

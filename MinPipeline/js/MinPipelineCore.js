@@ -1,21 +1,27 @@
 /**MinPipeline的基础结构 */
 
 
+/**所有getFunc的集合 */
+var getFunctions = {
+    simpleGet: function (target, propertyName) {
+        return target[propertyName];
+    },
+    avaterGet: function (target, propertyName) {
+        return target.avater["_" + propertyName];
+    },
+}
+
 /**所有respondFunc的集合
  * @respondFunc 是数据改变时元素的响应方法
  */
 var respondFunctions = {
     /**简单输出为text */
-    simpleText: function (target, propertyName) {
-        this.text(target[propertyName]);
+    simpleText: function (val) {
+        this.text(val);
     },
     /**保留小数点4位 */
-    fixed4: function (target, propertyName) {
-        this.text(target[propertyName].toFixed(4));
-    },
-    /**嵌套数据保留小数点4位 */
-    avaterFixed4: function (target, propertyName) {
-        this.text(target.avater["_" + propertyName].toFixed(4));
+    fixed4: function (val) {
+        this.text(val.toFixed(4));
     },
 };
 
@@ -95,6 +101,7 @@ var onBindFunctions = {
 var propertyBindTemplate = {
     /**描述性文字元素 */
     text: {
+        getFunc: getFunctions.simpleGet,
         respondFunc: respondFunctions.simpleText,
         updateFunc: updateFunctions.normalText,
         updateEvent: "blur remove",
@@ -102,6 +109,7 @@ var propertyBindTemplate = {
     },
     /**数字元素 */
     number: {
+        getFunc: getFunctions.simpleGet,
         respondFunc: respondFunctions.fixed4,
         updateFunc: updateFunctions.number,
         updateEvent: "blur remove",
@@ -109,37 +117,43 @@ var propertyBindTemplate = {
     },
     /**嵌套数字 */
     avaterNumber: {
-        respondFunc: respondFunctions.avaterFixed4,
+        getFunc: getFunctions.avaterGet,
+        respondFunc: respondFunctions.fixed4,
         updateFunc: updateFunctions.avaterNumber,
         updateEvent: "blur remove",
         onBind: onBindFunctions.dbClickToEdit,
     },
     /**只读数字 */
     displayNumber: {
+        getFunc: getFunctions.simpleGet,
         respondFunc: respondFunctions.fixed4,
         updateFunc: updateFunctions.diabled,
         onBind: onBindFunctions.disableSelection,
     },
     /**只读元素 */
     display: {
+        getFunc: getFunctions.simpleGet,
         respondFunc: respondFunctions.simpleText,
         updateFunc: updateFunctions.diabled,
         onBind: onBindFunctions.disableSelection,
     },
     /**嵌套数据只读数字 */
     avaterDisplayNumber: {
-        respondFunc: respondFunctions.avaterFixed4,
+        getFunc: getFunctions.avaterGet,
+        respondFunc: respondFunctions.fixed4,
         updateFunc: updateFunctions.diabled,
         onBind: onBindFunctions.disableSelection,
     },
     /**名称 */
     name: {
+        getFunc: getFunctions.simpleGet,
         respondFunc: respondFunctions.simpleText,
         updateFunc: updateFunctions.noSpace,
         updateEvent: "blur remove",
         onBind: onBindFunctions.dbClickToEditNoSpace,
     },
     code: {
+        getFunc: nullFunc,
         respondFunc: function (target, propertyName) {
             console.log("code doesn't need to respond!");
         },
@@ -160,7 +174,12 @@ var propertyBindTemplate = {
         }
     },
     texture: {
-        respondFunc: function (target, propertyName) {
+        getFunc: function (target, propertyName) {
+            return { target, propertyName };
+        },
+        respondFunc: function (val) {
+            let target = val.target,
+                propertyName = val.propertyName;
             if (!this.data("c2d")) this.data("c2d", this[0].getContext("2d"));
             let width = target["_width"];
             let height = target["_height"];
@@ -190,27 +209,37 @@ $.fn.extend({
      * @return {JQuery<HTMLElement>} 元素自身的引用
      */
     BindProperty: function (target, propertyName, template) {
-        var el = $(this);
+        var el = this;
         // 查重
         if (el.data("binded")) return el;
+        // 读取方法模板
+        template = template || "text";
+        let temp = propertyBindTemplate[template];
         // 查存在
         if (target["BoardcastArray" + propertyName] === undefined) {
-            target["BoardcastArray" + propertyName] = new Array();
+            target["BoardcastArray" + propertyName] = $();
+            target["BoardcastLastFrame" + propertyName] = -1;
+            target["BoardcastLastValue" + propertyName] = temp.getFunc(target, propertyName);
+            target["BoardcastChanged" + propertyName] = function () {
+                let t = temp.getFunc(target, propertyName);
+                if (target["BoardcastLastValue" + propertyName] !== t) {
+                    target["BoardcastLastValue" + propertyName] = t;
+                    return true;
+                }
+                return false;
+            };
+
         }
 
         // 动态记录
-        target["BoardcastArray" + propertyName].push(el);
-        el.on("remove", function () { target["BoardcastArray" + propertyName].remove(el); });
+        target["BoardcastArray" + propertyName] = target["BoardcastArray" + propertyName].add($(el));
+        el.on("remove", function () { target["BoardcastArray" + propertyName] = target["BoardcastArray" + propertyName].not(el); });
 
         // 记录属性
         el.addClass(propertyName);
 
-        // 读取方法模板
-        template = template || "text";
-        let temp = propertyBindTemplate[template];
-
         // 定义响应方法
-        el.data("respondFunc", function () { temp.respondFunc.call(el, target, propertyName); return el; })
+        el.data("respondFunc", function () { temp.respondFunc.call(el, temp.getFunc(target, propertyName)); return el; })
             // 定义更新方法
             .data("updateFunc", function () { temp.updateFunc.call(el, target, propertyName); target.Boardcast(propertyName); return el; })
             // 标记绑定状态
@@ -219,7 +248,7 @@ $.fn.extend({
             .data("respondFunc")();
 
         // 绑定更新事件
-        if (temp.updateEvent) el.on(temp.updateEvent, function () { el.data("updateFunc")(); })
+        if (temp.updateEvent) el.on(temp.updateEvent, function () { el.data("updateFunc")(); RespondEverything();})
 
         // 绑定响应
         if (temp.onBind) temp.onBind.call(el, target, propertyName);
@@ -242,6 +271,18 @@ $.fn.extend({
     },
 });
 
+var respondElements;
+respondElements = $();
+var _curFrame;
+_curFrame = 0;
+/**每帧调用一次，更新所有注册的元素显示数据 */
+function RespondEverything() {
+    _curFrame++;
+    respondElements.RespondProperty();
+    respondElements = $();
+}
+
+
 /**@name MP数据原型
  * @description 所有MP数据对象的父类，定义了公共描述模块
  */
@@ -250,8 +291,10 @@ class MPPrototype {
      * @param {string} propertyName 属性名字
      */
     Boardcast(propertyName) {
-        if (this["BoardcastArray" + propertyName] === undefined) return;
-        this["BoardcastArray" + propertyName].forEach((el) => { el.data("respondFunc")(); });
+        if (!this.display || this["BoardcastArray" + propertyName] === undefined || this["BoardcastLastFrame" + propertyName] == _curFrame || !this["BoardcastChanged" + propertyName]()) return;
+        this["BoardcastLastFrame" + propertyName] = _curFrame;
+        // this["BoardcastArray" + propertyName].forEach((el) => { el.data("respondFunc")(); });
+        respondElements = respondElements.add(this["BoardcastArray" + propertyName]);
     }
 
     /**名称
@@ -287,6 +330,7 @@ class MPPrototype {
          * @type {string}
          */
         this._description = description || "描述";
+        this.display = true;
     }
 }
 
@@ -470,11 +514,11 @@ class BufferDataTexture extends BufferDataPrototype {
         /**尺寸宽度
          * @type {number}
          */
-        this._width = width || 256;
+        this._width = width || this._width;
         /**尺寸高度
          * @type {number}
          */
-        this._height = height || 256;
+        this._height = height || this._height;
         /**贴图核心数据
          * @type {Uint8ClampedArray}
          */
@@ -497,7 +541,7 @@ class BufferDataTexture extends BufferDataPrototype {
      */
     constructor(name, description, width, height) {
         super(name, description);
-        this.Resize(width, height);
+        this.Resize(width || 256, height || 256);
         let d = this;
         this.avater = {
             color(x, y, val) {
