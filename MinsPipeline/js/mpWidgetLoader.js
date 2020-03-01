@@ -8,14 +8,12 @@
  *      ndoe: id|name               // 节点序号|名称
  * }
  */
-/**MP模块 */
-var _MP;
-
 /**存放所有的mpData */
-var mpData;
+var _mpData;
 
 async function _onload() {
-    _MP = await import('./mpModule');
+/**MP模块 */
+    var _MP = await import('./modules/mpModule');
 
     $("#mpWidget").text("这是一个mpWidget");
 }

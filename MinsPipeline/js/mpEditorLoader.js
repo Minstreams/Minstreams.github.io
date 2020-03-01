@@ -4,26 +4,31 @@
  * ·    mp套件
  * ·    jquery-ui.js
  */
-
 /**存放当前mpData */
 var _mpData;
 
-/**onLoad时调用，加载编辑器界面 */
-function _mpLoadEditor() {
+async function _onload() {
+    /**MP模块 */
+    var _MP = await import('./modules/mpModule');
+
+    let sections = [];
+    /**添加一个管线节
+     * @param {typeof _MP.MPSection.prototype} section 管线节
+     */
+    function addSection(section) {
+
+    }
 
 }
 
-/**添加一个管线节
- * @param {_MPSection} section 管线节
- */
-function _addSection(section){
-    
-}
+
+
+
 
 /**选择缓存节
  * @this {HTMLDivElement} 指向缓存节Div
  */
-function _selectBufferSection(){
+function _selectBufferSection() {
     $(this).addClass("bsSelected").siblings(".bsSelected").removeClass('bsSelected');
 }
 

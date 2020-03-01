@@ -4,11 +4,13 @@
  *      mpCore.js
  *      mpRuntimeLibrary.js
  */
+import { MPBufferDataPrototype } from "./mpCore";
+
 
  /**@name 一维浮点数据项
  * @description 一个一维浮点数
  */
-export class BufferDataF1 extends BufferDataPrototype {
+export class BufferDataF1 extends MPBufferDataPrototype {
     /**@param {string} name Buffer数据项名称
      * @param {string} description Buffer数据项描述
      * @param {number} x x

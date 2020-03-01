@@ -1,10 +1,10 @@
 基础库：
 jquery.js
-myLibrary.js
+myLibrary.js        //通用运行时库
+mpRuntimeLibrary.js //特定用于管线的运行时库 '不作为模块导入!'
 
 这些js的引用结构应该是这样：
 mpCore.js           //核心数据结构
-mpRuntimeLibrary.js //运行时库
 -   mpDataNodes.js      //数据项定义
     -   mpWidgets.js        //控件功能
     -   mpSerialization.js  //数据序列化功能

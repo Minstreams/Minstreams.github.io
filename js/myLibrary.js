@@ -70,8 +70,31 @@ $.fn.extend({
 
 /**双向链表 */
 class linkedArrayNode {
+    constructor(foreNode, nextNode) {
+        /**@type {linkedArrayNode} */
+        this.fore = foreNode || null;
+        /**@type {linkedArrayNode} */
+        this.next = nextNode || null;
+    }
+    /**@param {linkedArrayNode} node */
+    after(node) {
+        node.fore = this;
+        node.next = this.next;
+        if (node.next !== null) node.next.fore = node;
+        this.next = node;
+    }
+    remove(){
+        
+    }
     static newArray() {
         // globalThis.
+    }
+}
+
+class linkedArrayNode {
+    constructor(node) {
+        this.head = node;
+        this.tail = node;
     }
 }
 // _MPSection
