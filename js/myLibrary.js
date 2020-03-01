@@ -53,12 +53,11 @@ Array.prototype.remove = function (element) {
     return this.splice(this.indexOf(element), 1)[0];
 };
 
-
 /**JQuery扩展 */
 $.fn.extend({
     /**检查是否所有元素都符合条件
-    * @return {boolean} 结果
-    */
+     * @return {boolean} 结果
+     */
     every: function (checkFunc) {
         let result = true;
         this.each(function (index) {
@@ -83,8 +82,8 @@ class linkedArrayNode {
         if (node.next !== null) node.next.fore = node;
         this.next = node;
     }
-    remove(){
-        
+    remove() {
+
     }
     static newArray() {
         // globalThis.

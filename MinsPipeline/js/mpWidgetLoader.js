@@ -5,7 +5,7 @@
  *      id: mpWidget,
  *      widgetType: 'data'|'code',  // 数据项（默认）|代码项
  *      section: id|name,           // 节的序号|名称
- *      ndoe: id|name               // 节点序号|名称
+ *      node: id|name               // 节点序号|名称
  * }
  */
 /**存放所有的mpData */

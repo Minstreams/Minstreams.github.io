@@ -644,9 +644,9 @@ var Quaternion = {
         x = wrap180(x);
         y = wrap180(y);
         z = wrap180(z);
-        x /= PID;
-        y /= PID;
-        z /= PID;
+        x /= _PID;
+        y /= _PID;
+        z /= _PID;
         let
             sx = Math.sin(x),
             cx = Math.cos(x),
@@ -663,7 +663,7 @@ var Quaternion = {
             ));
     },
     EulerX(x) {
-        x /= PID;
+        x /= _PID;
         let
             sx = Math.sin(x),
             cx = Math.cos(x);
@@ -675,7 +675,7 @@ var Quaternion = {
         );
     },
     EulerY(y) {
-        y /= PID;
+        y /= _PID;
         let
             sy = Math.sin(y),
             cy = Math.cos(y);
@@ -687,7 +687,7 @@ var Quaternion = {
         );
     },
     EulerZ(z) {
-        z /= PID;
+        z /= _PID;
         let
             sz = Math.sin(z),
             cz = Math.cos(z);
@@ -701,7 +701,7 @@ var Quaternion = {
     //绕定轴旋转
     RotationAround(u, angle) {
         Vector3.Normalize(u);
-        angle /= PID;
+        angle /= _PID;
         let sinA = Math.sin(angle);
         return vec4(
             u.x * sinA,

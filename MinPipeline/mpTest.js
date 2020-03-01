@@ -298,7 +298,7 @@ $("#codeContentDiv>.ui-tabs-nav").mousewheel(function (event) {
  */
 function AddCodeTab(codeDataObject) {
     // 检查标签是否重复
-    if (!$("#codeContentDiv>ul>li").every(function (index) { if ($(this).data("codeDataObject") === codeDataObject) { tabs.tabs("option", "active", index); return false; } else return true; })) return;
+    if (!$("#codeContentDiv>ul>li").every(function (index) { if (this.data("codeDataObject") === codeDataObject) { tabs.tabs("option", "active", index); return false; } else return true; })) return;
 
     let newTabId = codeDataObject.name + tabCounter++;
 

@@ -1,4 +1,4 @@
-const PID = 360 / Math.PI;
+const _PID = 360 / Math.PI;
 
 function matrix() {
     switch (arguments.length) {
@@ -172,8 +172,7 @@ class Matrix {
         this._m[10] = 1 - 2 * (x2 + y2);
     }
     /**获取四元数 */
-    GetRotation() {
-        let m = this._m;
+    static GetRotation(m) {
         let w = 0.5 * Math.sqrt(1 + m[0] + m[5] + m[10]);
         let t = 1.0 / (4 * w);
         return Quaternion.Normalize(vec4(

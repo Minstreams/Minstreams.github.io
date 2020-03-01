@@ -16,7 +16,20 @@ async function _onload() {
      * @param {typeof _MP.MPSection.prototype} section 管线节
      */
     function addSection(section) {
-
+        // 缓存节按钮
+        let bsDiv = $("<div></div>")
+            .addClass("bufferSection")
+            .append($("<point></point>"))   // 中心的小点
+            .append($("<tooltip></tooltip>").BindProperty(bs, "name", "display"))
+            .appendTo("#topDiv")
+            .data("bs", bs)
+            .click(function () {
+                bs = bsDiv.data("bs");
+                console.log("Click!");
+                console.log($(this.constructor.name));
+                $(this).addClass("bsSelected").siblings(".bsSelected").removeClass('bsSelected');
+                bs.LoadUI($("#bufferDiv").empty());
+            });
     }
 
 }
