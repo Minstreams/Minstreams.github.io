@@ -16,7 +16,7 @@ var getFunctions = {
  */
 var respondFunctions = {
     /**简单输出为text */
-    simpleText: function (val) {
+    text: function (val) {
         this.text(val);
     },
     /**保留小数点4位 */
@@ -102,7 +102,7 @@ var propertyBindTemplate = {
     /**描述性文字元素 */
     text: {
         getFunc: getFunctions.simpleGet,
-        respondFunc: respondFunctions.simpleText,
+        respondFunc: respondFunctions.text,
         updateFunc: updateFunctions.normalText,
         updateEvent: "blur remove",
         onBind: onBindFunctions.dbClickToEdit,
@@ -133,7 +133,7 @@ var propertyBindTemplate = {
     /**只读元素 */
     display: {
         getFunc: getFunctions.simpleGet,
-        respondFunc: respondFunctions.simpleText,
+        respondFunc: respondFunctions.text,
         updateFunc: updateFunctions.diabled,
         onBind: onBindFunctions.disableSelection,
     },
@@ -147,7 +147,7 @@ var propertyBindTemplate = {
     /**名称 */
     name: {
         getFunc: getFunctions.simpleGet,
-        respondFunc: respondFunctions.simpleText,
+        respondFunc: respondFunctions.text,
         updateFunc: updateFunctions.noSpace,
         updateEvent: "blur remove",
         onBind: onBindFunctions.dbClickToEditNoSpace,
@@ -213,8 +213,7 @@ $.fn.extend({
         // 查重
         if (el.data("binded")) return el;
         // 读取方法模板
-        template = template || "text";
-        let temp = propertyBindTemplate[template];
+        let temp = propertyBindTemplate[template || "readonly"];
         // 查存在
         if (target["BoardcastArray" + propertyName] === undefined) {
             target["BoardcastArray" + propertyName] = $();
@@ -248,7 +247,7 @@ $.fn.extend({
             .data("respondFunc")();
 
         // 绑定更新事件
-        if (temp.updateEvent) el.on(temp.updateEvent, function () { el.data("updateFunc")(); RespondEverything();})
+        if (temp.updateEvent) el.on(temp.updateEvent, function () { el.data("updateFunc")(); RespondEverything(); })
 
         // 绑定响应
         if (temp.onBind) temp.onBind.call(el, target, propertyName);
