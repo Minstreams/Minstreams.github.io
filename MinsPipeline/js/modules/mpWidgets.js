@@ -1,4 +1,8 @@
 /**数据项交互控件
+ * 主要功能：
+ *      数据绑定
+ *      控件加载
+ *      权限控制
  * 依赖:
  *      mpRuntimeLibrary.js
  *      @module mpCore
@@ -196,6 +200,23 @@ export function UpdateAll() {
     $(':data(updateFunc)').UpdateProperty();
 }
 
+/**权限等级
+ * 数字越小权限越高
+ */
+var _authority = {
+    '': 0,
+    'fullControl': 0,
+    'editable': 1,
+    'readonly': 2,
+}
+function getAuth(auth) {
+    let a = _authority[auth] || 2;
+    return {
+        fullControl: a === 0,
+        editable: a <= 1,
+        readonly: a === 2
+    }
+}
 
 $.fn.extend({
     /**将UI元素绑定到一个数据属性上，并响应其广播
@@ -210,6 +231,7 @@ $.fn.extend({
         if (el.data('binded')) return el;
         // 读取方法模板
         let temp = propertyBindTemplate[template || 'readonly'];
+        if (temp === undefined) console.warn('名为' + template + '的bind template不存在！')
         // 记录属性
         el.addClass(propertyName);
         // 定义响应方法
@@ -251,38 +273,49 @@ $.fn.extend({
         return this;
     },
     /**加载MP控件 */
-    MPLoadWidget: function (mpObject) {
+    MPLoadWidget(mpObject, authority) {
         let el = this;
         let widgetType = el.attr('widgetType');
+        let auth = getAuth(authority);
         el.data('mpObject', mpObject);
         switch (widgetType) {
             case 'data':
                 // 数据项
                 let mpObjName = mpObject.constructor.name;
                 el.addClass('contentDiv ' + mpObjName)
-                    .AppendProperties(['name'], 'h3', 'name')
-                    .AppendProperties(['description'], 'p', 'text');
+                    .AppendProperties(['name'], 'h3', auth.fullControl ? 'name' : 'readonly')
+                    .AppendProperties(['description'], 'p', auth.fullControl ? 'text' : 'readonly');
                 switch (mpObjName) {
                     case 'MPF1':
-                        el.AppendProperties(['x'], 'div', 'number');
+                        el.AppendProperties(['x'], 'div', auth.editable ? 'number' : 'readonlyNumber');
                         break;
                     case 'MPF2':
-                        el.AppendProperties(['x', 'y'], 'div', 'avaterNumber');
+                        el.AppendProperties(['x', 'y'], 'div', auth.editable ? 'avaterNumber' : 'readonlyAvaterNumber');
                         break;
                     case 'MPF3':
-                        el.AppendProperties(['x', 'y', 'z'], 'div', 'avaterNumber');
+                        el.AppendProperties(['x', 'y', 'z'], 'div', auth.editable ? 'avaterNumber' : 'readonlyAvaterNumber');
                         break;
                     case 'MPF4':
-                        el.AppendProperties(['x', 'y', 'z', 'w'], 'div', 'avaterNumber');
+                        el.AppendProperties(['x', 'y', 'z', 'w'], 'div', auth.editable ? 'avaterNumber' : 'readonlyAvaterNumber');
                         break;
                     case 'MPMatrix':
-                        el.AppendProperties(['m0', 'm1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7', 'm8', 'm9', 'm10', 'm11', 'm12', 'm13', 'm14', 'm15'], 'div', 'avaterNumber');
+                        el.AppendProperties(['m0', 'm1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7', 'm8', 'm9', 'm10', 'm11', 'm12', 'm13', 'm14', 'm15'], 'div', auth.editable ? 'avaterNumber' : 'readonlyAvaterNumber');
                         break;
                     case 'MPTexture':
                         el.AppendProperties(['texData'], 'canvas', 'texture');
                 }
                 break;
             case 'code':
+                el.addClass('codeTextDiv cm-s-codewarm')
+                    .append($('<span>// </span>').addClass('cm-comment'),
+                        $('<span></span>').addClass('cm-comment').BindProperty(mpObject, 'description', auth.fullControl ? 'text' : 'readonly'),
+                        $('<br />').addClass('cm-comment'),
+                        $('<span>function </span>').addClass('cm-keyword'),
+                        $('<span></span>').addClass('cm-def').BindProperty(mpObject, 'name', auth.fullControl ? 'name' : 'readonly'),
+                        $('<span>(…){</span>').addClass('cm-operator'),
+                        $('<div></div>').BindProperty(codeDataObject, 'codeText', 'code'),
+                        $('<span>}</span>').addClass('cm-operator')
+                    );
                 break;
         }
         return this;
