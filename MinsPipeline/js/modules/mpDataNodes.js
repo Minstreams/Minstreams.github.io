@@ -104,7 +104,7 @@ export class MPMatrix extends MPBufferDataPrototype {
 /**@name 贴图数据项
  * @description 二维贴图，本质上是固定尺寸的数组
  */
-export class MPTexture extends BufferDataPrototype {
+export class MPTexture extends MPBufferDataPrototype {
     Resize(width, height) {
         /**尺寸宽度
          * @type {number}

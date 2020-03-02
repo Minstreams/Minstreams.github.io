@@ -241,7 +241,8 @@ $.fn.extend({
         // 绑定更新事件
         if (temp.applyEvent) el.on(temp.applyEvent, el.data('applyFunc'));
         // 绑定响应
-        if (temp.onBind) for (bindF in temp.onBind.split(' ')) onBindFunctions[bindF].call(el, target, propertyName);
+        if (temp.onBind) temp.onBind.split(' ').forEach(bindF => onBindFunctions[bindF].call(el, target, propertyName));
+
         // 标记绑定状态
         el.data('binded', true);
 
@@ -269,43 +270,40 @@ $.fn.extend({
     AppendProperties(propNames, htmlEl, template) {
         let mpObject = this.data('mpObject');
         if (!mpObject) return this;
-        for (pName in propNames) this.append($('<' + htmlEl + '></' + htmlEl + '>').BindProperty(mpObject, pName, template));
+        propNames.forEach(pName => this.append($('<' + htmlEl + '></' + htmlEl + '>').BindProperty(mpObject, pName, template)));
         return this;
     },
     /**加载MP控件 */
     MPLoadWidget(mpObject, authority) {
         let el = this;
-        let widgetType = el.attr('widgetType');
         let auth = getAuth(authority);
         el.data('mpObject', mpObject);
-        switch (widgetType) {
-            case 'data':
-                // 数据项
-                let mpObjName = mpObject.constructor.name;
-                el.addClass('contentDiv ' + mpObjName)
-                    .AppendProperties(['name'], 'h3', auth.fullControl ? 'name' : 'readonly')
-                    .AppendProperties(['description'], 'p', auth.fullControl ? 'text' : 'readonly');
-                switch (mpObjName) {
-                    case 'MPF1':
-                        el.AppendProperties(['x'], 'div', auth.editable ? 'number' : 'readonlyNumber');
-                        break;
-                    case 'MPF2':
-                        el.AppendProperties(['x', 'y'], 'div', auth.editable ? 'avaterNumber' : 'readonlyAvaterNumber');
-                        break;
-                    case 'MPF3':
-                        el.AppendProperties(['x', 'y', 'z'], 'div', auth.editable ? 'avaterNumber' : 'readonlyAvaterNumber');
-                        break;
-                    case 'MPF4':
-                        el.AppendProperties(['x', 'y', 'z', 'w'], 'div', auth.editable ? 'avaterNumber' : 'readonlyAvaterNumber');
-                        break;
-                    case 'MPMatrix':
-                        el.AppendProperties(['m0', 'm1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7', 'm8', 'm9', 'm10', 'm11', 'm12', 'm13', 'm14', 'm15'], 'div', auth.editable ? 'avaterNumber' : 'readonlyAvaterNumber');
-                        break;
-                    case 'MPTexture':
-                        el.AppendProperties(['texData'], 'canvas', 'texture');
-                }
+
+        // 数据项
+        let mpObjName = mpObject.constructor.name;
+        el.addClass('contentDiv ' + mpObjName)
+            .AppendProperties(['name'], 'h3', auth.fullControl ? 'name' : 'readonly')
+            .AppendProperties(['description'], 'p', auth.fullControl ? 'text' : 'readonly');
+        switch (mpObjName) {
+            case 'MPF1':
+                el.AppendProperties(['x'], 'div', auth.editable ? 'number' : 'readonlyNumber');
                 break;
-            case 'code':
+            case 'MPF2':
+                el.AppendProperties(['x', 'y'], 'div', auth.editable ? 'avaterNumber' : 'readonlyAvaterNumber');
+                break;
+            case 'MPF3':
+                el.AppendProperties(['x', 'y', 'z'], 'div', auth.editable ? 'avaterNumber' : 'readonlyAvaterNumber');
+                break;
+            case 'MPF4':
+                el.AppendProperties(['x', 'y', 'z', 'w'], 'div', auth.editable ? 'avaterNumber' : 'readonlyAvaterNumber');
+                break;
+            case 'MPMatrix':
+                el.AppendProperties(['m0', 'm1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7', 'm8', 'm9', 'm10', 'm11', 'm12', 'm13', 'm14', 'm15'], 'div', auth.editable ? 'avaterNumber' : 'readonlyAvaterNumber');
+                break;
+            case 'MPTexture':
+                el.AppendProperties(['texData'], 'canvas', 'texture');
+                break;
+            case 'MPCodeData':
                 el.addClass('codeTextDiv cm-s-codewarm')
                     .append($('<span>// </span>').addClass('cm-comment'),
                         $('<span></span>').addClass('cm-comment').BindProperty(mpObject, 'description', auth.fullControl ? 'text' : 'readonly'),
@@ -313,7 +311,7 @@ $.fn.extend({
                         $('<span>function </span>').addClass('cm-keyword'),
                         $('<span></span>').addClass('cm-def').BindProperty(mpObject, 'name', auth.fullControl ? 'name' : 'readonly'),
                         $('<span>(…){</span>').addClass('cm-operator'),
-                        $('<div></div>').BindProperty(codeDataObject, 'codeText', 'code'),
+                        $('<div></div>').BindProperty(mpObject, 'codeText', 'code'),
                         $('<span>}</span>').addClass('cm-operator')
                     );
                 break;

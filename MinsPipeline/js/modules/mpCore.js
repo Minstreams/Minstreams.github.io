@@ -12,7 +12,6 @@ export class MPPrototype {
     get name() { return this._name; }
     set name(val) {
         this._name = val;
-        this.Boardcast("name");
     }
     /**描述
      * @type {string}
@@ -26,7 +25,7 @@ export class MPPrototype {
      */
     constructor(name, description) {
         if (new.target === MPPrototype) {
-            throw new Error("MPDataPrototype是抽象类！不能有实例！");
+            throw new Error("MPDataPr ototype是抽象类！不能有实例！");
         }
         /**名称数据
          * @type {string}

@@ -4,14 +4,14 @@
  * ·    mp套件
  * ·    jquery-ui.js
  */
-
+var _MP;
+/**存放当前mpData 
+ * @type {typeof _MP.MPData.prototype}
+ */
+var _mpData;
 async function _onload() {
     /**MP模块 */
-    var _MP = await import('./modules/mpModule');
-    /**存放当前mpData 
-     * @type {typeof _MP.MPData.prototype}
-     */
-    var _mpData;
+    _MP = await import('./modules/mpModule');
 
     //#region Code标签
     let tabCounter = 0;     //辅助变量，防止标签id重复
@@ -61,9 +61,9 @@ async function _onload() {
     function AddCodeTab(...codeDataObjects) {
         let newTabliIndex = -1;
         let out = $();
-        for (codeDataObject in codeDataObjects) {
+        codeDataObjects.forEach(codeDataObject => {
             // 检查标签是否重复
-            if (!$('#codeContentDiv>ul>li').every(function (index) { if (this.data('codeDataObject') !== codeDataObject) return true; tabs.tabs('option', 'active', index); return false; })) continue;
+            if (!$('#codeContentDiv>ul>li').every(function (index) { if ($(this).data('codeDataObject') !== codeDataObject) return true; tabs.tabs('option', 'active', index); return false; })) return;
             let newTabId = codeDataObject.name + tabCounter++;
             // 标签内容
             let codeTextDiv = $('<div id=\'code' + newTabId + '\'></div>').appendTo('#codeContentDiv').MPLoadWidget(codeDataObject, codeDataObject === _mpData.mainCode ? 'editable' : 'fullControl');
@@ -72,9 +72,9 @@ async function _onload() {
                 .append(
                     $('<a href=\'#code' + newTabId + '\'></a>').append(
                         // Tab标题
-                        $('<tabTitle></tabTitle>').BindProperty(codeDataObject, 'name', 'display'),
+                        $('<tabTitle></tabTitle>').BindProperty(codeDataObject, 'name', 'readonly'),
                         // Tab描述
-                        $('<tabDescription></tabDescription>').BindProperty(codeDataObject, 'description', 'display')
+                        $('<tabDescription></tabDescription>').BindProperty(codeDataObject, 'description', 'readonly')
                     ),
                     // 标签关闭按钮
                     $('<div></div>').addClass('ui-tabs-close').click(function () {
@@ -87,7 +87,7 @@ async function _onload() {
                 .data('codeTextDiv', codeTextDiv);
             newTabliIndex = tabLi.index();
             out.add(tabLi);
-        }
+        });
         if (newTabliIndex !== -1) {
             // 刷新并选中新项
             tabs.tabs('refresh');
@@ -100,11 +100,13 @@ async function _onload() {
      * @param {typeof _MP.MPBufferSection.prototype} bs 缓存节对象
      */
     function BSLoadPage() {
+        let bsDiv = $('.bsSelected');
+        let bs = bsDiv.data('mpObject');
         let bDiv = $('#bufferDiv')
             .empty()
-            .append($('<h2></h2>').BindProperty(bs, 'name', 'name'))
-            .append($('<p></p>').BindProperty(bs, 'description'));
-        $('.bsSelected').children('ul').children('li').each(function (i) { $('<div></div>').appendTo(bDiv).data('mpLi', $(this)).MPLoadWidget($(this).data('mpObject')); });
+            .append($('<h2></h2>').BindProperty(bs, 'name', 'text'))
+            .append($('<p></p>').BindProperty(bs, 'description', 'text'));
+        bsDiv.children('ul').children('li').each(function (i) { $('<div></div>').appendTo(bDiv).data('mpLi', $(this)).MPLoadWidget($(this).data('mpObject')); });
     }
     /**选择一个缓存节
      * @this {HTMLElement} 被选择的bsDiv
@@ -133,7 +135,7 @@ async function _onload() {
          */
         BSAdd(...dataNodes) {
             let out = $();
-            for (dn in dataNodes) {
+            dataNodes.forEach(dn => {
                 out.add($('<li></li>')
                     .addClass('bufferOperator ' + dn.constructor.name)
                     .data('mpObject', dn)
@@ -144,7 +146,7 @@ async function _onload() {
                     .append($('<tooltip></tooltip>').BindProperty(dn, 'name', 'readonly'))
                     // .on('dragover', function () {})  //？？？
                 );
-            }
+            });
             this.BSResort(true).parent().click();
             return out;
         },
@@ -256,7 +258,7 @@ async function _onload() {
          */
         CSAdd(...codeNodes) {
             let out = $();
-            for (cn in codeNodes) {
+            codeNodes.forEach(cn => {
                 out.add($('<li></li>')
                     .addClass('codeOperator')
                     .data('mpObject', cn)
@@ -272,7 +274,7 @@ async function _onload() {
                         stopBubbling(e);
                     })
                 );
-            }
+            });
             this.sortable('refresh');
             return out;
         },
@@ -351,14 +353,14 @@ async function _onload() {
         // codeSection按钮
         let csDiv = $('<div></div>').appendTo('#topDiv').CSInit(cs);
 
-        if (preElement) {
-            preElement.after(bsDiv);
-            bsDiv.after(csDiv);
-        }
+        // if (preElement) {
+        //     preElement.after(bsDiv);
+        //     bsDiv.after(csDiv);
+        // }
 
         // 删除按钮
         let removeDiv = $('<div>-</div>').addClass('top-remove').appendTo(bsDiv).disableSelection().click(function (e) {
-            __StopFrame();
+            // todo 在此停止代码运行
             let index = mpData.bufferSections.indexOf(bs);
             if (index <= 0) {
                 console.log('不允许删除第一个节点');
@@ -390,7 +392,7 @@ async function _onload() {
         }).append($('<tooltip></tooltip>').text('删除此数据节点'));
         // 添加按钮
         let addDiv = $('<div>+</div>').addClass('top-add').appendTo(csDiv).disableSelection().click(function (e) {
-            __StopFrame();
+            // todo 在此停止代码运行
             let index = mpData.bufferSections.indexOf(bs);
             let newBs = new BufferSection('New', 'New', [
                 new BufferDataF1('Name', 'Des'),
@@ -405,16 +407,28 @@ async function _onload() {
             stopBubbling(e);
         }).append($('<tooltip></tooltip>').text('在此插入新节点'));
 
-        if (preElement) {
-            // 如果是插入
-            csDiv.css('flex-grow', 0);
-            csDiv.animate({
-                'flex-grow': 1
-            }, 'slow', 'easeOutCubic');
-            bsDiv.click();
-        }
+        // if (preElement) {
+        //     // 如果是插入
+        //     csDiv.css('flex-grow', 0);
+        //     csDiv.animate({
+        //         'flex-grow': 1
+        //     }, 'slow', 'easeOutCubic');
+        //     bsDiv.click();
+        // }
     }
 
+    // 通过url参数载入对应数据，默认载入一个文件
+    var mpDataFile = getQueryString('mpData') || 'default';
+    $.get('/MinsPipeline/mpData/' + mpDataFile, function (data, status) {
+        _MP.MPOS.parse(_mpData, data, '_mpData');
+        console.log(mpDataFile);
+        console.log(data);
+
+        AddCodeTab(_mpData.mainCode);
+        _mpData.sections.forEach(s => addSection(s));
+        $('#topDiv').children('.bufferSection').first().click();
+        _MP.UpdateAll();
+    });
 }
 
 

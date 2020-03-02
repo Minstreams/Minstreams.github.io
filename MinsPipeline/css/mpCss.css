@@ -1,0 +1,529 @@
+body {
+    background-color: #121212;
+    color: white;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+canvas {}
+
+tooltip {
+    visibility: hidden;
+    position: absolute;
+    font-size: 11px;
+    color: white;
+    z-index: 500;
+    white-space: nowrap;
+}
+
+#topDiv {
+    position: relative;
+    width: 100%;
+    align-items: center;
+    display: flex;
+    background-color: #0c0c0c;
+    border-bottom: 1.5px dashed #d5903b85;
+}
+
+#codeDiv {
+    position: absolute;
+    left: 0%;
+    right: 50%;
+    top: 53px;
+    bottom: 0%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+#bufferDiv {
+    position: absolute;
+    left: 50%;
+    right: 0%;
+    top: 53px;
+    bottom: 0%;
+    overflow-y: auto;
+}
+
+#bufferDiv::-webkit-scrollbar {
+    display: none;
+}
+
+/* ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¶ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â«ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¯ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¥ÃƒÆ’Ã¢â‚¬Â¦ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚ÂºÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¥ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂºÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¥ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³ */
+
+.bufferSection {
+    position: relative;
+    flex-grow: 1;
+    flex-basis: 4px;
+    flex-wrap: nowrap;
+    min-width: 51px;
+    max-width: 51px;
+    height: 51px;
+    transition: 0.2s;
+}
+
+.bufferSection>point {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 0;
+    width: 0;
+    transform: translateX(-50%) translateY(-50%);
+    border: 1px solid gray;
+    border-radius: 50%;
+    background-color: orange;
+    transition: 0.6s;
+}
+
+.bufferSection:hover>point {
+    border: 4px solid orange;
+    transition: 0.2s;
+    box-shadow: 0 0 14px 3px #ffa5009e;
+}
+
+.bufferSection:hover>tooltip {
+    visibility: visible;
+    top: 50%;
+    left: 36px;
+    color: #ffe1a9;
+    text-shadow: 0 0 4px #ffa500fa;
+    transform: translateY(-50%) translateY(-1.2px);
+}
+
+.bufferSection>.top-remove {
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    width: 12px;
+    height: 12px;
+    transform: translateY(40%);
+    color: #cd0a0aad;
+    text-align: center;
+    line-height: 10px;
+    font-size: 16px;
+    transition: 0.5s;
+    border-radius: 50%;
+    border: 1px solid #cd0a0aa1;
+    cursor: none;
+}
+
+.bufferSection>.top-remove:hover {
+    transform: translateY(70%) scale(2) translateX(20%);
+    color: #cd0a0a;
+    transition: 0.1s;
+    border: 0px solid #cd0a0a;
+}
+
+.bufferSection>.top-remove:hover>tooltip {
+    visibility: visible;
+    top: 50%;
+    right: -9px;
+    transform: translateY(-50%) translateY(-1.1px) scale(0.5);
+    color: #cd0a0a;
+}
+
+.codeSection>.top-add {
+    position: absolute;
+    bottom: 50%;
+    right: 0%;
+    width: 12px;
+    height: 12px;
+    transform: translateY(-40%);
+    color: #b2832ebd;
+    text-align: center;
+    line-height: 10px;
+    font-size: 16px;
+    transition: 0.5s;
+    border-radius: 50%;
+    border: 1px solid #ffa500b8;
+    cursor: none;
+}
+
+.codeSection>.top-add:hover {
+    transform: translateY(-70%) scale(2) translateX(-30%);
+    color: orange;
+    transition: 0.1s;
+    border: 0px solid #ffa500;
+}
+
+.codeSection>.top-add:hover>tooltip {
+    visibility: visible;
+    top: 50%;
+    right: -7px;
+    transform: translateY(-50%) translateY(-1.1px) scale(0.5);
+    color: orange;
+}
+
+.bsSelected>point {
+    border: 3px solid orange;
+    transition: 0.2s;
+    box-shadow: 0 0 0px 0px #ffaa0ff5;
+}
+
+.bufferSection>ul {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    margin: 4px;
+    padding: 0px;
+    display: block;
+}
+
+.bufferSection>ul>.placeholder {
+    display: block;
+    position: absolute;
+    background-color: #ffa5007a;
+    border-radius: 50%;
+    width: 9px;
+    height: 9px;
+}
+
+.bufferSection .bufferOperator {
+    display: block;
+    position: absolute;
+    background: none;
+    transition: 0.2s;
+    width: 9px;
+    height: 9px;
+    cursor: none;
+}
+
+.bufferSection .bufferOperator.ui-sortable-helper {
+    transition: none;
+}
+
+.bufferOperator>div {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%) scale(0.6);
+    transition: transform 0.1s;
+}
+
+.bufferOperator:hover>div {
+    transform: translateX(-50%) translateY(-50%) scale(1);
+    transition: transform 0.1s;
+}
+
+.bufferOperator:hover>tooltip {
+    visibility: visible;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%) translateY(-0.5px);
+}
+
+.bufferOperator.BufferDataF4>tooltip {
+    color: #fe875e;
+}
+
+.bufferOperator.BufferDataF3>tooltip {
+    color: #fec25e;
+}
+
+.bufferOperator.BufferDataF2>tooltip {
+    color: #fec25e;
+}
+
+.bufferOperator.BufferDataF1>tooltip {
+    color: #fece5e;
+}
+
+.bufferOperator.BufferDataF4>div {
+    background-color: #ffffff00;
+    width: 70%;
+    height: 70%;
+    border: 3px solid #fe1919;
+}
+
+.bufferOperator.BufferDataF3>div {
+    background-color: #ffffff00;
+    width: 70%;
+    height: 70%;
+    border: 3px solid #fe7019;
+}
+
+.bufferOperator.BufferDataF2>div {
+    background-color: #ffffff00;
+    width: 70%;
+    height: 70%;
+    border: 2px solid #fe8019;
+}
+
+.bufferOperator.BufferDataF1>div {
+    background-color: #ffffff00;
+    width: 70%;
+    height: 70%;
+    border: 1px solid #ffb915;
+}
+
+.bufferOperator.BufferDataTexture>tooltip {
+    color: pink;
+}
+
+.bufferOperator.BufferDataTexture>div {
+    background-color: #fe3d5fa3;
+    border: 1px solid #ff002d;
+}
+
+.codeSection {
+    position: relative;
+    flex-grow: 1;
+    flex-basis: 4px;
+    flex-wrap: nowrap;
+    height: 16px;
+}
+
+.codeSection>line {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 0.12vh;
+    margin-left: -20px;
+    margin-right: -20px;
+    background-color: darkgoldenrod;
+    transition: 0.5s;
+}
+
+.codeSection:hover>line {
+    height: 0.18vh;
+    background-color: orange;
+    box-shadow: 0 0 8px 1px #ffa5009e;
+    transition: 0.1s;
+}
+
+.codeSection:hover>tooltip {
+    visibility: visible;
+    top: 17px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #ffe1a9;
+    text-shadow: 0 0 4px #ffa500fa;
+}
+
+.codeSection.osSelected {}
+
+.codeSection>ul {
+    position: relative;
+    display: flex;
+    white-space: nowrap;
+    margin: auto;
+    padding: 0;
+    width: max-content;
+    min-width: 60%;
+    height: 100%;
+    text-align: center;
+}
+
+.codeOperator {
+    position: relative;
+    display: block;
+    margin: 0;
+    flex-grow: 1;
+    float: left;
+    min-width: 7px;
+    max-width: 15px;
+    height: 100%;
+    cursor: none;
+}
+
+.codeSection>ul>.placeholder {
+    position: relative;
+    display: block;
+    flex-grow: 1;
+    min-width: 7px;
+    max-width: 15px;
+    margin: 0 2px;
+    height: 80%;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #ffa5007a;
+    border-radius: 20%;
+}
+
+.codeSection>ul>.ui-sortable-helper {
+    flex-grow: 0;
+}
+
+.codeSection>ul>.margin-helper {
+    position: relative;
+    display: block;
+    flex-grow: 0;
+    margin: auto;
+}
+
+.codeOperator>div {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: auto;
+    height: 100%;
+    width: 60%;
+    border-radius: 30%;
+    border: 1px solid #efa71f;
+    background-color: #9191917d;
+    transition: 0.5s;
+}
+
+.codeOperator:hover>div {
+    transform: translateY(-50%) scale(1.2);
+    transition: 0.1s;
+    box-shadow: 0 0 6px 0px #ffa5009e;
+}
+
+.codeOperator:hover>tooltip {
+    visibility: visible;
+    top: -17px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #ffba3cde;
+}
+
+/* ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¼ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¥ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â­ÃƒÆ’Ã¢â‚¬Â¹Ãƒâ€¦Ã¢â‚¬Å“ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¥ÃƒÆ’Ã¢â‚¬Â¦ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚ÂºÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¥ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂºÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¥ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³ */
+
+#bufferDiv>.name {
+    float: right;
+    margin: 0 0 20px 8px;
+    font-size: 2em;
+}
+
+#bufferDiv>.description {
+    float: right;
+    position: absolute;
+    top: 40px;
+    right: 2px;
+    margin: 0;
+    color: gray;
+    font-size: 0.6em;
+}
+
+.contentDiv {
+    border: 1px solid #feb93abf;
+    border-radius: 2px;
+    margin: 2px;
+    display: flex;
+    position: relative;
+}
+
+.contentDiv>.name {
+    position: absolute;
+    background-color: #121212;
+    right: 0px;
+    top: 0px;
+    font-size: 0.7em;
+    margin: 1px 0px;
+    line-height: 1em;
+}
+
+.contentDiv>.description {
+    margin: 0px;
+    position: absolute;
+    right: 0px;
+    top: 11px;
+    color: gray;
+    font-size: 0.5em;
+}
+
+.contentDiv.BufferDataF1 {}
+
+.contentDiv.BufferDataF1>.name {}
+
+.contentDiv.BufferDataF4>.z:after, .contentDiv.BufferDataF4>.y:after, .contentDiv.BufferDataF4>.x:after, .contentDiv.BufferDataF3>.y:after, .contentDiv.BufferDataF3>.x:after, .contentDiv.BufferDataF2>.x:after {
+    content: ",";
+}
+
+.contentDiv.BufferDataF4>.x:before, .contentDiv.BufferDataF3>.x:before, .contentDiv.BufferDataF2>.x:before, .contentDiv.BufferDataF1>.x:before {
+    content: "[";
+}
+
+.contentDiv.BufferDataF4>.w:after, .contentDiv.BufferDataF3>.z:after, .contentDiv.BufferDataF2>.y:after, .contentDiv.BufferDataF1>.x:after {
+    content: "]";
+}
+
+.contentDiv.BufferDataF4>.x, .contentDiv.BufferDataF3>.x, .contentDiv.BufferDataF2>.x, .contentDiv.BufferDataF1>.x {
+    color: orange;
+    flex-grow: 1;
+}
+
+.contentDiv.BufferDataF4>.y, .contentDiv.BufferDataF3>.y, .contentDiv.BufferDataF2>.y {
+    color: #fe8019;
+    flex-grow: 1;
+}
+
+.contentDiv.BufferDataF4>.z, .contentDiv.BufferDataF3>.z {
+    color: #fe5f19;
+    flex-grow: 1;
+}
+
+.contentDiv.BufferDataF4>.w {
+    color: #fe19db;
+    flex-grow: 1;
+}
+
+/* ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¤ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â»ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â£ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚ÂÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¥ÃƒÆ’Ã¢â‚¬Â¦ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚ÂºÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¥ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂºÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¥ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³ */
+
+.ui-tabs .ui-tabs-nav.ui-tabs-xExtended {
+    background: #121212;
+}
+
+.ui-tabs-active tabTitle {
+    font-size: 18px;
+}
+
+tabDescription {
+    font-size: 0;
+    opacity: 90%;
+    color: orange;
+    margin-left: 6px;
+}
+
+.ui-tabs .ui-tabs-nav li.ui-tabs-active .ui-tabs-anchor tabDescription {
+    font-size: 12px;
+    transition: font-size 0.4s;
+}
+
+#codeContentDiv {
+    border: 1px solid #c38d27;
+}
+
+#codeContentDiv>.codeTextDiv {
+    min-height: 300px;
+    max-height: 450px;
+    overflow-y: auto;
+    padding: 10px;
+    color: wheat;
+    font-family: monospace;
+}
+
+.codeTextDiv [contenteditable=plaintext-only] {
+    min-height: 150px;
+    white-space: normal;
+}
+
+[contenteditable=plaintext-only] {
+    -webkit-user-modify: read-write-plaintext-only;
+    -moz-user-modify: read-write-plaintext-only;
+    white-space: nowrap;
+}
+
+#codeReferenceDiv {
+    height: 30%;
+    background-color: lightslategray;
+}
+
+.highlight {
+    color: cyan;
+}
+
+#errorLog {
+    font-size: 0.8em;
+    margin: 4px 12px;
+    color: #ff4040;
+    text-shadow: 0 0 6px red;
+}

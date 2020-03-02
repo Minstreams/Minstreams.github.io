@@ -1,0 +1,2 @@
+#mpObject = new _MP.MPData();
+#mpObject.sections[0] = new _MP.MPSection();
