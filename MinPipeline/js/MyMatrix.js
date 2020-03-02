@@ -289,7 +289,7 @@ Quaternion.LookAtRotation = function (forward, up) {
 class BufferDataMatrix extends BufferDataPrototype {
     /**@param {string} name Buffer数据项名称
      * @param {string} description Buffer数据项描述
-     * @param {Array} m 矩阵，长度为16
+     * @param {number[]} m 矩阵，长度为16
      */
     constructor(name, description, m) {
         super(name, description);

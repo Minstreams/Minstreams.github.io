@@ -28,7 +28,7 @@ var respondFunctions = {
 /**所有updateFunc的集合
  * @updateFunc 是通过元素更新数据的方法
  */
-var updateFunctions = {
+var _updateFunctions = {
     /**不能为空，去掉特殊字符，去掉连续空格 */
     normalText: function (target, propertyName) {
         if (!this.text()) return;
