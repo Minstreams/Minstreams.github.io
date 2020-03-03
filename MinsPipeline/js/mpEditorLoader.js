@@ -4,15 +4,14 @@
  * ·    mp套件
  * ·    jquery-ui.js
  */
+/**MP模块 */
 var _MP;
 /**存放当前mpData 
  * @type {typeof _MP.MPData.prototype}
  */
 var _mpData;
 async function _onload() {
-    /**MP模块 */
     _MP = await import('./modules/mpModule');
-
     //#region Code标签
     let tabCounter = 0;     //辅助变量，防止标签id重复
     let targetScrollLeft = 0;   //辅助计算横向滚动位置
@@ -107,6 +106,7 @@ async function _onload() {
             .append($('<h2></h2>').BindProperty(bs, 'name', 'text'))
             .append($('<p></p>').BindProperty(bs, 'description', 'text'));
         bsDiv.children('ul').children('li').each(function (i) { $('<div></div>').appendTo(bDiv).data('mpLi', $(this)).MPLoadWidget($(this).data('mpObject')); });
+        _MP.UpdateAll();
     }
     /**选择一个缓存节
      * @this {HTMLElement} 被选择的bsDiv
@@ -131,12 +131,11 @@ async function _onload() {
         },
         /**添加数据项
          * @this {JQuery<HTMLElement>} bsul
-         * @return {JQuery<HTMLElement>} bsli
+         * @return {JQuery<HTMLElement>} bsul
          */
         BSAdd(...dataNodes) {
-            let out = $();
             dataNodes.forEach(dn => {
-                out.add($('<li></li>')
+                $('<li></li>')
                     .addClass('bufferOperator ' + dn.constructor.name)
                     .data('mpObject', dn)
                     .appendTo(this)
@@ -145,10 +144,10 @@ async function _onload() {
                     .append('<div></div>')
                     .append($('<tooltip></tooltip>').BindProperty(dn, 'name', 'readonly'))
                     // .on('dragover', function () {})  //？？？
-                );
+                    ;
             });
-            this.BSResort(true).parent().click();
-            return out;
+            this.BSResort(true).parent().click()
+            return this;
         },
         /**对圆环上的数据项进行排列 
          * @this {JQuery<HTMLElement>} bsul
@@ -257,9 +256,8 @@ async function _onload() {
          * @return {JQuery<HTMLElement>} csli
          */
         CSAdd(...codeNodes) {
-            let out = $();
             codeNodes.forEach(cn => {
-                out.add($('<li></li>')
+                $('<li></li>')
                     .addClass('codeOperator')
                     .data('mpObject', cn)
                     .appendTo(this)
@@ -273,10 +271,9 @@ async function _onload() {
                         AddCodeTab(cn);
                         stopBubbling(e);
                     })
-                );
+                    ;
             });
-            this.sortable('refresh');
-            return out;
+            return this.sortable('refresh');
         },
         /**代码节按钮初始化 
          * @this {JQuery<HTMLElement>} csDiv
@@ -344,7 +341,7 @@ async function _onload() {
     /**添加一个管线节
      * @param {typeof _MP.MPSection.prototype} section 管线节
      */
-    function addSection(section) {
+    function addSection(section, preElement) {
         let bs = section.bufferSection;
         let cs = section.codeSection;
 
@@ -353,37 +350,38 @@ async function _onload() {
         // codeSection按钮
         let csDiv = $('<div></div>').appendTo('#topDiv').CSInit(cs);
 
-        // if (preElement) {
-        //     preElement.after(bsDiv);
-        //     bsDiv.after(csDiv);
-        // }
+        if (preElement) {
+            preElement.after(bsDiv);
+            bsDiv.after(csDiv);
+        }
 
         // 删除按钮
         let removeDiv = $('<div>-</div>').addClass('top-remove').appendTo(bsDiv).disableSelection().click(function (e) {
             // todo 在此停止代码运行
-            let index = mpData.bufferSections.indexOf(bs);
+            let index = _mpData.sections.indexOf(section);
             if (index <= 0) {
-                console.log('不允许删除第一个节点');
+                // 第一个节点的删除按钮在画面外面，一般来说是点不到的
+                console.warn('不允许删除第一个节点');
                 return;
             }
             // 数据操作
-            let preBs = mpData.bufferSections[index - 1];
-            preBs._dataNodes = preBs._dataNodes.concat(bs._dataNodes);
-            preBs._codeSection._codeNodes = preBs._codeSection._codeNodes.concat(bs._codeSection._codeNodes);
-            mpData.bufferSections.splice(index, 1);
+            let pres = _mpData.sections[index - 1];
+            pres.bufferSection._dataNodes = pres.bufferSection._dataNodes.concat(bs._dataNodes);
+            pres.codeSection._codeNodes = pres.codeSection._codeNodes.concat(cs._codeNodes);
+            _mpData.sections.splice(index, 1);
+
             // ui操作
-            let precsul = bsDiv.prev().children('ul').data('mpArray', preBs._codeSection._codeNodes);
-            let preBsul = bsDiv.prev().prev().children('ul').data('mpArray', preBs._dataNodes);
+            let preCsDiv = bsDiv.prev();
+            let preCsul = preCsDiv.children('ul').data('mpArray', pres.codeSection._codeNodes);
+            let preBsDiv = preCsDiv.prev();
+            let preBsul = preBsDiv.children('ul').data('mpArray', pres.bufferSection._dataNodes);
 
-            let cw = bsDiv.prev().width();
-            let sw = bsDiv.width();
-
-            let bsli = bsul.children('li').css('margin-left', cw + sw);
-            preBsul.append(bsli).sortable('refresh').data('resortFunc')();
+            let bsli = bsDiv.children('ul').children('li').css('margin-left', preCsDiv.width() + bsDiv.width());
+            preBsul.append(bsli).sortable('refresh').BSResort();
             bsli.css('margin-left', 0);
-            precsul.children('div').last().before(csul.children('li'));
+            preCsul.children('div').last().before(csDiv.children('ul').children('li'));
 
-            preBsul.parent().click();
+            preBsDiv.click();
 
             csDiv.animate({
                 'flex-grow': 0
@@ -393,28 +391,21 @@ async function _onload() {
         // 添加按钮
         let addDiv = $('<div>+</div>').addClass('top-add').appendTo(csDiv).disableSelection().click(function (e) {
             // todo 在此停止代码运行
-            let index = mpData.bufferSections.indexOf(bs);
-            let newBs = new BufferSection('New', 'New', [
-                new BufferDataF1('Name', 'Des'),
-                new BufferDataF2('Name', 'Des'),
-                new BufferDataF3('Name', 'Des'),
-                new BufferDataF4('Name', 'Des'),
-                new BufferDataTexture('Name', 'Des'),
-                new BufferDataMatrix('Name', 'Des'),
-            ]);
-            mpData.bufferSections.splice(index + 1, 0, newBs);
-            AddBufferSectionTopDiv(mpData, newBs, csDiv);
+            let index = _mpData.sections.indexOf(section);
+            let newsec = new _MP.MPSection();
+            _mpData.sections.splice(index + 1, 0, newsec);
+            addSection(newsec, csDiv);
             stopBubbling(e);
         }).append($('<tooltip></tooltip>').text('在此插入新节点'));
 
-        // if (preElement) {
-        //     // 如果是插入
-        //     csDiv.css('flex-grow', 0);
-        //     csDiv.animate({
-        //         'flex-grow': 1
-        //     }, 'slow', 'easeOutCubic');
-        //     bsDiv.click();
-        // }
+        if (preElement) {
+            // 如果是插入
+            csDiv.css('flex-grow', 0);
+            csDiv.animate({
+                'flex-grow': 1
+            }, 'slow', 'easeOutCubic');
+            bsDiv.click();
+        }
     }
 
     // 通过url参数载入对应数据，默认载入一个文件
@@ -427,7 +418,6 @@ async function _onload() {
         AddCodeTab(_mpData.mainCode);
         _mpData.sections.forEach(s => addSection(s));
         $('#topDiv').children('.bufferSection').first().click();
-        _MP.UpdateAll();
     });
 }
 
