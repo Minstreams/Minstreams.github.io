@@ -19,10 +19,14 @@ tooltip {
 #topDiv {
     position: relative;
     width: 100%;
-    align-items: center;
-    display: flex;
     background-color: #0c0c0c;
     border-bottom: 1.5px dashed #d5903b85;
+}
+
+#sectionDiv {
+    position: relative;
+    align-items: center;
+    display: flex;
 }
 
 #codeDiv {
@@ -216,55 +220,55 @@ tooltip {
     transform: translateY(-50%) translateY(-0.5px);
 }
 
-.bufferOperator.BufferDataF4>tooltip {
+.bufferOperator.MPF4>tooltip {
     color: #fe875e;
 }
 
-.bufferOperator.BufferDataF3>tooltip {
+.bufferOperator.MPF3>tooltip {
     color: #fec25e;
 }
 
-.bufferOperator.BufferDataF2>tooltip {
+.bufferOperator.MPF2>tooltip {
     color: #fec25e;
 }
 
-.bufferOperator.BufferDataF1>tooltip {
+.bufferOperator.MPF1>tooltip {
     color: #fece5e;
 }
 
-.bufferOperator.BufferDataF4>div {
+.bufferOperator.MPF4>div {
     background-color: #ffffff00;
     width: 70%;
     height: 70%;
     border: 3px solid #fe1919;
 }
 
-.bufferOperator.BufferDataF3>div {
+.bufferOperator.MPF3>div {
     background-color: #ffffff00;
     width: 70%;
     height: 70%;
     border: 3px solid #fe7019;
 }
 
-.bufferOperator.BufferDataF2>div {
+.bufferOperator.MPF2>div {
     background-color: #ffffff00;
     width: 70%;
     height: 70%;
     border: 2px solid #fe8019;
 }
 
-.bufferOperator.BufferDataF1>div {
+.bufferOperator.MPF1>div {
     background-color: #ffffff00;
     width: 70%;
     height: 70%;
     border: 1px solid #ffb915;
 }
 
-.bufferOperator.BufferDataTexture>tooltip {
+.bufferOperator.MPTexture>tooltip {
     color: pink;
 }
 
-.bufferOperator.BufferDataTexture>div {
+.bufferOperator.MPTexture>div {
     background-color: #fe3d5fa3;
     border: 1px solid #ff002d;
 }
@@ -300,11 +304,13 @@ tooltip {
 
 .codeSection:hover>tooltip {
     visibility: visible;
-    top: 17px;
+    top: 16px;
     left: 50%;
     transform: translateX(-50%);
     color: #ffe1a9;
     text-shadow: 0 0 4px #ffa500fa;
+    padding-left: 50px;
+    padding-right: 50px;
 }
 
 .codeSection.osSelected {}
@@ -314,9 +320,9 @@ tooltip {
     display: flex;
     white-space: nowrap;
     margin: auto;
-    padding: 0;
+    padding: 0 10px;
     width: max-content;
-    min-width: 60%;
+    max-width: 90%;
     height: 100%;
     text-align: center;
 }
@@ -327,8 +333,7 @@ tooltip {
     margin: 0;
     flex-grow: 1;
     float: left;
-    min-width: 7px;
-    max-width: 15px;
+    width: 12px;
     height: 100%;
     cursor: none;
 }
@@ -337,8 +342,7 @@ tooltip {
     position: relative;
     display: block;
     flex-grow: 1;
-    min-width: 7px;
-    max-width: 15px;
+    width: 12px;
     margin: 0 2px;
     height: 80%;
     top: 50%;
@@ -407,7 +411,8 @@ tooltip {
     border: 1px solid #feb93abf;
     border-radius: 2px;
     margin: 2px;
-    display: flex;
+    padding: 4px;
+    display: -webkit-box;
     position: relative;
 }
 
@@ -430,38 +435,38 @@ tooltip {
     font-size: 0.5em;
 }
 
-.contentDiv.BufferDataF1 {}
+.contentDiv.MPF1 {}
 
-.contentDiv.BufferDataF1>.name {}
+.contentDiv.MPF1>.name {}
 
-.contentDiv.BufferDataF4>.z:after, .contentDiv.BufferDataF4>.y:after, .contentDiv.BufferDataF4>.x:after, .contentDiv.BufferDataF3>.y:after, .contentDiv.BufferDataF3>.x:after, .contentDiv.BufferDataF2>.x:after {
+.contentDiv.MPF4>.z:after, .contentDiv.MPF4>.y:after, .contentDiv.MPF4>.x:after, .contentDiv.MPF3>.y:after, .contentDiv.MPF3>.x:after, .contentDiv.MPF2>.x:after {
     content: ",";
 }
 
-.contentDiv.BufferDataF4>.x:before, .contentDiv.BufferDataF3>.x:before, .contentDiv.BufferDataF2>.x:before, .contentDiv.BufferDataF1>.x:before {
+.contentDiv.MPF4>.x:before, .contentDiv.MPF3>.x:before, .contentDiv.MPF2>.x:before, .contentDiv.MPF1>.x:before {
     content: "[";
 }
 
-.contentDiv.BufferDataF4>.w:after, .contentDiv.BufferDataF3>.z:after, .contentDiv.BufferDataF2>.y:after, .contentDiv.BufferDataF1>.x:after {
+.contentDiv.MPF4>.w:after, .contentDiv.MPF3>.z:after, .contentDiv.MPF2>.y:after, .contentDiv.MPF1>.x:after {
     content: "]";
 }
 
-.contentDiv.BufferDataF4>.x, .contentDiv.BufferDataF3>.x, .contentDiv.BufferDataF2>.x, .contentDiv.BufferDataF1>.x {
+.contentDiv.MPF4>.x, .contentDiv.MPF3>.x, .contentDiv.MPF2>.x, .contentDiv.MPF1>.x {
     color: orange;
     flex-grow: 1;
 }
 
-.contentDiv.BufferDataF4>.y, .contentDiv.BufferDataF3>.y, .contentDiv.BufferDataF2>.y {
+.contentDiv.MPF4>.y, .contentDiv.MPF3>.y, .contentDiv.MPF2>.y {
     color: #fe8019;
     flex-grow: 1;
 }
 
-.contentDiv.BufferDataF4>.z, .contentDiv.BufferDataF3>.z {
+.contentDiv.MPF4>.z, .contentDiv.MPF3>.z {
     color: #fe5f19;
     flex-grow: 1;
 }
 
-.contentDiv.BufferDataF4>.w {
+.contentDiv.MPF4>.w {
     color: #fe19db;
     flex-grow: 1;
 }

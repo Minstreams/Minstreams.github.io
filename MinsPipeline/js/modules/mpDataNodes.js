@@ -118,7 +118,7 @@ export class MPTexture extends MPBufferDataPrototype {
          * @type {Uint8ClampedArray}
          */
         this._texData = new Uint8ClampedArray(this._width * this._height * 4);
-        this._texData.fill(255);
+        this._texData.fill(128);
     }
 
     get texData() {
@@ -134,7 +134,7 @@ export class MPTexture extends MPBufferDataPrototype {
      * @param {number} height
      */
     constructor(name, description, width, height) {
-        super(name, description);
+        super(name || 'newTexture', description || '这是一个图像缓存');
         this.Resize(width || 256, height || 256);
         let d = this;
         this.avater = {

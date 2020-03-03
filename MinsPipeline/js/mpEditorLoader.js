@@ -20,29 +20,30 @@ async function _onload() {
             'ui-tabs-nav': 'ui-tabs-xExtended'
         }
     });
-    tabs.find('.ui-tabs-nav')
-        // Code标签排序功能
-        .sortable({
-            axis: 'x',
-            distance: 15,
-            stop: function (e, ui) {
-                tabs.tabs('refresh');
-                // 排序后自动选择最新标签
-                tabs.tabs('option', 'active', ui.item.index());
-            },
-            items: 'li:not(.mainCodeLi)',    // 主代码项固定
-        })
-        // Code标签横向滚动
-        .mousewheel(function (event) {
-            /**左右滚动系数 */
-            const myDeltaFactor = 0.25;
-            targetScrollLeft -= event.deltaFactor * event.deltaY * myDeltaFactor;
-            let max = $(this)[0].scrollWidth - $(this)[0].clientWidth;
-            targetScrollLeft = targetScrollLeft < 0 ? 0 : targetScrollLeft > max ? max : targetScrollLeft;
+    {
+        tabs.find('.ui-tabs-nav')
+            // Code标签排序功能
+            .sortable({
+                axis: 'x',
+                distance: 15,
+                stop: function (e, ui) {
+                    tabs.tabs('refresh');
+                    // 排序后自动选择最新标签
+                    tabs.tabs('option', 'active', ui.item.index());
+                },
+                items: 'li:not(.mainCodeLi)',    // 主代码项固定
+            })
+            // Code标签横向滚动
+            .mousewheel(function (event) {
+                /**左右滚动系数 */
+                const myDeltaFactor = 0.25;
+                targetScrollLeft -= event.deltaFactor * event.deltaY * myDeltaFactor;
+                let max = $(this)[0].scrollWidth - $(this)[0].clientWidth;
+                targetScrollLeft = targetScrollLeft < 0 ? 0 : targetScrollLeft > max ? max : targetScrollLeft;
 
-            $(this).stop().animate({ scrollLeft: targetScrollLeft }, 'fast', 'easeOutCubic');
-        });
-
+                $(this).stop().animate({ scrollLeft: targetScrollLeft }, 'fast', 'easeOutCubic');
+            });
+    }
     /**关闭一个Code标签
      * @param {typeof _MP.MPCodeData.prototype} codeDataObject 对应的code数据项
      */
@@ -92,6 +93,7 @@ async function _onload() {
             tabs.tabs('refresh');
             tabs.tabs('option', 'active', newTabliIndex);
         }
+        _MP.UpdateAll();
         return out;
     }
     //#endregion
@@ -105,7 +107,7 @@ async function _onload() {
             .empty()
             .append($('<h2></h2>').BindProperty(bs, 'name', 'text'))
             .append($('<p></p>').BindProperty(bs, 'description', 'text'));
-        bsDiv.children('ul').children('li').each(function (i) { $('<div></div>').appendTo(bDiv).data('mpLi', $(this)).MPLoadWidget($(this).data('mpObject')); });
+        bsDiv.children('ul').children('li:data(mpObject)').each(function (i) { $('<div></div>').appendTo(bDiv).data('mpLi', $(this)).MPLoadWidget($(this).data('mpObject')); });
         _MP.UpdateAll();
     }
     /**选择一个缓存节
@@ -134,6 +136,7 @@ async function _onload() {
          * @return {JQuery<HTMLElement>} bsul
          */
         BSAdd(...dataNodes) {
+            let bsdns = this.data('mpArray');
             dataNodes.forEach(dn => {
                 $('<li></li>')
                     .addClass('bufferOperator ' + dn.constructor.name)
@@ -145,6 +148,7 @@ async function _onload() {
                     .append($('<tooltip></tooltip>').BindProperty(dn, 'name', 'readonly'))
                     // .on('dragover', function () {})  //？？？
                     ;
+                if (!bsdns.includes(dn)) bsdns.push(dn);
             });
             this.BSResort(true).parent().click()
             return this;
@@ -204,16 +208,10 @@ async function _onload() {
                         update: function (event, ui) {
                             // 在这里对元素重新排序
                             if (!ui.item[0].parentNode) return; // 元素悬空不排序
+                            let data = (ui.sender ? ui.sender : ui.item.parent()).data('mpArray').remove(ui.item.data('mpObject'));
+                            if (!data) { /**移到新节后会调用两次update，其中一次没有data */ return; }
                             console.log('update', ui.item.index() + '|sender:' + (ui.sender ? ui.sender[0] : null) + '|data:' + ui.item.data('mpObject'));
-                            let fromArray = (ui.sender ? ui.sender : ui.item.parent()).data('mpArray');
-                            let toArray = ui.item.parent().data('mpArray');
-                            let data = fromArray.remove(ui.item.data('mpObject'));
-                            if (!data) {
-                                // todo 如果一直不出现这个警告，可以吧这很多行代码简化
-                                console.warn('Data doesn\'t exist!');
-                                return;
-                            }
-                            toArray.splice(ui.item.index(), 0, data);
+                            ui.item.parent().data('mpArray').splice(ui.item.index(), 0, data);
                             // 重新排序、重新聚焦
                             ui.item.parent().BSResort().parent().click();
                         },
@@ -253,9 +251,10 @@ async function _onload() {
         },
         /**添加代码项
          * @this {JQuery<HTMLElement>} csul
-         * @return {JQuery<HTMLElement>} csli
+         * @return {JQuery<HTMLElement>} csul
          */
         CSAdd(...codeNodes) {
+            let csdns = this.data('mpArray');
             codeNodes.forEach(cn => {
                 $('<li></li>')
                     .addClass('codeOperator')
@@ -272,6 +271,7 @@ async function _onload() {
                         stopBubbling(e);
                     })
                     ;
+                if (!csdns.includes(cn)) csdns.push(cn);
             });
             return this.sortable('refresh');
         },
@@ -293,23 +293,13 @@ async function _onload() {
                         axis: 'x',
                         connectWith: '.codeSection>ul',
                         scroll: false,
-                        change: function (event, ui) {
-                            // 对空白表列做顺序调整
-                            let lp = ui.placeholder.filter(':last-child');
-                            lp.after(lp.prev());
-                        },
                         update: function (event, ui) {
                             // 在这里对数据排序
                             if (!ui.item[0].parentNode) return; // 元素悬空不排序
-                            let fromArray = (ui.sender ? ui.sender : ui.item.parent()).data('mpArray');
-                            let toArray = ui.item.parent().data('mpArray');
-                            let data = fromArray.remove(ui.item.data('mpObject'));
-                            if (!data) {
-                                // todo 如果一直不出现这个警告，可以吧这很多行代码简化
-                                console.warn('Data doesn\'t exist!');
-                                return;
-                            }
-                            toArray.splice(ui.item.index(), 0, data);
+                            let data = (ui.sender ? ui.sender : ui.item.parent()).data('mpArray').remove(ui.item.data('mpObject'));
+                            if (!data) {/**移到新节后会调用两次update，其中一次没有data */return; }
+                            console.log('update', ui.item.index() + '|sender:' + (ui.sender ? ui.sender[0] : null) + '|data:' + ui.item.data('mpObject'));
+                            ui.item.parent().data('mpArray').splice(ui.item.index(), 0, data);
 
                             ui.item.parent().parent().addClass('csSelected').siblings('.csSelected').removeClass('csSelected');
                         },
@@ -331,9 +321,7 @@ async function _onload() {
                         },
                         items: 'li.codeOperator'
                     })
-                        .append($('<div></div>').addClass('margin-helper'))
                         .CSAdd(...cs._codeNodes)
-                        .append($('<div></div>').addClass('margin-helper'))
                 );
             return this;
         },
@@ -346,9 +334,9 @@ async function _onload() {
         let cs = section.codeSection;
 
         // 缓存节按钮
-        let bsDiv = $('<div></div>').appendTo('#topDiv').BSInit(bs);
+        let bsDiv = $('<div></div>').appendTo('#sectionDiv').BSInit(bs);
         // codeSection按钮
-        let csDiv = $('<div></div>').appendTo('#topDiv').CSInit(cs);
+        let csDiv = $('<div></div>').appendTo('#sectionDiv').CSInit(cs);
 
         if (preElement) {
             preElement.after(bsDiv);
@@ -408,6 +396,16 @@ async function _onload() {
         }
     }
 
+    // 添加新缓存数据
+    $('#btnBAdd').click(function () {
+        $('.bsSelected').children('ul').BSAdd(new _MP[$("#selBType").val()]);
+    });
+
+    $('#btnCAdd').click(function () {
+        $('.bsSelected').next().children('ul').CSAdd(new _MP.MPCodeData());
+        _MP.UpdateAll();
+    });
+
     // 通过url参数载入对应数据，默认载入一个文件
     var mpDataFile = getQueryString('mpData') || 'default';
     $.get('/MinsPipeline/mpData/' + mpDataFile, function (data, status) {
@@ -417,7 +415,7 @@ async function _onload() {
 
         AddCodeTab(_mpData.mainCode);
         _mpData.sections.forEach(s => addSection(s));
-        $('#topDiv').children('.bufferSection').first().click();
+        $('#sectionDiv').children('.bufferSection').first().click();
     });
 }
 

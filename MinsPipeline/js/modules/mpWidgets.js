@@ -46,23 +46,23 @@ var updateFunctions = {
 var applyFunctions = {
     /**不能为空，去掉特殊字符，去掉连续空格 */
     singleLine(target, propertyName) {
-        if (!this.text()) return;
-        target[propertyName] = this.text().replace(/[\f\n\r\t\v]/g, '').replace(/ +/g, ' ');
+        let text = this.text().replace(/[\f\n\r\t\v]/g, '').replace(/ +/g, ' ')
+        if (text) target[propertyName] = text;
     },
     /**限定为数字 */
     number(target, propertyName) {
-        if (!this.text()) return;
-        target[propertyName] = new Number(this.text().replace(/[^0-9.-]/g, ''));
+        let text = this.text().replace(/[^0-9.-]/g, '');
+        if (text) target[propertyName] = new Number(text);
     },
     /**限定为嵌套数据数字 */
     avaterNumber(target, propertyName) {
-        if (!this.text()) return;
-        target.avater['_' + propertyName] = new Number(this.text().replace(/[^0-9.-]/g, ''));
+        let text = this.text().replace(/[^0-9.-]/g, '');
+        if (text) target.avater['_' + propertyName] = new Number(text);
     },
     /**去除所有空格 */
     noSpace(target, propertyName) {
-        if (!this.text()) return;
-        target[propertyName] = this.text().replace(/\W/g, '');
+        let text = this.text().replace(/\W/g, '');
+        if (text) target[propertyName] = text;
     },
     /**强制转换为html */
     html(target, propertyName) {
@@ -204,13 +204,12 @@ export function UpdateAll() {
  * 数字越小权限越高
  */
 var _authority = {
-    '': 0,
     'fullControl': 0,
     'editable': 1,
     'readonly': 2,
 }
 function getAuth(auth) {
-    let a = _authority[auth] || 2;
+    let a = _authority[auth] || 0;
     return {
         fullControl: a === 0,
         editable: a <= 1,
@@ -281,9 +280,11 @@ $.fn.extend({
 
         // 数据项
         let mpObjName = mpObject.constructor.name;
-        el.addClass('contentDiv ' + mpObjName)
-            .AppendProperties(['name'], 'h3', auth.fullControl ? 'name' : 'readonly')
-            .AppendProperties(['description'], 'p', auth.fullControl ? 'text' : 'readonly');
+        if (mpObjName !== 'MPCodeData') {
+            el.addClass('contentDiv ' + mpObjName)
+                .AppendProperties(['name'], 'h3', auth.fullControl ? 'name' : 'readonly')
+                .AppendProperties(['description'], 'p', auth.fullControl ? 'text' : 'readonly');
+        }
         switch (mpObjName) {
             case 'MPF1':
                 el.AppendProperties(['x'], 'div', auth.editable ? 'number' : 'readonlyNumber');
@@ -305,8 +306,9 @@ $.fn.extend({
                 break;
             case 'MPCodeData':
                 el.addClass('codeTextDiv cm-s-codewarm')
-                    .append($('<span>// </span>').addClass('cm-comment'),
-                        $('<span></span>').addClass('cm-comment').BindProperty(mpObject, 'description', auth.fullControl ? 'text' : 'readonly'),
+                    .append(
+                        $('<span>// </span>').addClass('cm-comment'),
+                        $('<span></span>').BindProperty(mpObject, 'description', auth.fullControl ? 'text' : 'readonly').addClass('cm-comment'),
                         $('<br />').addClass('cm-comment'),
                         $('<span>function </span>').addClass('cm-keyword'),
                         $('<span></span>').addClass('cm-def').BindProperty(mpObject, 'name', auth.fullControl ? 'name' : 'readonly'),
