@@ -396,14 +396,22 @@ async function _onload() {
         }
     }
 
-    // 添加新缓存数据
+    // 添加新缓存数据按钮
     $('#btnBAdd').click(function () {
         $('.bsSelected').children('ul').BSAdd(new _MP[$("#selBType").val()]);
     });
 
+    // 添加新代码数据按钮
     $('#btnCAdd').click(function () {
         $('.bsSelected').next().children('ul').CSAdd(new _MP.MPCodeData());
         _MP.UpdateAll();
+    });
+
+    $("#dB").click(function () {
+        $(".codeText").ApplyProperty();
+        jstring = _MP.MPOS.stringify(_mpData);
+    
+        console.log(jstring);
     });
 
     // 通过url参数载入对应数据，默认载入一个文件
