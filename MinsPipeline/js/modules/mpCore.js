@@ -51,6 +51,10 @@ export class MPData extends MPPrototype {
          * @type {MPCodeData}
          */
         this.mainCode = new MPCodeData('main', '函数入口');
+        /**存储全局变量和方法的管线节
+         * @type {MPSection}
+         */
+        this.uniformSection = new MPSection();
     }
 }
 /**@name 管线节

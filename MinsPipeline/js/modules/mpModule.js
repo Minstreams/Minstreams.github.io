@@ -13,6 +13,7 @@ export * from './mpCore';
 export * from './mpDataNodes';
 export * from './mpWidgets';
 export * from './mpSerialization';
+export * from './mpCompilation';
 
 
 console.log(JSON.stringify(import.meta));
