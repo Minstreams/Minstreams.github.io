@@ -14,7 +14,7 @@ export var MPOS = {
     stringify: function (obj) {
         let result = "";
         function serializeInternal(o, path) {
-            for (key in o) {
+            for (let key in o) {
                 var value = o[key];
                 if (key.match(/(?:^Boardcast|remove|avater)/)) {
                     // 此为排除条件

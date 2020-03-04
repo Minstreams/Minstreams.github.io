@@ -245,7 +245,7 @@ function __preCal(code) {
     code = code.replace(/(?<=\w) (?=\W)|(?<=\W) (?=\W)|(?<=\W) (?=\w)/g, '');
 
     // 进行Replace操作
-    for (key in operatorReplacer) code = code.replace(new RegExp('\\' + key, 'g'), operatorReplacer[key]);
+    for (let key in operatorReplacer) code = code.replace(new RegExp('\\' + key, 'g'), operatorReplacer[key]);
 
     // 开始处理
     let t = code;
