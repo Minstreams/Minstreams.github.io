@@ -95,11 +95,13 @@ export class MPMatrix extends MPBufferDataPrototype {
      * @param {string} description Buffer数据项描述
      * @param {number[]} m 矩阵，长度为16
      */
-    constructor(name, description, m) {
+    constructor(name, description, ...m) {
         super(name || "newMatrix", description || "这是一个矩阵");
-        m = m || [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
+        if (m.length === 0) m = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
         this.avater = new Matrix(...m);
     }
+
+    get m() { return this.avater._m; }
 }
 /**@name 贴图数据项
  * @description 二维贴图，本质上是固定尺寸的数组
@@ -241,4 +243,7 @@ export class MPTexture extends MPBufferDataPrototype {
         }
         this.avater.self = this.avater.color;
     }
+
+    get width() { return this._width; }
+    get height() { return this._height; }
 }

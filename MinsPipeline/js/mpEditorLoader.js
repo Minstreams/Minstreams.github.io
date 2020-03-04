@@ -6,6 +6,7 @@
  */
 /**MP模块 */
 var _MP;
+var mo;
 /**存放当前mpData 
  * @type {typeof _MP.MPData.prototype}
  */
@@ -398,7 +399,7 @@ async function _onload() {
 
     // 添加新缓存数据按钮
     $('#btnBAdd').click(function () {
-        $('.bsSelected').children('ul').BSAdd(new _MP[$("#selBType").val()]);
+        $('.bsSelected').children('ul').BSAdd(new _MP[$('#selBType').val()]);
     });
 
     // 添加新代码数据按钮
@@ -407,17 +408,38 @@ async function _onload() {
         _MP.UpdateAll();
     });
 
-    $("#dB").click(function () {
-        $(".codeText").ApplyProperty();
+    $('#dB').click(function () {
+        $('.codeText').ApplyProperty();
         jstring = _MP.MPOS.stringify(_mpData);
-    
+
         console.log(jstring);
+
+        // $.get({
+        //     url: '/MinsPipeline/mpData/getMPData.php',
+        //     data: {
+        //         'table': 'test',
+        //         'name': 'kkk'
+        //     }
+        // }, function (data, status) {
+        //     $("#ef").html(data);
+        // });
+        $.post(
+            '/MinsPipeline/mpData/postMPData.php',
+            {
+                'table': 'test',
+                'name': _mpData.name,
+                'description': _mpData.description,
+                'data': jstring
+            }
+            , function (data, status) {
+                $("#ef").html(data);
+            });
     });
 
     // 通过url参数载入对应数据，默认载入一个文件
     var mpDataFile = getQueryString('mpData') || 'default';
     $.get('/MinsPipeline/mpData/' + mpDataFile, function (data, status) {
-        _MP.MPOS.parse(_mpData, data, '_mpData');
+        _mpData = _MP.MPOS.parse(data);
         console.log(mpDataFile);
         console.log(data);
 

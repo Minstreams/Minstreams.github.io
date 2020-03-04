@@ -25,16 +25,16 @@ export class MPPrototype {
      */
     constructor(name, description) {
         if (new.target === MPPrototype) {
-            throw new Error("MPDataPr ototype是抽象类！不能有实例！");
+            throw new Error('MPDataPr ototype是抽象类！不能有实例！');
         }
         /**名称数据
          * @type {string}
          */
-        this._name = name || "Name";
+        this._name = name || 'Name';
         /**描述数据
          * @type {string}
          */
-        this._description = description || "Description";
+        this._description = description || 'Description';
     }
 }
 /**@name 管线总数据容器
@@ -42,7 +42,7 @@ export class MPPrototype {
  */
 export class MPData extends MPPrototype {
     constructor(name, description) {
-        super(name || "新管线", description || "这是一个管线");
+        super(name || '新管线', description || '这是一个管线');
         /**管线节
          * @type {MPSection[]}
          */
@@ -50,27 +50,22 @@ export class MPData extends MPPrototype {
         /**主函数入口
          * @type {MPCodeData}
          */
-        this.mainCode = new MPCodeData("main", "函数入口");
+        this.mainCode = new MPCodeData('main', '函数入口');
     }
 }
 /**@name 管线节
  * @description 包含了一个缓存节和一个代码节
  */
 export class MPSection {
-    /**@param {string} bufName 缓存节名称
-     * @param {string} bufDesc 缓存节描述
-     * @param {string} codeName 代码节名称
-     * @param {string} codeDesc 代码节描述
-     */
-    constructor(bufName, bufDesc, codeName, codeDesc) {
+    constructor() {
         /**缓存节
          * @type {MPBufferSection}
          */
-        this.bufferSection = new MPBufferSection(bufName, bufDesc);
+        this.bufferSection = new MPBufferSection();
         /**代码节
          * @type {MPCodeSection}
          */
-        this.codeSection = new MPCodeSection(codeName, codeDesc);
+        this.codeSection = new MPCodeSection();
     }
 }
 /**@name 缓存节
@@ -81,7 +76,7 @@ export class MPBufferSection extends MPPrototype {
      * @param {string} description section描述
      */
     constructor(name, description) {
-        super(name || "新缓存节点", description || "这是一个缓存节点");
+        super(name || '新缓存节点', description || '这是一个缓存节点');
         /**缓存数据项数组
          * @type {MPBufferDataPrototype[]}
          */
@@ -96,9 +91,9 @@ export class MPBufferDataPrototype extends MPPrototype {
      * @param {string} description Buffer数据项描述
      */
     constructor(name, description) {
-        super(name || "新数据项", description || "这是一个数据项");
+        super(name || '新数据项', description || '这是一个数据项');
         if (new.target === MPBufferDataPrototype) {
-            throw new Error("MPBufferDataPrototype是抽象类！不能有实例！");
+            throw new Error('MPBufferDataPrototype是抽象类！不能有实例！');
         }
     }
 }
@@ -110,7 +105,7 @@ export class MPCodeSection extends MPPrototype {
      * @param {string} description section描述
      */
     constructor(name, description) {
-        super(name || "新代码节点", description || "这是一个代码节点");
+        super(name || '新代码节点', description || '这是一个代码节点');
         /**代码数据项数组
          * @type {MPCodeData[]}
          */
@@ -126,10 +121,11 @@ export class MPCodeData extends MPPrototype {
      * @param {string} codeText Code源代码
      */
     constructor(name, description, codeText) {
-        super(name || "newMethod", description || "这是一个方法");
+        super(name || 'newMethod', description || '这是一个方法');
         /**用户编辑的原代码字符串
          * @type {string}
          */
-        this._codeText = codeText || "";
+        this._codeText = codeText || '';
     }
+    get codeText() { return this._codeText; }
 }
