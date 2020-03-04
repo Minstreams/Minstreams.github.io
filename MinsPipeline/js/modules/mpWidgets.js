@@ -65,7 +65,7 @@ var applyFunctions = {
         let text = this.text().replace(/\W/g, '');
         if (text) target[propertyName] = text;
     },
-    /**强制转换为html */
+    /**将代码强制转换为html */
     html(target, propertyName) {
         target['_' + propertyName] = $('<div>').text(this.data('mirror').getValue()).html();
     }
