@@ -3,9 +3,9 @@
  *      mp序列化/反序列化
  *      对序列化结果进行压缩/解压
  * 依赖：
- * ·    mpCore.js
+ *      @module mpCore
  */
-// MinsPipelineObject，序列化的临时中间变量，变量名尽量简短，以减少序列化文件的大小
+// MinsPipelineObject，序列化的临时中间变量，变量名尽量简短，以减少序列化文件的大小（不过现在有了压缩技术所以无所谓了）
 var mo;
 // debug模式下不删去回车
 const debug = false;
