@@ -5,15 +5,17 @@
  * 依赖：
  *      @module mpCore
  */
+import { MPData } from "./mpCore";
+
 // MinsPipelineObject，序列化的临时中间变量，变量名尽量简短，以减少序列化文件的大小（不过现在有了压缩技术所以无所谓了）
 var mo;
 // debug模式下不删去回车
 const debug = false;
 /**MP对象专用序列化方法 */
 export var MPOS = {
-    /**将MP对象转化为json字符串
+    /**将MP对象转化为mpos字符串
      * @param {MPPrototype} obj MP对象
-     * @return {string} json字符串
+     * @return {string} mpos字符串
      */
     stringify: function (obj) {
         let result = '';
@@ -39,15 +41,19 @@ export var MPOS = {
         serializeInternal(obj, 'mo');
         return compress(result.replace(/MP/g, '_MP.MP'));
     },
-    /**将json字符串转化为MP对象
-     * @param {string} str json字符串
+    /**将mpos字符串转化为MP对象
+     * @param {string} str mpos字符串
      * @return {MPPrototype} MP对象
      */
     parse: function (str) {
         if (!str) return;
-        let tttt = decompress(str);
-        console.log(tttt);
-        eval(tttt);
+        try {
+            eval(decompress(str));
+        }
+        catch (err) {
+            console.error(err.message);
+            return new MPData();
+        }
         return mo;
     }
 }

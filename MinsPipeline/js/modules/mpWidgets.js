@@ -68,6 +68,11 @@ var applyFunctions = {
     /**将代码强制转换为html */
     html(target, propertyName) {
         target['_' + propertyName] = $('<div>').text(this.data('mirror').getValue()).html();
+    },
+    /**只有字母数字下划线的参数表列 */
+    args(target, propertyName) {
+        //先去掉特殊字符，再去掉参数首数字/连续逗号/头尾部逗号
+        target[propertyName] = this.text().replace(/[^\w,]/g, '').replace(/^,+|(?<![\da-zA-Z])\d+|(?<=,),+|,+$/g, '');
     }
 };
 /**所有OnBind方法的集合 
@@ -167,10 +172,18 @@ var propertyBindTemplate = {
         updateFunc: updateFunctions.avaterNumber,
         onBind: 'noSelection',
     },
+    /**代码正文 */
     code: {
         applyFunc: applyFunctions.html,
         applyEvent: 'blur remove',
         onBind: 'code',
+    },
+    /**代码参数 */
+    args: {
+        updateFunc: updateFunctions.text,
+        applyFunc: applyFunctions.args,
+        applyEvent: 'blur remove',
+        onBind: 'editable noEnter',
     },
     texture: {
         updateFunc: function (target, propertyName) {
@@ -313,7 +326,9 @@ $.fn.extend({
                         $('<br />').addClass('cm-comment'),
                         $('<span>function </span>').addClass('cm-keyword'),
                         $('<span></span>').addClass('cm-def').BindProperty(mpObject, 'name', auth.fullControl ? 'name' : 'readonly'),
-                        $('<span>(…){</span>').addClass('cm-operator'),
+                        $('<span>(</span>').addClass('cm-operator'),
+                        $('<span></span>').addClass('cm-keyword').BindProperty(mpObject, 'args', 'args'),
+                        $('<span>){</span>').addClass('cm-operator'),
                         $('<div></div>').BindProperty(mpObject, 'codeText', 'code'),
                         $('<span>}</span>').addClass('cm-operator')
                     );

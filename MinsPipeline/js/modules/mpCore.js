@@ -122,14 +122,19 @@ export class MPCodeSection extends MPPrototype {
 export class MPCodeData extends MPPrototype {
     /**@param {string} name Code数据项名称
      * @param {string} description Code数据项描述
+     * @param {string} args 参数表列
      * @param {string} codeText Code源代码
      */
-    constructor(name, description, codeText) {
+    constructor(name, description, args, codeText) {
         super(name || 'newMethod', description || '这是一个方法');
         /**用户编辑的原代码字符串
          * @type {string}
          */
         this._codeText = codeText || '';
+        /**参数表列,只有参数和逗号
+         * @type {string}
+         */
+        this.args = args || '';
     }
     get codeText() { return this._codeText; }
 }

@@ -517,6 +517,10 @@ tabDescription {
     white-space: nowrap;
 }
 
+.codeTextDiv>.args {
+    padding: 3px;
+}
+
 #codeReferenceDiv {
     height: 30%;
     background-color: lightslategray;

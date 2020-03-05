@@ -435,6 +435,10 @@ async function _onload() {
                 $("#ef").html(data);
             });
     });
+    $('#rB').click(function () {
+        $('.codeText').ApplyProperty();
+        _mpData.Run();
+    });
 
     // 通过url参数载入对应数据，默认载入一个文件
     var mpDataFile = getQueryString('mpData') || 'default';
