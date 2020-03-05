@@ -114,6 +114,15 @@ function compress(str) {
             result += c;
         } while (c !== mark);
     }
+    function curve(left, right) {
+        right = right || left;
+        let c;
+        do {
+            c = str[i++];
+            result += c;
+            if (c === left) curve(left, right);
+        } while (c !== right);
+    }
     function innerComp(path) {
         while (i < str.length) {
             //data部分
@@ -122,7 +131,7 @@ function compress(str) {
                 result += c;
                 if (c === '\'') until('\'');
                 else if (c === '"') until('"');
-                else if (c === '(') until(')');
+                else if (c === '(') curve('(', ')');
                 else if (c === ';') break;
             }
             //path部分
@@ -171,7 +180,7 @@ function decompress(str) {
     for (let key in invMark) {
         str = str.replace(new RegExp(key, 'g'), invMark[key])
     }
-    str = str.replace(/\n/g, '');
+    str = str.replace(/[\n\r]/g, '');
     let i = 1;
     let result = '';
     function until(mark) {
@@ -181,6 +190,15 @@ function decompress(str) {
             result += c;
         } while (c !== mark);
     }
+    function curve(left, right) {
+        right = right || left;
+        let c;
+        do {
+            c = str[i++];
+            result += c;
+            if (c === left) curve(left, right);
+        } while (c !== right);
+    }
     function innerDecomp(path) {
         result += path;
         while (i < str.length) {
@@ -189,7 +207,7 @@ function decompress(str) {
                 result += c;
                 if (c === '\'') until('\'');
                 else if (c === '"') until('"');
-                else if (c === '(') until(')');
+                else if (c === '(') curve('(', ')');
                 else if (c === ';') break;
             }
             //path部分
@@ -216,6 +234,6 @@ function decompress(str) {
         }
     }
     innerDecomp('mo');
-    if (debug) console.log('decompressed to ' + result.length);
+    if (debug) console.log('decompressed to ' + result.length + ':\n' + result);
     return result;
 }

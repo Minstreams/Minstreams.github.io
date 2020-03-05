@@ -438,6 +438,7 @@ async function _onload() {
     $('#rB').click(function () {
         $('.codeText').ApplyProperty();
         _mpData.Run();
+        _MP.UpdateAll();
     });
 
     // 通过url参数载入对应数据，默认载入一个文件

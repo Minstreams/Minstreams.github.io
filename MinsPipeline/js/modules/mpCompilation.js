@@ -32,6 +32,7 @@ var mk = {
     '].avater': '❹',
     '.self': '❺',
     'function ': '❻',
+    '.call(this,': '❼',
 };
 var argPrefix = 'MPARG_';
 var funcPrefix = 'MPFUNC_';
@@ -39,7 +40,13 @@ var funcPrefix = 'MPFUNC_';
 var modulePrefix = '_MP.';
 /**运行 */
 MPData.prototype.Run = function () {
-    console.log(ToJs(this));
+    let js = ToJs(this);
+    console.log(js);
+    try { eval(js); }
+    catch (err) {
+        console.warn(err.stack);
+        throw err;
+    }
 }
 /**编译代码为JavaScript
  * @param {MPData} mpData
@@ -74,6 +81,7 @@ function ToJs(mpData) {
     }
     code += cm;
     for (let key in mk) { code = code.replace(new RegExp(mk[key], 'g'), key); }
+    code += 'MPFUNC_main.call(this);';
     mpd = null;
     return code;
 }
@@ -93,7 +101,7 @@ function InitCodeData(cd) {
     //翻译所有参数引用
     if (cd.args) cd.args.split(',').forEach(arg => { code = code.replace(new RegExp('(?<![\\.\\w])' + arg + '(?!\\w)', 'g'), argPrefix + arg); });
     code = CompileOperators(code);
-    return mk['function '] + funcPrefix + cd.name + '(' + cd.args.replace(/(?<!\w)/, argPrefix) + '){\n' + code + '\n}\n';
+    return mk['function '] + funcPrefix + cd.name + '(' + (cd.args ? cd.args.replace(/(?<!\w)/g, argPrefix) : '') + '){\n' + code + '\n}\n';
 }
 /**引入缓存节作用域，翻译相关数据项引用
  * @param {string} code 源代码
@@ -125,14 +133,14 @@ function ImportBufferSection(code, bsIndex) {
  */
 function ImportCodeSection(code, csIndex) {
     //codeNodes
-    let cn, path;
+    let cn;
     if (csIndex < 0) {
         cn = mpd.uniformSection.codeSection._codeNodes;
     } else {
         cn = mpd.sections[csIndex].codeSection._codeNodes;
     }
     for (let ci = 0; ci < cn.length; ++ci) {
-        code = code.replace(new RegExp('(?<![\\.\\w])' + cn[ci].name + '(?![\\.\\w])', 'g'), funcPrefix + cn[ci].name);
+        code = code.replace(new RegExp('(?<![\\.\\w])' + cn[ci].name + '\\(', 'g'), funcPrefix + cn[ci].name + mk['.call(this,']);
     }
     return code;
 }
