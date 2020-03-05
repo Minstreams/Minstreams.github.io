@@ -4,27 +4,31 @@
 <head>
     <meta charset="utf-8">
     <title>mpEditor-岷溪的管线编辑器</title>
-    <link rel="modulepreload" href="./js/modules/mpModule.js">
     <script src="/JQuery/jquery-3.4.1.min.js"></script>
     <script src="/JQuery/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="/JQuery/jquery-ui.css">
     <script src="/JQuery/jquery.mousewheel.min.js"></script>
-    <link rel="stylesheet" href="/codemirror/lib/codemirror.css">
-    <link rel="stylesheet" href="css/codewarm.css">
-    <link rel="stylesheet" href="css/jqUIExtend.css">
-    <link rel="stylesheet" href="css/mpCss.css">
     <script src="/codemirror/lib/codemirror.js"></script>
     <script src="/codemirror/mode/javascript/javascript.js"></script>
+    <link rel="modulepreload" href="./js/modules/mpModule.js">
     <script src="/js/myLibrary.js"></script>
     <script src="js/mpRuntimeLibrary.js"></script>
     <script src="js/mpEditorLoader.js"></script>
-
+    <link rel="stylesheet" href="/JQuery/jquery-ui.css">
+    <link rel="stylesheet" href="/codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="css/mpWidget.css">
+    <link rel="stylesheet" href="css/mpEditor.css">
+    <link rel="stylesheet" href="/css/general.css">
+    <!--temp-->
+    <link rel="stylesheet" href="css/codewarm.css">
+    <link rel="stylesheet" href="css/jqUIExtend.css">
+    <link rel="stylesheet" href="css/mpCss.css">
 </head>
 
 <body onload="_onload();">
 
     <div id="topDiv">
         <div id='sectionDiv'></div>
+        <div id='toolDiv'></div>
     </div>
     <div id="bufferDiv"></div>
     <div id="codeDiv">

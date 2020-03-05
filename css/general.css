@@ -1,0 +1,9 @@
+/* 整站通用的css */
+tooltip {
+    visibility: hidden;
+    position: absolute;
+    font-size: 11px;
+    color: white;
+    z-index: 500;
+    white-space: nowrap;
+}
