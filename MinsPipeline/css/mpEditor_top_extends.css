@@ -1,0 +1,69 @@
+/* 按钮 */
+
+#topDiv>#toolDiv>#toolYClamper>.toolSection>#toolUniformNav {
+    display: none;
+}
+
+#topDiv>#toolDiv>#toolYClamper>.toolSection>#toolPipelineNav {}
+
+#topDiv>#toolDiv>#toolYClamper>.toolSection>#toolAddCn {
+    cursor: copy;
+}
+
+#topDiv>#toolDiv>#toolYClamper>.toolSection>#toolShowTutorial {
+    cursor: help;
+}
+
+/* 数据项 */
+
+.bufferOperator.MPF4>tooltip {
+    color: #fe875e;
+}
+
+.bufferOperator.MPF4>div {
+    background-color: #ffffff00;
+    width: 70%;
+    height: 70%;
+    border: 3px solid #fe1919;
+}
+
+.bufferOperator.MPF3>tooltip {
+    color: #fec25e;
+}
+
+.bufferOperator.MPF3>div {
+    background-color: #ffffff00;
+    width: 70%;
+    height: 70%;
+    border: 3px solid #fe7019;
+}
+
+.bufferOperator.MPF2>tooltip {
+    color: #fec25e;
+}
+
+.bufferOperator.MPF2>div {
+    background-color: #ffffff00;
+    width: 70%;
+    height: 70%;
+    border: 2px solid #fe8019;
+}
+
+.bufferOperator.MPF1>tooltip {
+    color: var(--c1);
+}
+
+.bufferOperator.MPF1>div {
+    width: 70%;
+    height: 70%;
+    border: 1px solid var(--c1);
+}
+
+.bufferOperator.MPTexture>tooltip {
+    color: pink;
+}
+
+.bufferOperator.MPTexture>div {
+    background-color: #fe3d5fa3;
+    border: 1px solid #ff002d;
+}

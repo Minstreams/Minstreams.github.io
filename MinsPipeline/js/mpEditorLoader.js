@@ -115,7 +115,8 @@ async function _onload() {
      * @this {HTMLElement} 被选择的bsDiv
      */
     function BSSelect() {
-        $(this).addClass('bsSelected').siblings('.bsSelected').removeClass('bsSelected');
+        $('.bsSelected').removeClass('bsSelected');
+        $(this).addClass('bsSelected');
         BSLoadPage();
     }
     $.fn.extend({
@@ -151,7 +152,7 @@ async function _onload() {
                     ;
                 if (!bsdns.includes(dn)) bsdns.push(dn);
             });
-            this.BSResort(true).parent().click()
+            this.BSResort(true).parent().click();
             return this;
         },
         /**对圆环上的数据项进行排列 
@@ -164,8 +165,8 @@ async function _onload() {
             // console.log('resort!' + els.length);
             els.each(function (i, e) {
                 let angle = ((i + 1) / (els.length + 1)) * 2 * Math.PI;
-                let o = 17;
-                let r = 18;
+                let o = 27;
+                let r = 22;
                 $(this).css({
                     left: (o + r * Math.cos(angle)) + 'px',
                     top: (o - r * Math.sin(angle)) + 'px'
@@ -438,7 +439,7 @@ async function _onload() {
                 $("#ef").html(data);
             });
     });
-    $('#rB').click(function () {
+    $('#toolRunCode').click(function () {
         $('.codeText').ApplyProperty();
         _mpData.Run();
         _MP.UpdateAll();
@@ -446,14 +447,14 @@ async function _onload() {
     $('#toolUniformNav').click(function () {
         // 切换到全局变量
         $('#toolUniformNav').add('#sectionDiv').css('display', 'none');
-        $('#toolPipelineNav').css('display','block');
-        $('#uniformDiv').css('display','flex');
+        $('#toolPipelineNav').css('display', 'block');
+        $('#uniformDiv').css('display', 'flex').children('.bufferSection').click();
     });
     $('#toolPipelineNav').click(function () {
         // 切换到管线变量
         $('#toolPipelineNav').add('#uniformDiv').css('display', 'none');
-        $('#toolUniformNav').css('display','block');
-        $('#sectionDiv').css('display','flex');
+        $('#toolUniformNav').css('display', 'block');
+        $('#sectionDiv').css('display', 'flex').children('.bufferSection').first().click();
     });
 
 
@@ -469,8 +470,15 @@ async function _onload() {
 
         AddCodeTab(_mpData.mainCode);
         _mpData.sections.forEach(s => addSection(s));
-        $('#sectionDiv').children('.bufferSection').first().click();
+        $('#mpInfo>h2').BindProperty(_mpData, 'name', 'text');
+        $('#mpInfo>p').BindProperty(_mpData, 'description', 'text');
+        $('#uniformDiv').append(
+            $('<div></div>').BSInit(_mpData.uniformSection.bufferSection),
+            $('<div></div>').CSInit(_mpData.uniformSection.codeSection)
+        ).children('.bufferSection').click();
     });
+
+    __showTutorial();
 }
 
 

@@ -1,0 +1,17 @@
+/* 管线编辑器主题 */
+
+:root {
+    --bg: #5b423a;
+    --bga: #b46d4f;
+    --bgd: #693924;
+    --c0: #ffffff;
+    --c0a: #ffffffbb;
+    --c0b: #ffffff66;
+    --c1: #eea08c;
+    --c1a: #eea08cbb;
+    --c1b: #eea08c66;
+    --c2: #e41212;
+    --c2a: #e41212bb;
+    --c2b: #e4121266;
+    --texImg: url(img/texture.png);
+}

@@ -1,15 +1,3 @@
-/* 管线编辑器主题 */
-
-:root {
-    --bg: #af5f3c;
-    --bga: #b46d4f;
-    --bgd: #693924;
-    --c0: #ffffff;
-    --c0a: #ffffff99;
-    --c0b: #ffffff66;
-    --texImg: url(img/texture.png);
-}
-
 /* 背景 */
 
 body {
@@ -20,13 +8,19 @@ body {
     background-image: var(--texImg);
 }
 
+.tutorial {
+    text-shadow: 0 0 6px var(--c1);
+}
+
+.tutorial>div {
+    border-color: var(--c0a);
+}
+
 /* 宏观布局 */
 
 #topDiv {
     position: relative;
     width: 100%;
-    background-color: var(--bg);
-    background-image: inherit;
     height: 64px;
 }
 
@@ -53,258 +47,5 @@ body {
     display: none;
 }
 
-/* 顶端的部分 */
-
-#topDiv>#toolDiv {
-    position: absolute;
-    height: 70px;
-    width: 20px;
-    right: 0;
-    top: 0;
-    background-color: var(--bg);
-    border-bottom-left-radius: 6px;
-    border-left: 2px solid var(--c0);
-    transition: 0.3s;
-    z-index: 5;
-}
-
-#topDiv>#toolDiv:hover {
-    box-shadow: -4px 0 10px 0px var(--c0b);
-    height: 250px;
-    transition: 0.5s;
-}
-
-#topDiv>#toolDiv>#toolYClamper {
-    position: absolute;
-    right: 0px;
-    width: 200px;
-    height: 100%;
-    overflow: hidden;
-}
-
-#topDiv>#toolDiv>#toolYClamper>.toolSection {
-    position: relative;
-    margin-left: auto;
-    width: 20px;
-    border-bottom: 3px double var(--c0a);
-}
-
-#topDiv>#toolDiv>#toolYClamper>.toolSection>div {
-    position: relative;
-    width: 14px;
-    height: 14px;
-    line-height: 14px;
-    margin: 4px auto;
-    text-align: center;
-    border-radius: 50%;
-    cursor: pointer;
-    font-family: fantasy;
-}
-
-#topDiv>#toolDiv>#toolYClamper>.toolSection>div:hover{
-    border: 2px outset var(--c0a);
-    margin: 2px auto;
-    transition:0.2s;
-}
-#topDiv>#toolDiv>#toolYClamper>.toolSection>div:active{
-    border-width: 0px;
-    margin: 4px auto;
-}
-
-#topDiv>#toolDiv>#toolYClamper>.toolSection>#toolUniformNav {
-}
-#topDiv>#toolDiv>#toolYClamper>.toolSection>#toolPipelineNav {
-    display: none;
-}
-#topDiv>#toolDiv>#toolYClamper>.toolSection>#toolAddCn {
-    cursor: copy;
-}
-
-#topDiv>#toolDiv>#toolYClamper>.toolSection>div:hover>tooltip {
-    visibility: visible;
-    right: 24px;
-    top: 50%;
-    color: var(--c0);
-    text-shadow: 0 0 5px var(--bgd);
-    transform: translateY(-50%);
-}
-
-#topDiv>#sectionDiv {
-    position: absolute;
-    align-items: center;
-    display: flex;
-    height: 100%;
-    left: 0;
-    right: 24px;
-    border-bottom: 1.5px dashed var(--c0b);
-    z-index: 10;
-}
-
-.bufferSection {
-    position: relative;
-    flex-grow: 1;
-    flex-basis: 4px;
-    flex-wrap: nowrap;
-    min-width: 51px;
-    max-width: 51px;
-    height: 51px;
-    transition: 0.2s;
-}
-
-.bufferSection>point {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    height: 0;
-    width: 0;
-    transform: translateX(-50%) translateY(-50%);
-    border: 1px solid var(--c0);
-    border-radius: 50%;
-    transition: 0.6s;
-}
-
-.bufferSection:hover>point {
-    border: 4px solid var(--c0);
-    transition: 0.2s;
-    box-shadow: 0 0 14px 3px var(--c0b);
-}
-
-.bufferSection:hover>tooltip {
-    visibility: visible;
-    top: 50%;
-    left: 36px;
-    color: var(--c0);
-    text-shadow: 0 0 4px var(--c0a);
-    transform: translateY(-50%) translateY(-1.2px);
-}
-
-.bsSelected>point {
-    border: 3px solid orange;
-    transition: 0.2s;
-    box-shadow: 0 0 0px 0px #ffaa0ff5;
-}
-
-.bufferSection>ul {
-    position: absolute;
-    top: 0px;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
-    margin: 4px;
-    padding: 0px;
-    display: block;
-}
-
-.bufferSection>ul>.placeholder {
-    display: block;
-    position: absolute;
-    background-color: #ffa5007a;
-    border-radius: 50%;
-    width: 9px;
-    height: 9px;
-}
-
-.bufferSection .bufferOperator {
-    display: block;
-    position: absolute;
-    background: none;
-    transition: 0.2s;
-    width: 9px;
-    height: 9px;
-    cursor: none;
-}
-
-.bufferSection .bufferOperator.ui-sortable-helper {
-    transition: none;
-}
-
-.bufferOperator>div {
-    border-radius: 50%;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%) scale(0.6);
-    transition: transform 0.1s;
-}
-
-.bufferOperator:hover>div {
-    transform: translateX(-50%) translateY(-50%) scale(1);
-    transition: transform 0.1s;
-}
-
-.bufferOperator:hover>tooltip {
-    visibility: visible;
-    top: 50%;
-    left: 12px;
-    transform: translateY(-50%) translateY(-0.5px);
-}
-
-/* 顶端按钮 */
-
-.bufferSection>.top-remove {
-    position: absolute;
-    top: 50%;
-    right: 100%;
-    width: 12px;
-    height: 12px;
-    transform: translateY(40%);
-    color: #cd0a0aad;
-    text-align: center;
-    line-height: 10px;
-    font-size: 16px;
-    transition: 0.5s;
-    border-radius: 50%;
-    border: 1px solid #cd0a0aa1;
-    cursor: none;
-}
-
-.bufferSection>.top-remove:hover {
-    transform: translateY(70%) scale(2) translateX(20%);
-    color: #cd0a0a;
-    transition: 0.1s;
-    border: 0px solid #cd0a0a;
-}
-
-.bufferSection>.top-remove:hover>tooltip {
-    visibility: visible;
-    top: 50%;
-    right: -9px;
-    transform: translateY(-50%) translateY(-1.1px) scale(0.5);
-    color: #cd0a0a;
-}
-
-.codeSection>.top-add {
-    position: absolute;
-    bottom: 50%;
-    right: 0%;
-    width: 12px;
-    height: 12px;
-    transform: translateY(-40%);
-    color: #b2832ebd;
-    text-align: center;
-    line-height: 10px;
-    font-size: 16px;
-    transition: 0.5s;
-    border-radius: 50%;
-    border: 1px solid #ffa500b8;
-    cursor: none;
-}
-
-.codeSection>.top-add:hover {
-    transform: translateY(-70%) scale(2) translateX(-30%);
-    color: orange;
-    transition: 0.1s;
-    border: 0px solid #ffa500;
-}
-
-.codeSection>.top-add:hover>tooltip {
-    visibility: visible;
-    top: 50%;
-    right: -7px;
-    transform: translateY(-50%) translateY(-1.1px) scale(0.5);
-    color: orange;
-}
 
 /* 下方的部分 */

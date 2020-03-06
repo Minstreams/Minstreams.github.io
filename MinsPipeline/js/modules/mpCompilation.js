@@ -26,14 +26,16 @@ import { MPData, MPCodeData } from './mpCore';
 var mpd;
 /**特殊字符Mark，转换固定的特殊字符串，防止重名 */
 var mk = {
-    'this.unformSection.bufferSection._dataNodes[': '❶',
+    'this.uniformSection.bufferSection._dataNodes[': '❶',
     'this.sections[': '❷',
     '].bufferSection._dataNodes[': '❸',
     '].avater': '❹',
     '.self': '❺',
     'function ': '❻',
     '.call(this,': '❼',
+    'let ': '❽.',
 };
+var declaration = ['let ', 'var ', 'int ', 'string ', 'float '];
 var argPrefix = 'MPARG_';
 var funcPrefix = 'MPFUNC_';
 /**编译后代码调用模块内方法时使用的前缀 */
@@ -100,6 +102,8 @@ function InitCodeData(cd) {
     code = code.replace(/(?<=\w) (?=\W)|(?<=\W) (?=\W)|(?<=\W) (?=\w)/g, '');
     //翻译所有参数引用
     if (cd.args) cd.args.split(',').forEach(arg => { code = code.replace(new RegExp('(?<![\\.\\w])' + arg + '(?!\\w)', 'g'), argPrefix + arg); });
+    //转换所有声明引用
+    declaration.forEach(dec => code = code.replace(new RegExp(dec, 'g'), mk['let ']));
     code = CompileOperators(code);
     return mk['function '] + funcPrefix + cd.name + '(' + (cd.args ? cd.args.replace(/(?<!\w)/g, argPrefix) : '') + '){\n' + code + '\n}\n';
 }
@@ -113,7 +117,7 @@ function ImportBufferSection(code, bsIndex) {
     let dn, path;
     if (bsIndex < 0) {
         dn = mpd.uniformSection.bufferSection._dataNodes;
-        path = mk['this.unformSection.bufferSection._dataNodes['];
+        path = mk['this.uniformSection.bufferSection._dataNodes['];
     }
     else {
         dn = mpd.sections[bsIndex].bufferSection._dataNodes;
@@ -323,6 +327,7 @@ function CompileOperators_Parameters(code) {
 var setPlusReg = /^(.*?)([①②③④]⑪)(.*)$/;
 var setReg = /^(.*)(?<!⑪)(⑪)(?!⑪)(.*?)$/;
 var equalReg = /^(.*?)(⑪⑪)(.*)$/;
+var returnReg = /^return /;
 /**没有括号/逗号/分号的表达式句 */
 function CompileOperators_Expression(code) {
     let $1, $2, $3;
@@ -346,6 +351,9 @@ function CompileOperators_Expression(code) {
         $2 = RegExp.$2;
         $3 = RegExp.$3;
         return CompileOperators_SimpleExpression($1) + '==' + CompileOperators_SimpleExpression($3);
+    }
+    if (returnReg.test(code)) {
+        return 'return ' + CompileOperators_Expression(code.slice(7));
     }
     return CompileOperators_SimpleExpression(code);
 }

@@ -9,7 +9,7 @@ tooltip {
     white-space: nowrap;
 }
 
-.noselect {
+.noselect, .tutorial {
     -webkit-touch-callout: none;
     /* iOS Safari */
     -webkit-user-select: none;
@@ -22,4 +22,35 @@ tooltip {
     /* Internet Explorer/Edge */
     user-select: none;
     /* Non-prefixed version, currently not supported by any browser */
+}
+
+.tutorial {
+    position: absolute;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', "Microsoft Yahei", serif;
+    font-size: 32px;
+    padding: 16px;
+    margin: 0px;
+    z-index: 100;
+    background-color: #00000099;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    opacity: 100%;
+    color: white;
+    display: none;
+}
+
+.tutorial>span {
+    position: absolute;
+}
+
+.tutorial>h1, .tutorial>h2 {
+    margin: 0px;
+}
+
+.tutorial>div {
+    position: absolute;
+    border: 4px dashed white;
+    border-radius: 8px;
 }

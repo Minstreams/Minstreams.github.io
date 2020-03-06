@@ -54,8 +54,15 @@ export class MPData extends MPPrototype {
         /**存储全局变量和方法的管线节
          * @type {MPSection}
          */
-        this.uniformSection = new MPSection();
+        this.uniformSection = modifySection('全局变量', '这些变量在管线的任意位置都可被调用', '全局方法');
     }
+}
+function modifySection(bsName, bsDesc, csName) {
+    let out = new MPSection();
+    out.bufferSection.name = bsName;
+    out.bufferSection.description = bsDesc;
+    out.codeSection.name = csName;
+    return out;
 }
 /**@name 管线节
  * @description 包含了一个缓存节和一个代码节
@@ -108,8 +115,8 @@ export class MPCodeSection extends MPPrototype {
     /**@param {string} name section名称
      * @param {string} description section描述
      */
-    constructor(name, description) {
-        super(name || '新代码节点', description || '这是一个代码节点');
+    constructor(name) {
+        super(name || '新代码节点', '');
         /**代码数据项数组
          * @type {MPCodeData[]}
          */

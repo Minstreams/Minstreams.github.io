@@ -66,3 +66,11 @@ $.fn.extend({
         return result;
     },
 });
+
+
+function __showTutorial() {
+    /**简单教程功能 */
+    $('.tutorial').stop().fadeIn().click(function () {
+        $(this).fadeOut('slow');
+    });
+}
