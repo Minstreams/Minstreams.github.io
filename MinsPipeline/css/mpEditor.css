@@ -1,28 +1,134 @@
 /* 管线编辑器主题 */
+
 :root {
-    --bg0: #af5f3c;
-    --bg1: #b46d4f;
+    --bg: #af5f3c;
+    --bga: #b46d4f;
+    --bgd: #693924;
     --c0: #ffffff;
-    --c0a: #ffffff66;
-    --c0b: #ffffff99;
+    --c0a: #ffffff99;
+    --c0b: #ffffff66;
     --texImg: url(img/texture.png);
 }
+
 /* 背景 */
+
 body {
-    background-color: var(--bg0);
+    background-color: var(--bg);
     color: white;
     margin: 0;
     overflow-x: hidden;
     background-image: var(--texImg);
 }
-/* 顶端的部分 */
+
+/* 宏观布局 */
+
 #topDiv {
     position: relative;
     width: 100%;
-    background-color: var(--bg0);
+    background-color: var(--bg);
     background-image: inherit;
     height: 64px;
 }
+
+#codeDiv {
+    position: absolute;
+    left: 0%;
+    right: 67%;
+    top: 68px;
+    bottom: 0%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+#bufferDiv {
+    position: absolute;
+    left: 33%;
+    right: 24px;
+    top: 68px;
+    bottom: 0%;
+    overflow-y: auto;
+}
+
+#bufferDiv::-webkit-scrollbar {
+    display: none;
+}
+
+/* 顶端的部分 */
+
+#topDiv>#toolDiv {
+    position: absolute;
+    height: 70px;
+    width: 20px;
+    right: 0;
+    top: 0;
+    background-color: var(--bg);
+    border-bottom-left-radius: 6px;
+    border-left: 2px solid var(--c0);
+    transition: 0.3s;
+    z-index: 5;
+}
+
+#topDiv>#toolDiv:hover {
+    box-shadow: -4px 0 10px 0px var(--c0b);
+    height: 250px;
+    transition: 0.5s;
+}
+
+#topDiv>#toolDiv>#toolYClamper {
+    position: absolute;
+    right: 0px;
+    width: 200px;
+    height: 100%;
+    overflow: hidden;
+}
+
+#topDiv>#toolDiv>#toolYClamper>.toolSection {
+    position: relative;
+    margin-left: auto;
+    width: 20px;
+    border-bottom: 3px double var(--c0a);
+}
+
+#topDiv>#toolDiv>#toolYClamper>.toolSection>div {
+    position: relative;
+    width: 14px;
+    height: 14px;
+    line-height: 14px;
+    margin: 4px auto;
+    text-align: center;
+    border-radius: 50%;
+    cursor: pointer;
+    font-family: fantasy;
+}
+
+#topDiv>#toolDiv>#toolYClamper>.toolSection>div:hover{
+    border: 2px outset var(--c0a);
+    margin: 2px auto;
+    transition:0.2s;
+}
+#topDiv>#toolDiv>#toolYClamper>.toolSection>div:active{
+    border-width: 0px;
+    margin: 4px auto;
+}
+
+#topDiv>#toolDiv>#toolYClamper>.toolSection>#toolUniformNav {
+}
+#topDiv>#toolDiv>#toolYClamper>.toolSection>#toolPipelineNav {
+    display: none;
+}
+#topDiv>#toolDiv>#toolYClamper>.toolSection>#toolAddCn {
+    cursor: copy;
+}
+
+#topDiv>#toolDiv>#toolYClamper>.toolSection>div:hover>tooltip {
+    visibility: visible;
+    right: 24px;
+    top: 50%;
+    color: var(--c0);
+    text-shadow: 0 0 5px var(--bgd);
+    transform: translateY(-50%);
+}
+
 #topDiv>#sectionDiv {
     position: absolute;
     align-items: center;
@@ -30,22 +136,10 @@ body {
     height: 100%;
     left: 0;
     right: 24px;
-    border-bottom: 1.5px dashed var(--c0a);
+    border-bottom: 1.5px dashed var(--c0b);
+    z-index: 10;
 }
-#topDiv>#toolDiv {
-    position: absolute;
-    height: 70px;
-    width: 20px;
-    right: 0;
-    top: 0;
-    background-color: var(--bg1);
-    border-bottom-left-radius: 6px;
-    border-left: 2px solid var(--c0);
-}
-#topDiv>#toolDiv:hover {
-    box-shadow: -4px 0 10px 0px #d69a33b8;
-    border-left: 3px solid #d6831db8;
-}
+
 .bufferSection {
     position: relative;
     flex-grow: 1;
@@ -56,6 +150,7 @@ body {
     height: 51px;
     transition: 0.2s;
 }
+
 .bufferSection>point {
     position: absolute;
     top: 50%;
@@ -67,24 +162,28 @@ body {
     border-radius: 50%;
     transition: 0.6s;
 }
+
 .bufferSection:hover>point {
     border: 4px solid var(--c0);
     transition: 0.2s;
-    box-shadow: 0 0 14px 3px var(--c0a);
+    box-shadow: 0 0 14px 3px var(--c0b);
 }
+
 .bufferSection:hover>tooltip {
     visibility: visible;
     top: 50%;
     left: 36px;
     color: var(--c0);
-    text-shadow: 0 0 4px var(--c0b);
+    text-shadow: 0 0 4px var(--c0a);
     transform: translateY(-50%) translateY(-1.2px);
 }
+
 .bsSelected>point {
     border: 3px solid orange;
     transition: 0.2s;
     box-shadow: 0 0 0px 0px #ffaa0ff5;
 }
+
 .bufferSection>ul {
     position: absolute;
     top: 0px;
@@ -95,6 +194,7 @@ body {
     padding: 0px;
     display: block;
 }
+
 .bufferSection>ul>.placeholder {
     display: block;
     position: absolute;
@@ -103,6 +203,7 @@ body {
     width: 9px;
     height: 9px;
 }
+
 .bufferSection .bufferOperator {
     display: block;
     position: absolute;
@@ -112,9 +213,11 @@ body {
     height: 9px;
     cursor: none;
 }
+
 .bufferSection .bufferOperator.ui-sortable-helper {
     transition: none;
 }
+
 .bufferOperator>div {
     border-radius: 50%;
     width: 100%;
@@ -125,17 +228,21 @@ body {
     transform: translateX(-50%) translateY(-50%) scale(0.6);
     transition: transform 0.1s;
 }
+
 .bufferOperator:hover>div {
     transform: translateX(-50%) translateY(-50%) scale(1);
     transition: transform 0.1s;
 }
+
 .bufferOperator:hover>tooltip {
     visibility: visible;
     top: 50%;
     left: 12px;
     transform: translateY(-50%) translateY(-0.5px);
 }
+
 /* 顶端按钮 */
+
 .bufferSection>.top-remove {
     position: absolute;
     top: 50%;
@@ -152,12 +259,14 @@ body {
     border: 1px solid #cd0a0aa1;
     cursor: none;
 }
+
 .bufferSection>.top-remove:hover {
     transform: translateY(70%) scale(2) translateX(20%);
     color: #cd0a0a;
     transition: 0.1s;
     border: 0px solid #cd0a0a;
 }
+
 .bufferSection>.top-remove:hover>tooltip {
     visibility: visible;
     top: 50%;
@@ -165,6 +274,7 @@ body {
     transform: translateY(-50%) translateY(-1.1px) scale(0.5);
     color: #cd0a0a;
 }
+
 .codeSection>.top-add {
     position: absolute;
     bottom: 50%;
@@ -181,12 +291,14 @@ body {
     border: 1px solid #ffa500b8;
     cursor: none;
 }
+
 .codeSection>.top-add:hover {
     transform: translateY(-70%) scale(2) translateX(-30%);
     color: orange;
     transition: 0.1s;
     border: 0px solid #ffa500;
 }
+
 .codeSection>.top-add:hover>tooltip {
     visibility: visible;
     top: 50%;
@@ -194,24 +306,5 @@ body {
     transform: translateY(-50%) translateY(-1.1px) scale(0.5);
     color: orange;
 }
+
 /* 下方的部分 */
-#codeDiv {
-    position: absolute;
-    left: 0%;
-    right: 50%;
-    top: 128px;
-    bottom: 0%;
-    overflow-x: hidden;
-    overflow-y: hidden;
-}
-#bufferDiv {
-    position: absolute;
-    left: 50%;
-    right: 0%;
-    top: 100px;
-    bottom: 0%;
-    overflow-y: auto;
-}
-#bufferDiv::-webkit-scrollbar {
-    display: none;
-}

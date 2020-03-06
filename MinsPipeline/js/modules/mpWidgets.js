@@ -81,7 +81,7 @@ var applyFunctions = {
 var onBindFunctions = {
     /**双击可编辑 */
     editable() {
-        this.on('dblclick', function () { $(this).attr({ contentEditable: 'plaintext-only', spellCheck: false }).focus(); })
+        this.on('click', function () { $(this).attr({ contentEditable: 'plaintext-only', spellCheck: false }).focus(); })
             .on('blur', function () { this.removeAttribute('contenteditable'); this.removeAttribute('spellcheck'); });
     },
     /**阻止回车事件，从而阻止换行 */

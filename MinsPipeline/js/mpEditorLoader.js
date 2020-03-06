@@ -397,13 +397,16 @@ async function _onload() {
         }
     }
 
+
+
+
     // 添加新缓存数据按钮
     $('#btnBAdd').click(function () {
         $('.bsSelected').children('ul').BSAdd(new _MP[$('#selBType').val()]);
     });
 
     // 添加新代码数据按钮
-    $('#btnCAdd').click(function () {
+    $('#toolAddCn').click(function () {
         $('.bsSelected').next().children('ul').CSAdd(new _MP.MPCodeData());
         _MP.UpdateAll();
     });
@@ -440,6 +443,22 @@ async function _onload() {
         _mpData.Run();
         _MP.UpdateAll();
     });
+    $('#toolUniformNav').click(function () {
+        // 切换到全局变量
+        $('#toolUniformNav').add('#sectionDiv').css('display', 'none');
+        $('#toolPipelineNav').css('display','block');
+        $('#uniformDiv').css('display','flex');
+    });
+    $('#toolPipelineNav').click(function () {
+        // 切换到管线变量
+        $('#toolPipelineNav').add('#uniformDiv').css('display', 'none');
+        $('#toolUniformNav').css('display','block');
+        $('#sectionDiv').css('display','flex');
+    });
+
+
+    $('#topDiv>#toolDiv>#toolYClamper>.toolSection>div').addClass('noselect');
+
 
     // 通过url参数载入对应数据，默认载入一个文件
     var mpDataFile = getQueryString('mpData') || 'default';
