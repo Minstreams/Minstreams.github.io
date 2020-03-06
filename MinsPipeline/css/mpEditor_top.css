@@ -15,7 +15,7 @@
     background-color: var(--bg);
     border-bottom-left-radius: 6px;
     border-left: 2px solid var(--c0);
-    transition: 0.3s;
+    transition: 1.3s;
 }
 
 #topDiv>#sectionDiv {
@@ -57,8 +57,11 @@
 #topDiv>#toolDiv>#toolYClamper>.toolSection {
     position: relative;
     margin-left: auto;
+    margin-bottom: -2px;
+    padding-top: 2px;
     width: 20px;
     border-bottom: 3px double var(--c0b);
+    z-index: 3;
 }
 
 #topDiv>#toolDiv>#toolYClamper>.toolSection>div {
