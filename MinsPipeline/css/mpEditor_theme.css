@@ -1,17 +1,28 @@
 /* 管线编辑器主题 */
 
 :root {
-    --bg: #5b423a;
+    --bg: #5b423a;  /* 淡铁灰 */
     --bga: #b46d4f;
-    --bgd: #693924;
-    --c0: #ffffff;
-    --c0a: #ffffffbb;
-    --c0b: #ffffff66;
-    --c1: #eea08c;
+    --bgd: #1e131d; /* 乌梅紫 */
+    --c0: #f8ebe6;  /* 草珠红 */
+    --c0a: #f8ebe6bb;
+    --c0b: #f8ebe666;
+    --c1: #eea08c;  /* 淡罂粟红 */
     --c1a: #eea08cbb;
     --c1b: #eea08c66;
-    --c2: #e41212;
-    --c2a: #e41212bb;
-    --c2b: #e4121266;
+    --c2: #d42517;  /* 鹤顶红 */
+    --c2a: #d42517bb;
+    --c2b: #d4251766;
+    --c3: #add5a2;  /* 嘉岭水绿 */
+    --c4: #158bb8;  /* 鸢尾蓝 */
+    --c4a: #158bb8bb;  
+    --c4b: #158bb866;  
+    --c5: #131124;  /* 暗蓝紫 */
+    --c6: #d1c2d3;  /* 淡牵牛紫 */
+    --c6a: #d1c2d3bb;
+    --c6b: #d1c2d366; 
+    --c7: #ec2d7a;  /* 藏花红 */
+    --c7a: #ec2d7abb;  
+    --c7b: #ec2d7a66;  
     --texImg: url(img/texture.png);
 }

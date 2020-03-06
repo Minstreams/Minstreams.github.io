@@ -456,7 +456,18 @@ async function _onload() {
         $('#toolUniformNav').css('display', 'block');
         $('#sectionDiv').css('display', 'flex').children('.bufferSection').first().click();
     });
-
+    $('#toolEditSectionOff').click(function () {
+        // 打开管线编辑状态
+        $('#sectionDiv .top-add').add('#sectionDiv .top-remove').css('visibility', 'visible');
+        $(this).css('display', 'none');
+        $('#toolEditSectionOn').css('display', 'block');
+    });
+    $('#toolEditSectionOn').click(function () {
+        // 关闭管线编辑状态
+        $('#sectionDiv .top-add').add('#sectionDiv .top-remove').css('visibility', 'hidden');
+        $(this).css('display', 'none');
+        $('#toolEditSectionOff').css('display', 'block');
+    });
 
     $('#topDiv>#toolDiv>#toolYClamper>.toolSection>div').addClass('noselect');
 

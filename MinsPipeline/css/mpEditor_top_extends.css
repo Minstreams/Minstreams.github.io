@@ -14,6 +14,12 @@
     cursor: help;
 }
 
+#topDiv>#toolDiv>#toolYClamper>.toolSection>#toolEditSectionOff {}
+
+#topDiv>#toolDiv>#toolYClamper>.toolSection>#toolEditSectionOn {
+    display: none;
+}
+
 /* 数据项 */
 
 .bufferOperator.MPF4>tooltip {
@@ -60,10 +66,10 @@
 }
 
 .bufferOperator.MPTexture>tooltip {
-    color: pink;
+    color: var(--c4);
 }
 
 .bufferOperator.MPTexture>div {
-    background-color: #fe3d5fa3;
-    border: 1px solid #ff002d;
+    background-color: var(--c4a);
+    border: 1px solid var(--c4);
 }

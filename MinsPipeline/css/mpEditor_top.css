@@ -42,14 +42,18 @@
 
 #topDiv>#toolDiv:hover {
     box-shadow: -4px 0 10px 0px var(--c0b);
-    height: 250px;
+    height: 600px;
     transition: 0.5s;
+}
+
+#topDiv>#toolDiv:hover>#toolYClamper {
+    z-index: 1;
 }
 
 #topDiv>#toolDiv>#toolYClamper {
     position: absolute;
     right: 0px;
-    width: 250px;
+    width: 232px;
     height: 100%;
     overflow: hidden;
 }
@@ -332,10 +336,11 @@
     text-align: center;
     line-height: 10px;
     font-size: 16px;
-    transition: 0.5s;
+    transition: 0.5s visibility 0;
     border-radius: 50%;
     border: 1px solid var(--c2a);
     cursor: none;
+    visibility: hidden;
 }
 
 .bufferSection>.top-remove:hover {
@@ -364,10 +369,11 @@
     text-align: center;
     line-height: 10px;
     font-size: 16px;
-    transition: 0.5s;
+    transition: 0.5s visibility 0;
     border-radius: 50%;
     border: 1px solid var(--c1a);
     cursor: none;
+    visibility: hidden;
 }
 
 .codeSection>.top-add:hover {
