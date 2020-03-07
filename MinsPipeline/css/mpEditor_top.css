@@ -1,3 +1,7 @@
+:root {
+    --toolHeight: 300px;
+}
+
 /* 顶端的部分 */
 
 /* 基本布局 */
@@ -42,8 +46,17 @@
 
 #topDiv>#toolDiv:hover {
     box-shadow: -4px 0 10px 0px var(--c0b);
-    height: 600px;
-    transition: 0.5s;
+    height: var(--toolHeight);
+    transition: 0.3s;
+}
+
+#topDiv>#toolDiv>#toolTouchArea {
+    position: absolute;
+    left: 80%;
+    width: 20%;
+    top: 0;
+    height: var(--toolHeight);
+    z-index: 2;
 }
 
 #topDiv>#toolDiv>#toolYClamper {

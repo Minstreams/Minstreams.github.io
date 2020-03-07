@@ -14,12 +14,17 @@
 #errorLog {
     font-size: 14px;
     color: var(--c2l);
-    box-shadow: 0 0 4px 4px var(--c2a) inset;
+    text-shadow: 0 0 2px var(--c2);
+    box-shadow: 0 0 4px 4px var(--c2a);
     padding: 0 4px;
     line-height: 21px;
     margin: 2px 0;
     border-radius: 4px;
     word-break: break-all;
+    white-space: pre;
+    width: fit-content;
+    background: var(--bgd);
+    z-index: 1;
 }
 
 #codeReferenceDiv {

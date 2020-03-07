@@ -409,7 +409,10 @@ async function _onload() {
         }
     }
 
-
+    /**停止代码运行 */
+    function StopRunning() {
+        $('#errorLog').text('');
+    }
 
     {
         // 添加新缓存数据按钮
@@ -451,8 +454,14 @@ async function _onload() {
         });
         // 运行代码
         $('#toolRunCode').click(function () {
+            StopRunning();
             $('.codeText').ApplyProperty();
-            _mpData.Run();
+            try {
+                _mpData.Run();
+            }
+            catch (err) {
+                $('#errorLog').text(err.stack);
+            }
             _MP.UpdateAll();
         });
         // 切换到全局变量
@@ -483,6 +492,7 @@ async function _onload() {
         });
     }
     $('#topDiv>#toolDiv>#toolYClamper>.toolSection>div').addClass('noselect');
+
 
 
     // 通过url参数载入对应数据，默认载入一个文件
