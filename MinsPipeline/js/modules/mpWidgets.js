@@ -118,10 +118,10 @@ var onBindFunctions = {
             theme: 'codewarm',
         });
         this.data('mirror', cmr);
-        this.on('click', function () {
-            console.log('cmrFocus!');
-            cmr.refresh();
-        });
+        // this.on('click', function () {
+        //     console.log('cmrFocus!');
+        //     cmr.refresh();
+        // });
     }
 };
 /**各种元素的绑定模板

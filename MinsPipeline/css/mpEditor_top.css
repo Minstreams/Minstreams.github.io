@@ -58,6 +58,8 @@
     position: relative;
     margin-left: auto;
     margin-bottom: -2px;
+    margin-right: -1px;
+    padding-right: 1px;
     padding-top: 2px;
     width: 20px;
     border-bottom: 3px double var(--c0b);
