@@ -118,6 +118,9 @@ var onBindFunctions = {
             theme: 'codewarm',
             lineWrapping: true,
             scrollbarStyle: null,
+            spellcheck: true,
+            autocorrect: true,
+            autocapitalize: true,
         });
         this.data('mirror', cmr);
         // this.on('click', function () {
