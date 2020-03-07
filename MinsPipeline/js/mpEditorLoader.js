@@ -77,7 +77,7 @@ async function _onload() {
                         $('<tabTitle></tabTitle>').BindProperty(codeDataObject, 'name', 'readonly'),
                         // Tab描述
                         $('<tabDescription></tabDescription>').BindProperty(codeDataObject, 'description', 'readonly')
-                    )
+                    ).css('outline', 'none')
                 )
                 .appendTo('#codeDiv>ul')
                 .data('codeDataObject', codeDataObject)

@@ -118,8 +118,10 @@ var onBindFunctions = {
             theme: 'codewarm',
         });
         this.data('mirror', cmr);
-        cmr.refresh();
-        cmr.focus();
+        this.on('click', function () {
+            console.log('cmrFocus!');
+            cmr.refresh();
+        });
     }
 };
 /**各种元素的绑定模板
@@ -291,6 +293,7 @@ $.fn.extend({
         let el = this;
         let auth = getAuth(authority);
         el.data('mpObject', mpObject);
+        console.log('Load Widget of ' + mpObject.name + ' as ' + authority);
 
         // 数据项
         let mpObjName = mpObject.constructor.name;
@@ -332,6 +335,7 @@ $.fn.extend({
                         $('<div></div>').BindProperty(mpObject, 'codeText', 'code'),
                         $('<span>}</span>').addClass('cm-operator')
                     );
+                    el.children('div').data('mirror').refresh();
                 break;
         }
         return this;
