@@ -2,8 +2,10 @@
 
 #bufferDiv {
     position: relative;
+    flex-grow: 1;
+    overflow-x: hidden;
     overflow-y: auto;
-    padding: 6px 24px 6px 6px;
+    padding: 2px 2px 2px 2px;
 }
 
 /* 标题 */
@@ -28,21 +30,34 @@
     white-space: normal;
 }
 
+/* 内容 */
+
 .contentDiv {
     border: 1px solid var(--c1a);
     border-radius: 2px;
-    margin: 2px;
+    margin: 6px 2px;
     padding: 4px;
-    display: -webkit-box;
+    display: flex;
     position: relative;
+}
+
+.contentDiv>.dragHandler {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid var(--c1);
+    background: var(--bg);
+    cursor: s-resize;
+    margin-right: -8px;
 }
 
 .contentDiv>.name {
     position: absolute;
-    background-color: #121212;
-    right: 0px;
+    color: var(--c0);
+    right: 20px;
     top: 0px;
-    font-size: 0.7em;
+    font-size: 16px;
     margin: 1px 0px;
     line-height: 1em;
 }
@@ -50,8 +65,8 @@
 .contentDiv>.description {
     margin: 0px;
     position: absolute;
-    right: 0px;
-    top: 11px;
+    right: 20px;
+    top: 16px;
     color: gray;
     font-size: 0.5em;
 }
@@ -73,7 +88,7 @@
 }
 
 .contentDiv.MPF4>.x, .contentDiv.MPF3>.x, .contentDiv.MPF2>.x, .contentDiv.MPF1>.x {
-    color: orange;
+    color: var(--c0a);
     flex-grow: 1;
 }
 

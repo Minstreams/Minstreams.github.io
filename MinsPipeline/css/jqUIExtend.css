@@ -27,14 +27,14 @@
     background-position: -500% -800%;
     opacity: 30%;
     border-radius: 8px;
-    transition: 0.5s;
+    transition: 0.2s;
 }
 
 .ui-tabs-active>.ui-tabs-close:hover {
     background: url("/JQuery/images/ui-icons_c98000_256x240.png");
     background-size: 1600% 1500%;
     background-position: -493.5% -800%;
-    filter: hue-rotate(325deg);
+    filter: hue-rotate(310deg);
     opacity: 100%;
     transition: 0s;
 }

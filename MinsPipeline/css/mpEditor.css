@@ -48,6 +48,8 @@ body {
 }
 
 #rightDiv {
+    display: flex;
+    flex-direction: column;
     flex-grow: 6.6;
 }
 

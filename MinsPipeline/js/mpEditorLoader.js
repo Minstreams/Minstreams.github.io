@@ -108,19 +108,7 @@ async function _onload() {
     //#region Top
     /**管线编辑状态 */
     var _mpEdit = false;
-    /**加载缓存节界面
-     * @param {typeof _MP.MPBufferSection.prototype} bs 缓存节对象
-     */
-    function BSLoadPage() {
-        let bsDiv = $('.bsSelected');
-        let bs = bsDiv.data('mpObject');
-        let bDiv = $('#bufferDiv').empty();
-        bsDiv.children('ul').children('li:data(mpObject)').each(function (i) { $('<div></div>').appendTo(bDiv).data('mpLi', $(this)).MPLoadWidget($(this).data('mpObject')); });
-        let isUniform = bs === _mpData.uniformSection.bufferSection;
-        $('#bsTitleDiv>div').UnbindProperty().BindProperty(bs, 'name', isUniform ? 'readonly' : 'text');
-        $('#bsTitleDiv>span').UnbindProperty().BindProperty(bs, 'description', isUniform ? 'readonly' : 'text');
-        _MP.UpdateAll();
-    }
+
     /**选择一个缓存节
      * @this {HTMLElement} 被选择的bsDiv
      */
@@ -337,6 +325,12 @@ async function _onload() {
                 );
             return this;
         },
+        /**特化于编辑器的加载控件方法 */
+        MPLoadEditorWidget(mpObject) {
+            this.MPLoadWidget(mpObject)
+                .append($('<div></div>').addClass('dragHandler'));
+            return this;
+        }
     });
     /**添加一个管线节
      * @param {typeof _MP.MPSection.prototype} section 管线节
@@ -409,6 +403,19 @@ async function _onload() {
         }
     }
 
+    /**加载缓存节界面
+     * @param {typeof _MP.MPBufferSection.prototype} bs 缓存节对象
+     */
+    function BSLoadPage() {
+        let bsDiv = $('.bsSelected');
+        let bs = bsDiv.data('mpObject');
+        let bDiv = $('#bufferDiv').empty();
+        bsDiv.children('ul').children('li:data(mpObject)').each(function (i) { $('<div></div>').appendTo(bDiv).data('mpLi', $(this)).MPLoadEditorWidget($(this).data('mpObject')); });
+        let isUniform = bs === _mpData.uniformSection.bufferSection;
+        $('#bsTitleDiv>div').UnbindProperty().BindProperty(bs, 'name', isUniform ? 'readonly' : 'text');
+        $('#bsTitleDiv>span').UnbindProperty().BindProperty(bs, 'description', isUniform ? 'readonly' : 'text');
+        _MP.UpdateAll();
+    }
     /**停止代码运行 */
     function StopRunning() {
         $('#errorLog').text('');
@@ -492,7 +499,10 @@ async function _onload() {
         });
     }
     $('#topDiv>#toolDiv>#toolYClamper>.toolSection>div').addClass('noselect');
-
+    $('#bufferDiv').sortable({
+        handle: ".dragHandler",
+        axis: 'y',
+    });
 
 
     // 通过url参数载入对应数据，默认载入一个文件
