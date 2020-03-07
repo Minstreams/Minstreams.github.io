@@ -340,7 +340,7 @@ $.fn.extend({
                         $('<span>function </span>').addClass('cm-keyword'),
                         $('<span></span>').addClass('cm-def').BindProperty(mpObject, 'name', auth.fullControl ? 'name' : 'readonly'),
                         $('<span>(</span>').addClass('cm-operator'),
-                        $('<span></span>').addClass('cm-variable').BindProperty(mpObject, 'args', 'args'),
+                        $('<span></span>').addClass('cm-variable').BindProperty(mpObject, 'args', auth.fullControl ? 'args' : 'readonly'),
                         $('<span>){</span>').addClass('cm-operator'),
                         $('<div></div>').BindProperty(mpObject, 'codeText', 'code'),
                         $('<span>}</span>').addClass('cm-operator')

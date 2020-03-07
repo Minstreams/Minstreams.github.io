@@ -413,8 +413,8 @@ async function _onload() {
 
     {
         // 添加新缓存数据按钮
-        $('#btnBAdd').click(function () {
-            $('.bsSelected').children('ul').BSAdd(new _MP[$('#selBType').val()]);
+        $('#toolAddData').click(function () {
+            $('.bsSelected').children('ul').BSAdd(new _MP.MPF1());
         });
         // 添加新代码数据按钮
         $('#toolAddCn').click(function () {

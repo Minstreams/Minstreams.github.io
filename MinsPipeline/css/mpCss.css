@@ -1,5 +1,3 @@
-
-/* ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¼ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¥ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â­ÃƒÆ’Ã¢â‚¬Â¹Ãƒâ€¦Ã¢â‚¬Å“ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¥ÃƒÆ’Ã¢â‚¬Â¦ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚ÂºÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¥ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂºÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¥ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³ */
 #bufferDiv>.name {
     float: right;
     margin: 0 0 20px 8px;
@@ -14,56 +12,3 @@
     color: gray;
     font-size: 0.6em;
 }
-.contentDiv {
-    border: 1px solid #feb93abf;
-    border-radius: 2px;
-    margin: 2px;
-    padding: 4px;
-    display: -webkit-box;
-    position: relative;
-}
-.contentDiv>.name {
-    position: absolute;
-    background-color: #121212;
-    right: 0px;
-    top: 0px;
-    font-size: 0.7em;
-    margin: 1px 0px;
-    line-height: 1em;
-}
-.contentDiv>.description {
-    margin: 0px;
-    position: absolute;
-    right: 0px;
-    top: 11px;
-    color: gray;
-    font-size: 0.5em;
-}
-.contentDiv.MPF1 {}
-.contentDiv.MPF1>.name {}
-.contentDiv.MPF4>.z:after, .contentDiv.MPF4>.y:after, .contentDiv.MPF4>.x:after, .contentDiv.MPF3>.y:after, .contentDiv.MPF3>.x:after, .contentDiv.MPF2>.x:after {
-    content: ",";
-}
-.contentDiv.MPF4>.x:before, .contentDiv.MPF3>.x:before, .contentDiv.MPF2>.x:before, .contentDiv.MPF1>.x:before {
-    content: "[";
-}
-.contentDiv.MPF4>.w:after, .contentDiv.MPF3>.z:after, .contentDiv.MPF2>.y:after, .contentDiv.MPF1>.x:after {
-    content: "]";
-}
-.contentDiv.MPF4>.x, .contentDiv.MPF3>.x, .contentDiv.MPF2>.x, .contentDiv.MPF1>.x {
-    color: orange;
-    flex-grow: 1;
-}
-.contentDiv.MPF4>.y, .contentDiv.MPF3>.y, .contentDiv.MPF2>.y {
-    color: #fe8019;
-    flex-grow: 1;
-}
-.contentDiv.MPF4>.z, .contentDiv.MPF3>.z {
-    color: #fe5f19;
-    flex-grow: 1;
-}
-.contentDiv.MPF4>.w {
-    color: #fe19db;
-    flex-grow: 1;
-}
-/* ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¤ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â»ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â£ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚ÂÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¥ÃƒÆ’Ã¢â‚¬Â¦ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚ÂºÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¥ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂºÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¥ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³ */

@@ -61,16 +61,7 @@ body {
 #bsTitleDiv {
     flex-grow: 1;
     max-height: fit-content;
-}
-
-
-#bufferDiv {
-    position: relative;
-    overflow-y: auto;
-}
-
-#bufferDiv::-webkit-scrollbar {
-    display: none;
+    display: flex;
 }
 
 /* 下方的部分 */
