@@ -1,8 +1,8 @@
-.cm-s-codewarm.CodeMirror, .cm-s-codewarm .CodeMirror-gutters { background:none; color: var(--c0); height: max-content;}
+.cm-s-codewarm.CodeMirror, .cm-s-codewarm .CodeMirror-gutters { background:none; color: var(--c0); height: max-content; }
 .cm-s-codewarm .CodeMirror-gutters {background: var(--c0b); border-right: 0px;}
 .cm-s-codewarm .CodeMirror-linenumber {color: var(--bgd);}
 .cm-s-codewarm .CodeMirror-cursor { border-left: 1px solid var(--c0); }
-.cm-s-codewarm div.CodeMirror-selected { background: var(--c1b); }
+.cm-s-codewarm div.CodeMirror-selected { background: var(--c1a); }
 .cm-s-codewarm span.cm-meta { color: #83a598; }
 
 .cm-s-codewarm span.cm-comment { color: #928374; }
@@ -27,5 +27,8 @@
 .cm-s-codewarm span.cm-builtin { color: #fe8019; }
 .cm-s-codewarm span.cm-tag { color: #fe8019; }
 
-.cm-s-codewarm span.cm-mp-variable{color: var(--c1);}
-.cm-s-codewarm span.cm-mp-function{color: var(--c1);}
+.cm-s-codewarm span.cm-mp-variable{ color: var(--c1); }
+.cm-s-codewarm span.cm-mp-function{ color: var(--c1); }
+.cm-s-codewarm .CodeMirror-activeline{ color: var(--bgdd); }
+.cm-s-codewarm .CodeMirror-activeline-background{ background: var(--c1b); }
+.cm-s-codewarm .CodeMirror-activeline-gutter{ background: var(--c1a); }

@@ -121,6 +121,7 @@ var onBindFunctions = {
             spellcheck: true,
             autocorrect: true,
             autocapitalize: true,
+            styleActiveLine: { nonEmpty: true },
         });
         this.data('mirror', cmr);
         // this.on('click', function () {

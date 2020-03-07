@@ -50,6 +50,9 @@ MPData.prototype.Run = function () {
         throw err;
     }
 }
+MPData.prototype.LocateError = function () {
+
+}
 /**编译代码为JavaScript
  * @param {MPData} mpData
  */
