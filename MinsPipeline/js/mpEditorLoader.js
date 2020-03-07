@@ -16,7 +16,7 @@ async function _onload() {
     //#region Code标签
     let tabCounter = 0;     //辅助变量，防止标签id重复
     let targetScrollLeft = 0;   //辅助计算横向滚动位置
-    let tabs = $('#codeContentDiv').tabs({
+    let tabs = $('#codeDiv').tabs({
         classes: {
             'ui-tabs-nav': 'ui-tabs-xExtended'
         }
@@ -49,7 +49,7 @@ async function _onload() {
      * @param {typeof _MP.MPCodeData.prototype} codeDataObject 对应的code数据项
      */
     function CloseCodeTab(codeDataObject) {
-        $('#codeContentDiv>ul>li').each(function () {
+        $('#codeDiv>ul>li').each(function () {
             if ($(this).data('codeDataObject') !== codeDataObject) return;
             $(this).data('codeTextDiv').remove();
             $(this).remove();
@@ -64,10 +64,11 @@ async function _onload() {
         let out = $();
         codeDataObjects.forEach(codeDataObject => {
             // 检查标签是否重复
-            if (!$('#codeContentDiv>ul>li').every(function (index) { if ($(this).data('codeDataObject') !== codeDataObject) return true; tabs.tabs('option', 'active', index); return false; })) return;
+            if (!$('#codeDiv>ul>li').every(function (index) { if ($(this).data('codeDataObject') !== codeDataObject) return true; tabs.tabs('option', 'active', index); return false; })) return;
             let newTabId = codeDataObject.name + tabCounter++;
+            let isMainCode = codeDataObject === _mpData.mainCode;
             // 标签内容
-            let codeTextDiv = $('<div id=\'code' + newTabId + '\'></div>').appendTo('#codeContentDiv').MPLoadWidget(codeDataObject, codeDataObject === _mpData.mainCode ? 'editable' : 'fullControl');
+            let codeTextDiv = $('<div id=\'code' + newTabId + '\'></div>').appendTo('#codeDiv').MPLoadWidget(codeDataObject, isMainCode ? 'editable' : 'fullControl');
             // 标签页
             let tabLi = $('<li></li>')
                 .append(
@@ -76,16 +77,22 @@ async function _onload() {
                         $('<tabTitle></tabTitle>').BindProperty(codeDataObject, 'name', 'readonly'),
                         // Tab描述
                         $('<tabDescription></tabDescription>').BindProperty(codeDataObject, 'description', 'readonly')
-                    ),
+                    )
+                )
+                .appendTo('#codeDiv>ul')
+                .data('codeDataObject', codeDataObject)
+                .data('codeTextDiv', codeTextDiv);
+            if (!isMainCode) {
+                tabLi.append(
                     // 标签关闭按钮
                     $('<div></div>').addClass('ui-tabs-close').click(function () {
                         // 点击时删除此标签
                         CloseCodeTab(codeDataObject);
                     })
-                )
-                .appendTo('#codeContentDiv>ul')
-                .data('codeDataObject', codeDataObject)
-                .data('codeTextDiv', codeTextDiv);
+                );
+            } else {
+                tabLi.addClass('mainCodeLi').on('dragstart', function () { return false; });
+            }
             newTabliIndex = tabLi.index();
             out.add(tabLi);
         });
@@ -98,6 +105,9 @@ async function _onload() {
         return out;
     }
     //#endregion
+    //#region Top
+    /**管线编辑状态 */
+    var _mpEdit = false;
     /**加载缓存节界面
      * @param {typeof _MP.MPBufferSection.prototype} bs 缓存节对象
      */
@@ -387,6 +397,7 @@ async function _onload() {
             addSection(newsec, csDiv);
             stopBubbling(e);
         }).append($('<tooltip></tooltip>').text('在此插入新节点'));
+        if (_mpEdit) removeDiv.add(addDiv).css('visibility', 'visible');
 
         if (preElement) {
             // 如果是插入
@@ -400,75 +411,77 @@ async function _onload() {
 
 
 
+    {
+        // 添加新缓存数据按钮
+        $('#btnBAdd').click(function () {
+            $('.bsSelected').children('ul').BSAdd(new _MP[$('#selBType').val()]);
+        });
+        // 添加新代码数据按钮
+        $('#toolAddCn').click(function () {
+            $('.bsSelected').next().children('ul').CSAdd(new _MP.MPCodeData());
+            _MP.UpdateAll();
+        });
+        // 保存数据
+        $('#toolSave').click(function () {
+            $('.codeText').ApplyProperty();
+            jstring = _MP.MPOS.stringify(_mpData);
 
-    // 添加新缓存数据按钮
-    $('#btnBAdd').click(function () {
-        $('.bsSelected').children('ul').BSAdd(new _MP[$('#selBType').val()]);
-    });
+            console.log(jstring);
 
-    // 添加新代码数据按钮
-    $('#toolAddCn').click(function () {
-        $('.bsSelected').next().children('ul').CSAdd(new _MP.MPCodeData());
-        _MP.UpdateAll();
-    });
-
-    $('#dB').click(function () {
-        $('.codeText').ApplyProperty();
-        jstring = _MP.MPOS.stringify(_mpData);
-
-        console.log(jstring);
-
-        // $.get({
-        //     url: '/MinsPipeline/mpData/getMPData.php',
-        //     data: {
-        //         'table': 'test',
-        //         'name': 'kkk'
-        //     }
-        // }, function (data, status) {
-        //     $("#ef").html(data);
-        // });
-        $.post(
-            '/MinsPipeline/mpData/postMPData.php',
-            {
-                'table': 'test',
-                'name': _mpData.name,
-                'description': _mpData.description,
-                'data': jstring
-            }
-            , function (data, status) {
-                $("#ef").html(data);
-            });
-    });
-    $('#toolRunCode').click(function () {
-        $('.codeText').ApplyProperty();
-        _mpData.Run();
-        _MP.UpdateAll();
-    });
-    $('#toolUniformNav').click(function () {
+            // $.get({
+            //     url: '/MinsPipeline/mpData/getMPData.php',
+            //     data: {
+            //         'table': 'test',
+            //         'name': 'kkk'
+            //     }
+            // }, function (data, status) {
+            //     $("#ef").html(data);
+            // });
+            $.post(
+                '/MinsPipeline/mpData/postMPData.php',
+                {
+                    'table': 'test',
+                    'name': _mpData.name,
+                    'description': _mpData.description,
+                    'data': jstring
+                }
+                , function (data, status) {
+                    $("#errorLog").html(data);
+                });
+        });
+        // 运行代码
+        $('#toolRunCode').click(function () {
+            $('.codeText').ApplyProperty();
+            _mpData.Run();
+            _MP.UpdateAll();
+        });
         // 切换到全局变量
-        $('#toolUniformNav').add('#sectionDiv').css('display', 'none');
-        $('#toolPipelineNav').css('display', 'block');
-        $('#uniformDiv').css('display', 'flex').children('.bufferSection').click();
-    });
-    $('#toolPipelineNav').click(function () {
+        $('#toolUniformNav').click(function () {
+            $('#toolUniformNav').add('#sectionDiv').css('display', 'none');
+            $('#toolPipelineNav').css('display', 'block');
+            $('#uniformDiv').css('display', 'flex').children('.bufferSection').click();
+        });
         // 切换到管线变量
-        $('#toolPipelineNav').add('#uniformDiv').css('display', 'none');
-        $('#toolUniformNav').css('display', 'block');
-        $('#sectionDiv').css('display', 'flex').children('.bufferSection').first().click();
-    });
-    $('#toolEditSectionOff').click(function () {
+        $('#toolPipelineNav').click(function () {
+            $('#toolPipelineNav').add('#uniformDiv').css('display', 'none');
+            $('#toolUniformNav').css('display', 'block');
+            $('#sectionDiv').css('display', 'flex').children('.bufferSection').first().click();
+        });
         // 打开管线编辑状态
-        $('#sectionDiv .top-add').add('#sectionDiv .top-remove').css('visibility', 'visible');
-        $(this).css('display', 'none');
-        $('#toolEditSectionOn').css('display', 'block');
-    });
-    $('#toolEditSectionOn').click(function () {
+        $('#toolEditSectionOff').click(function () {
+            $('#sectionDiv .top-add').add('#sectionDiv .top-remove').css('visibility', 'visible');
+            $(this).css('display', 'none');
+            $('#toolEditSectionOn').css('display', 'block');
+            _mpEdit = true;
+        });
         // 关闭管线编辑状态
-        $('#sectionDiv .top-add').add('#sectionDiv .top-remove').css('visibility', 'hidden');
-        $(this).css('display', 'none');
-        $('#toolEditSectionOff').css('display', 'block');
-    });
-
+        $('#toolEditSectionOn').click(function () {
+            $('#sectionDiv .top-add').add('#sectionDiv .top-remove').css('visibility', 'hidden');
+            $(this).css('display', 'none');
+            $('#toolEditSectionOff').css('display', 'block');
+            _mpEdit = false;
+        });
+    }
     $('#topDiv>#toolDiv>#toolYClamper>.toolSection>div').addClass('noselect');
 
 

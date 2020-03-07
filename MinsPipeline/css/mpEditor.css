@@ -55,23 +55,16 @@ body {
     bottom: 0;
 }
 
+/* 二级布局 */
+
 #bsTitleDiv {
     flex-grow: 1;
+    max-height: fit-content;
 }
 
-#codeDiv {
-    position: relative;
-    flex-grow: 1;
-    overflow-x: hidden;
-    overflow-y: hidden;
-}
 
 #bufferDiv {
-    position: absolute;
-    left: 33%;
-    right: 24px;
-    top: 68px;
-    bottom: 0%;
+    position: relative;
     overflow-y: auto;
 }
 

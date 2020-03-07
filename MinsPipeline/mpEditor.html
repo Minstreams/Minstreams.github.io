@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="css/mpEditor.css">
     <link rel="stylesheet" href="css/mpEditor_top.css">
     <link rel="stylesheet" href="css/mpEditor_top_extends.css">
+    <link rel="stylesheet" href="css/mpEditor_code.css">
     <!--temp-->
     <link rel="stylesheet" href="css/codewarm.css">
     <link rel="stylesheet" href="css/jqUIExtend.css">
@@ -80,6 +81,11 @@
                     </div>
                 </div>
                 <div class='toolSection'>
+                    <div id='toolSave'>S
+                        <tooltip>保存数据</tooltip>
+                    </div>
+                </div>
+                <div class='toolSection'>
                     <div id='toolShowTutorial' onclick="__showTutorial();">T
                         <tooltip>查看界面教程</tooltip>
                     </div>
@@ -96,31 +102,28 @@
     </div>
     <div id='middleDiv'>
         <div id='leftDiv'>
-            <div id='bsTitleDiv'></div>
-            <div id="codeDiv">
-                <div id="codeContentDiv">
-                    <ul>
-                    </ul>
-                </div>
-                <button id="dB" style="float:right">保存</button>
-                <button id="cB" style="float:left">清空并刷新</button>
-                <select id="selBType">
-                    <option value="MPF1">F1</option>
-                    <option value="MPF2">F2</option>
-                    <option value="MPF3">F3</option>
-                    <option value="MPF4">F4</option>
-                    <option value="MPTexture">Texture</option>
-                    <option value="MPMatrix">Matrix</option>
-                </select>
-                <button id='btnBAdd'>AddBuffer</button>
-                <div id="errorLog"></div>
+            <div id='bsTitleDiv'>
+                <h2>这是缓存节标题</h2>
             </div>
-            <p id="ef"></p>
+            <div id="codeDiv">
+                <ul></ul>
+            </div>
+            <div id="errorLog"></div>
+            <select id="selBType">
+                <option value="MPF1">F1</option>
+                <option value="MPF2">F2</option>
+                <option value="MPF3">F3</option>
+                <option value="MPF4">F4</option>
+                <option value="MPTexture">Texture</option>
+                <option value="MPMatrix">Matrix</option>
+            </select>
+            <button id='btnBAdd'>AddBuffer</button>
         </div>
-        <div id='rightDiv'></div>
+        <div id='rightDiv'>
+            <div id="bufferDiv"></div>
+        </div>
     </div>
     <div id='bottomDiv'></div>
-    <div id="bufferDiv"></div>
     <pipeline></pipeline>
     <noscript>抱歉，你的浏览器不支持 JavaScript!</noscript>
 </body>
