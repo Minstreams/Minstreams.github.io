@@ -27,7 +27,8 @@ body {
 
 #topDiv {
     position: relative;
-    height: 64px;
+    min-height: 64px;
+    max-height: 64px;
 }
 
 #middleDiv {

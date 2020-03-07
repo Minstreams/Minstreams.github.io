@@ -114,11 +114,11 @@ async function _onload() {
     function BSLoadPage() {
         let bsDiv = $('.bsSelected');
         let bs = bsDiv.data('mpObject');
-        let bDiv = $('#bufferDiv')
-            .empty()
-            .append($('<h2></h2>').BindProperty(bs, 'name', 'text'))
-            .append($('<p></p>').BindProperty(bs, 'description', 'text'));
+        let bDiv = $('#bufferDiv').empty();
         bsDiv.children('ul').children('li:data(mpObject)').each(function (i) { $('<div></div>').appendTo(bDiv).data('mpLi', $(this)).MPLoadWidget($(this).data('mpObject')); });
+        let isUniform = bs === _mpData.uniformSection.bufferSection;
+        $('#bsTitleDiv>div').UnbindProperty().BindProperty(bs, 'name', isUniform ? 'readonly' : 'text');
+        $('#bsTitleDiv>span').UnbindProperty().BindProperty(bs, 'description', isUniform ? 'readonly' : 'text');
         _MP.UpdateAll();
     }
     /**选择一个缓存节

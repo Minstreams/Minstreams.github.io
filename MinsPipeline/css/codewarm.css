@@ -1,6 +1,6 @@
-.cm-s-codewarm.CodeMirror, .cm-s-codewarm .CodeMirror-gutters { background-color: #191919; color: #bdae93; }
-.cm-s-codewarm .CodeMirror-gutters {background: #282828; border-right: 0px;}
-.cm-s-codewarm .CodeMirror-linenumber {color: #7c6f64;}
+.cm-s-codewarm.CodeMirror, .cm-s-codewarm .CodeMirror-gutters { background:none; color: var(--c0); height: max-content;}
+.cm-s-codewarm .CodeMirror-gutters {background: var(--c0b); border-right: 0px;}
+.cm-s-codewarm .CodeMirror-linenumber {color: var(--bgd);}
 .cm-s-codewarm .CodeMirror-cursor { border-left: 1px solid #ebdbb2; }
 .cm-s-codewarm div.CodeMirror-selected { background: #928374; }
 .cm-s-codewarm span.cm-meta { color: #83a598; }

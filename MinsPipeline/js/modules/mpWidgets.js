@@ -116,6 +116,8 @@ var onBindFunctions = {
             lineNumbers: true,
             mode: 'javascript',
             theme: 'codewarm',
+            lineWrapping: true,
+            scrollbarStyle: null,
         });
         this.data('mirror', cmr);
         // this.on('click', function () {
@@ -263,6 +265,14 @@ $.fn.extend({
 
         return el;
     },
+    /**取消元素绑定 */
+    UnbindProperty() {
+        if (!this.data('binded')) return this;
+        let newEl = $(this.prop("outerHTML")).html('');
+        this.after(newEl);
+        this.remove()
+        return newEl;
+    },
     /**更新选定的所有元素
      * @return {JQuery<HTMLElement>} 元素自身的引用
      */
@@ -335,7 +345,7 @@ $.fn.extend({
                         $('<div></div>').BindProperty(mpObject, 'codeText', 'code'),
                         $('<span>}</span>').addClass('cm-operator')
                     );
-                    el.children('div').data('mirror').refresh();
+                el.children('div').data('mirror').refresh();
                 break;
         }
         return this;
