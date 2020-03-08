@@ -16,10 +16,7 @@
     width: 20px;
     right: 0;
     top: 0;
-    background-color: var(--bg);
-    border-bottom-left-radius: 6px;
-    border-left: 2px solid var(--c0);
-    transition: 1.3s;
+    transition: 0.1s;
 }
 
 #topDiv>#sectionDiv {
@@ -45,9 +42,24 @@
 /* 工具栏 */
 
 #topDiv>#toolDiv:hover {
-    box-shadow: -4px 0 10px 0px var(--c0b);
     height: var(--toolHeight);
-    transition: 0.3s;
+}
+
+#topDiv>#toolDiv>#toolBackground {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--bg);
+    border-bottom-left-radius: 6px;
+    border-left: 2px solid var(--c0);
+    transition: 1.2s;
+    z-index: 1;
+}
+
+#topDiv>#toolDiv:hover>#toolBackground {
+    box-shadow: -4px 0 10px 0px var(--c0b);
 }
 
 #topDiv>#toolDiv>#toolTouchArea {
@@ -75,9 +87,8 @@
     padding-right: 1px;
     padding-top: 2px;
     width: 20px;
-    background-color: var(--bg);
     border-bottom: 3px double var(--c0b);
-    z-index: 3;
+    z-index: 2;
 }
 
 #topDiv>#toolDiv>#toolYClamper>.toolSection>div {
@@ -108,11 +119,18 @@
 
 #topDiv>#toolDiv>#toolYClamper>.toolSection>div:hover>tooltip {
     visibility: visible;
-    right: 24px;
+    right: 17px;
     top: 50%;
     color: var(--c1);
     text-shadow: 0 0 5px var(--bgd);
     transform: translateY(-50%);
+    background: var(--bgd);
+    border-radius: 4px;
+    padding: 4px;
+}
+#topDiv>#toolDiv>#toolYClamper>.toolSection>div:hover>tooltip::after{
+    content: '>';
+    margin-left:5px;
 }
 
 /* 数据按钮 */
