@@ -328,7 +328,7 @@ async function _onload() {
         /**特化于编辑器的加载控件方法 */
         MPLoadEditorWidget(mpObject) {
             this.MPLoadWidget(mpObject)
-                .append($('<div></div>').addClass('dragHandler'));
+                .append($('<div>↕</div>').addClass('dragHandler'));
             return this;
         }
     });

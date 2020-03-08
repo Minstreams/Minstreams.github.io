@@ -48,8 +48,14 @@
     border-radius: 50%;
     border: 1px solid var(--c1);
     background: var(--bg);
-    cursor: s-resize;
+    cursor: none;
     margin-right: -8px;
+    text-align: center;
+    line-height: 16px;
+    color: var(--c1b);
+}
+.contentDiv>.dragHandler:hover{
+    color: var(--c1);
 }
 
 .contentDiv>.name {
