@@ -9,7 +9,7 @@
  *      @module mpCore
  */
 
-import { MPData, MPCodeData } from './mpCore';
+import { MPData, MPCodeData } from './mpCore.js';
 
 /**编译代码原理：
  *      翻译所有参数引用（加前缀MPARG_）

@@ -5,7 +5,7 @@
  * 依赖：
  *      @module mpCore
  */
-import { MPData } from "./mpCore";
+import { MPData } from "./mpCore.js";
 
 // MinsPipelineObject，序列化的临时中间变量，变量名尽量简短，以减少序列化文件的大小（不过现在有了压缩技术所以无所谓了）
 var mo;

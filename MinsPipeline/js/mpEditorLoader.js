@@ -12,7 +12,7 @@ var mo;
  */
 var _mpData;
 async function _onload() {
-    _MP = await import('./modules/mpModule');
+    _MP = await import('./modules/mpModule.js');
     //#region Code标签
     let tabCounter = 0;     //辅助变量，防止标签id重复
     let targetScrollLeft = 0;   //辅助计算横向滚动位置

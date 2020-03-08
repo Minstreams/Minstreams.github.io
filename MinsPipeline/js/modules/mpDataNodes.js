@@ -4,7 +4,7 @@
  *      mpRuntimeLibrary.js
  *      @module mpCore
  */
-import { MPBufferDataPrototype } from "./mpCore";
+import { MPBufferDataPrototype } from "./mpCore.js";
 
 /**@name 一维浮点数据项
  * @description 一个一维浮点数

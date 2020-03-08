@@ -15,7 +15,7 @@
  * }
  */
 
-import { MPPrototype } from './mpCore';
+import { MPPrototype } from './mpCore.js';
 
 // 一些配置
 /**小数点位数,保留小数点3位 */

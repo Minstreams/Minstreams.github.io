@@ -9,11 +9,11 @@
  * 
  * 以上，缩进代表依赖引用结构，缩进相同的项平行，子项依赖父项
  */
-export * from './mpCore';
-export * from './mpDataNodes';
-export * from './mpWidgets';
-export * from './mpSerialization';
-export * from './mpCompilation';
+export * from './mpCore.js';
+export * from './mpDataNodes.js';
+export * from './mpWidgets.js';
+export * from './mpSerialization.js';
+export * from './mpCompilation.js';
 
 
 console.log(JSON.stringify(import.meta));
