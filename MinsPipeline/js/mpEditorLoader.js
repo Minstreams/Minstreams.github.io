@@ -423,9 +423,12 @@ async function _onload() {
 
     {
         // 添加新缓存数据按钮
-        $('#toolAddData').click(function () {
-            $('.bsSelected').children('ul').BSAdd(new _MP.MPF1());
-        });
+        $('#toolAddDataF1').click(function () { $('.bsSelected').children('ul').BSAdd(new _MP.MPF1()); });
+        $('#toolAddDataF2').click(function () { $('.bsSelected').children('ul').BSAdd(new _MP.MPF2()); });
+        $('#toolAddDataF3').click(function () { $('.bsSelected').children('ul').BSAdd(new _MP.MPF3()); });
+        $('#toolAddDataF4').click(function () { $('.bsSelected').children('ul').BSAdd(new _MP.MPF4()); });
+        $('#toolAddDataTex').click(function () { $('.bsSelected').children('ul').BSAdd(new _MP.MPTexture()); });
+        $('#toolAddDataMat').click(function () { $('.bsSelected').children('ul').BSAdd(new _MP.MPMatrix()); });
         // 添加新代码数据按钮
         $('#toolAddCn').click(function () {
             $('.bsSelected').next().children('ul').CSAdd(new _MP.MPCodeData());
@@ -506,12 +509,10 @@ async function _onload() {
 
 
     // 通过url参数载入对应数据，默认载入一个文件
-    var mpDataFile = getQueryString('mpData') || 'default';
-    $.get('/MinsPipeline/mpData/' + mpDataFile, function (data, status) {
-        _mpData = _MP.MPOS.parse(data);
-        console.log(mpDataFile);
-        console.log(data);
-
+    var mpDataFile = getQueryString('mpData');
+    if (!mpDataFile) {
+        _mpData = new _MP.MPData();
+        _mpData.sections[0] = new _MP.MPSection();
         AddCodeTab(_mpData.mainCode);
         _mpData.sections.forEach(s => addSection(s));
         $('#mpInfo>h2').BindProperty(_mpData, 'name', 'text');
@@ -520,7 +521,28 @@ async function _onload() {
             $('<div></div>').BSInit(_mpData.uniformSection.bufferSection),
             $('<div></div>').CSInit(_mpData.uniformSection.codeSection)
         ).children('.bufferSection').click();
-    });
+    } else {
+        $.get({
+            url: '/MinsPipeline/mpData/getMPData.php',
+            data: {
+                'table': 'test',
+                'name': mpDataFile
+            }
+        }, function (data, status) {
+            _mpData = _MP.MPOS.parse(data);
+            console.log(mpDataFile);
+            console.log(data);
+
+            AddCodeTab(_mpData.mainCode);
+            _mpData.sections.forEach(s => addSection(s));
+            $('#mpInfo>h2').BindProperty(_mpData, 'name', 'text');
+            $('#mpInfo>p').BindProperty(_mpData, 'description', 'text');
+            $('#uniformDiv').append(
+                $('<div></div>').BSInit(_mpData.uniformSection.bufferSection),
+                $('<div></div>').CSInit(_mpData.uniformSection.codeSection)
+            ).children('.bufferSection').click();
+        });
+    }
 
     __showTutorial();
 }

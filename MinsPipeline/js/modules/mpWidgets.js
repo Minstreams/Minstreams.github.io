@@ -203,6 +203,7 @@ var propertyBindTemplate = {
                 this[0].width = width;
                 this[0].height = height;
                 this.data('imgData', this.data('c2d').getImageData(0, 0, width, height));
+                target.Resize();
             }
             if (!this.data('imgData')) this.data('imgData', this.data('c2d').getImageData(0, 0, width, height));
 
@@ -334,6 +335,7 @@ $.fn.extend({
                 break;
             case 'MPTexture':
                 el.AppendProperties(['texData'], 'canvas', 'texture');
+                el.AppendProperties(['width', 'height'], 'div', 'number');
                 break;
             case 'MPCodeData':
                 el.addClass('codeTextDiv cm-s-codewarm')
