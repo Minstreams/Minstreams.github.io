@@ -116,11 +116,14 @@ export class MPTexture extends MPBufferDataPrototype {
          * @type {number}
          */
         this._height = height || this._height;
-        /**贴图核心数据
-         * @type {Uint8ClampedArray}
-         */
-        this._texData = new Uint8ClampedArray(this._width * this._height * 4);
-        this._texData.fill(128);
+
+        if (!this._texData || this._texData.length != this._width * this._height * 4) {
+            /**贴图核心数据
+             * @type {Uint8ClampedArray}
+             */
+            this._texData = new Uint8ClampedArray(this._width * this._height * 4);
+            this._texData.fill(128);
+        }
     }
 
     get texData() {

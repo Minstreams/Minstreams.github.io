@@ -177,6 +177,7 @@ var operatorReplacerInversed = {
 var overrides = {
     '': {
         '-': {
+            'Number': function (l) { return -l; },
             'Vector2': Vector2.__Negative,
             'Vector3': Vector3.__Negative,
             'Vector4': Vector4.__Negative,

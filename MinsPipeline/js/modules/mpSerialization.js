@@ -33,7 +33,8 @@ export var MPOS = {
             for (let key in o) {
                 var value = o[key];
                 // 此为排除条件
-                if (key.match(/^(?:^avater|_texData)$/)) continue;
+                if (key.match(/^(?:avater|_texData)$/)) continue;
+                if (value.constructor.name.match(/^(?:Number)$/)) continue;
                 if (typeof value != 'object') continue;
                 serializeInternal(value, path + (isNaN(key) ? '.' + key : '[' + key + ']'));
             }
@@ -48,6 +49,7 @@ export var MPOS = {
     parse: function (str) {
         if (!str) return;
         try {
+            console.log(decompress(str));
             eval(decompress(str));
         }
         catch (err) {
@@ -103,7 +105,7 @@ var invMark = {
  * @param {string} str
  */
 function compress(str) {
-    if (debug) console.log('start compressing(length:' + str.length + '):\n' + str);
+    console.log('start compressing(length:' + str.length + '):\n' + str);
     str = str.replace(/\n/g, '');
     let i = 2;
     let result = pathMark.cur;

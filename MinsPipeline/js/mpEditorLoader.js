@@ -529,6 +529,7 @@ async function _onload() {
                 'name': mpDataFile
             }
         }, function (data, status) {
+            data = data.replace(/\n/g, '\\n');
             _mpData = _MP.MPOS.parse(data);
             console.log(mpDataFile);
             console.log(data);

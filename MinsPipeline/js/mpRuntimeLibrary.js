@@ -3,6 +3,7 @@
  * 
  * 不应该依赖基础库外的任何文件
  */
+const _PID = 360 / Math.PI;
 
 //#region Vector
 //#region Vector2
@@ -78,6 +79,14 @@ class Vector2 {
     }
     set xy(val) { this.self = val; }
     set rg(val) { this.self = val; }
+
+    static Lerp(lhs, rhs, k) {
+        let kp = 1 - k;
+        return vec2(
+            kp * lhs.x + k * rhs.x,
+            kp * lhs.y + k * rhs.y
+        );
+    }
 }
 //#endregion
 //#region Vector3
@@ -482,6 +491,10 @@ class Vector4 {
     }
     set xyzw(val) { this.self = val; }
     set rgba(val) { this.self = val; }
+
+    static Normalize(v4) {
+        return vec4(v4.x / v4.w, v4.y / v4.w, v4.z / v4.w, 1);
+    }
 }
 //#endregion
 //#endregion
