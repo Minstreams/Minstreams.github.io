@@ -178,6 +178,7 @@ export class MPTexture extends MPBufferDataPrototype {
                     case 2:
                     case 3:
                         if (typeof x != 'number' || typeof y != 'number') break;
+                        if (x < -1 || x > d._width + 1 || y < -1 || y > d._height + 1) return;
                         x = x < 0 ? 0 : (x > d._width ? d._width - 1 : Math.floor(x));
                         y = y < 0 ? 0 : (y > d._height ? d._height - 1 : Math.floor(y));
                         let pos = (y * d._width + x) * 4;

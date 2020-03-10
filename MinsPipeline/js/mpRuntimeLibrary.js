@@ -493,7 +493,8 @@ class Vector4 {
     set rgba(val) { this.self = val; }
 
     static Normalize(v4) {
-        return vec4(v4.x / v4.w, v4.y / v4.w, v4.z / v4.w, 1);
+        let ww = Math.abs(v4.w);
+        return vec4(v4.x / ww, v4.y / ww, v4.z / ww, v4.w > 0 ? 1 : -1);
     }
 }
 //#endregion
@@ -561,9 +562,9 @@ var Quaternion = {
             cz = Math.cos(z);
         return Quaternion.Normalize(
             vec4(
-                sx * cy * cz - cx * sy * sz,
-                cx * sy * cz + sx * cy * sz,
-                cx * cy * sz - sx * sy * cz,
+                sx * cy * cz + cx * sy * sz,
+                cx * sy * cz - sx * cy * sz,
+                cx * cy * sz + sx * sy * cz,
                 cx * cy * cz + sx * sy * sz
             ));
     },
@@ -864,9 +865,25 @@ class Matrix {
             (m[1] - m[4]) * t,
             w));
     }
-    /**求逆矩阵 */
-    static Reverse(mat) {
-        throw new Error("Matrix.Reverse方法未实现！");
+    /**求逆矩阵,通过观察得到的，特化适用于只有平移和旋转功能的变换矩阵 */
+    static Reverse(m) {
+        if (m[12] !== 0 || m[13] !== 0 || m[14] !== 0 || m[15] !== 1) {
+            throw new Error("这不是平移旋转矩阵，我不知道怎么算！")
+        }
+        return matrix(
+            m[0], m[4], m[8], -m[0] * m[3] - m[4] * m[7] - m[8] * m[11],
+            m[1], m[5], m[9], -m[1] * m[3] - m[5] * m[7] - m[9] * m[11],
+            m[2], m[6], m[10], -m[2] * m[3] - m[6] * m[7] - m[10] * m[11],
+            0, 0, 0, 1
+        );
+    }
+    static Conjugate(m) {
+        return matrix(
+            m[0], m[4], m[8], m[12],
+            m[1], m[5], m[9], m[13],
+            m[2], m[6], m[10], m[14],
+            m[3], m[7], m[11], m[14]
+        );
     }
     /**取四个向量作为列向量 */
     static FromColumns(v1, v2, v3, v4) {
