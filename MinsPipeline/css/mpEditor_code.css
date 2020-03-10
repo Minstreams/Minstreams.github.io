@@ -93,19 +93,7 @@ tabDescription {
     flex-basis: 4px;
 }
 
-#bufferDiv::-webkit-scrollbar, #codeDiv>.codeTextDiv::-webkit-scrollbar {
-    width: 4px;
-}
 
-#bufferDiv::-webkit-scrollbar-thumb, #codeDiv>.codeTextDiv::-webkit-scrollbar-thumb {
-    border-radius: 1px;
-    background: var(--c1);
-}
-
-#bufferDiv::-webkit-scrollbar-track, #codeDiv>.codeTextDiv::-webkit-scrollbar-track {
-    border-radius: 1px;
-    background: var(--c1b);
-}
 
 .codeTextDiv [contenteditable=plaintext-only] {
     /* min-height: 150px; */

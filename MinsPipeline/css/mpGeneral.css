@@ -1,4 +1,135 @@
+:root {
+    /* --bg: bisque; */
+}
+
 /**管线相关界面的通常主题 */
-body{
-    background-color: bisque;
+
+body {
+    background: var(--bg) var(--texImg);
+    color: var(--c0);
+    margin: 0;
+}
+
+#welcomeSec {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    background-color: var(--bgd);
+    height: 640px;
+    user-select: none;
+}
+
+#welcomeSec>h1 {
+    font-family: Calibri, 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+    font-size: 74px;
+    font-weight: lighter;
+    margin: 0;
+}
+
+#welcomeSec>p {
+    color: var(--c0b);
+    word-spacing: 32px;
+}
+
+#mainDiv {
+    margin: 0 auto;
+    max-width: 1064px;
+}
+
+#introSec {
+    padding: 8px 32px;
+    background-color: var(--bgd);
+    border-top: 12px dashed var(--bg);
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    color: var(--c0a);
+}
+
+.articleGroup {
+    position: relative;
+    font-family: Calibri, 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+    display: flex;
+    height: 256px;
+    border-bottom: 8px dashed var(--bgd);
+}
+
+.articleGroup>.articleGroupTitle {
+    position: relative;
+    padding: 32px 32px;
+    width: 36%;
+}
+
+.articleGroup>.articleGroupTitle>h2 {
+    font-size: 36px;
+    margin: 0;
+}
+
+.articleGroup>.articleGroupTitle>p {
+    font-size: 15px;
+    color: var(--c0b);
+    margin: 0;
+}
+
+.articleGroup>.articleGroupTitle>span {
+    position: absolute;
+    right: -58px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 128px;
+    color: var(--c1b);
+    user-select: none;
+    transition: 0.1s;
+}
+
+.articleGroup>.articleGroupTitle:hover>span {
+    color: var(--c1a);
+    transform: translateY(-50%) translateX(12px);
+}
+
+.articleGroup>.articleGroupInfo {
+    position: relative;
+    padding: 42px 32px;
+    color: var(--c0a);
+    width: 64%;
+}
+
+#editorSec {
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bgd);
+    border-bottom: 4px dashed var(--bg);
+}
+
+#editorSec>a {
+    color: var(--c0b);
+    font-size: 32px;
+    text-align: center;
+    width: fit-content;
+}
+
+#tailSec {
+    height: 128px;
+    text-align: center;
+    padding: 8px 32px;
+    background-color: var(--bgd);
+    border-top-left-radius: 32px;
+    border-top-right-radius: 32px;
+    color: var(--c0b);
+}
+
+body::-webkit-scrollbar, #bufferDiv::-webkit-scrollbar, #codeDiv>.codeTextDiv::-webkit-scrollbar {
+    width: 4px;
+}
+
+body::-webkit-scrollbar-thumb, #bufferDiv::-webkit-scrollbar-thumb, #codeDiv>.codeTextDiv::-webkit-scrollbar-thumb {
+    border-radius: 1px;
+    background: var(--c1);
+}
+
+body::-webkit-scrollbar-track, #bufferDiv::-webkit-scrollbar-track, #codeDiv>.codeTextDiv::-webkit-scrollbar-track {
+    border-radius: 1px;
+    background: var(--c1b);
 }
