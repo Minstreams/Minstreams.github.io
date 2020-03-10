@@ -328,7 +328,7 @@ async function _onload() {
         /**特化于编辑器的加载控件方法 */
         MPLoadEditorWidget(mpObject) {
             this.MPLoadWidget(mpObject)
-                .append($('<div>↕</div>').addClass('dragHandler'));
+                .append($('<div>⇕</div>').addClass('dragHandler'));
             return this;
         }
     });
@@ -456,7 +456,7 @@ async function _onload() {
                     'table': 'test',
                     'name': _mpData.name,
                     'description': _mpData.description,
-                    'data': jstring
+                    'data': jstring.replace(/\\n/g, '\\\\n')
                 }
                 , function (data, status) {
                     $("#errorLog").html(data);
@@ -529,7 +529,6 @@ async function _onload() {
                 'name': mpDataFile
             }
         }, function (data, status) {
-            data = data.replace(/\n/g, '\\n');
             _mpData = _MP.MPOS.parse(data);
             console.log(mpDataFile);
             console.log(data);

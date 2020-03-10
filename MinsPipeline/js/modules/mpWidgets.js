@@ -36,9 +36,15 @@ var updateFunctions = {
     /**text(name) */
     text(target, propertyName) { this.text(target[propertyName]); },
     /**text(name.toFixed) */
-    number(target, propertyName) { this.text(target[propertyName].toFixed(numberDecimalPoint)); },
+    number(target, propertyName) {
+        let n = target[propertyName];
+        this.text((n >= 0 ? ' ' : '') + (n.toFixed(numberDecimalPoint)).replace(/(?<=\..+?)0+$|\.0+$/, ''));
+    },
     /**text(avater._name.toFixed) */
-    avaterNumber(target, propertyName) { this.text(target.avater['_' + propertyName].toFixed(numberDecimalPoint)); },
+    avaterNumber(target, propertyName) {
+        let n = target.avater['_' + propertyName];
+        this.text((n >= 0 ? ' ' : '') + (n.toFixed(numberDecimalPoint)).replace(/(?<=\..+?)0+$|\.0+$/, ''));
+    },
 };
 
 /**所有apllyFunc的集合
@@ -331,7 +337,9 @@ $.fn.extend({
                 el.AppendProperties(['x', 'y', 'z', 'w'], 'div', auth.editable ? 'avaterNumber' : 'readonlyAvaterNumber');
                 break;
             case 'MPMatrix':
+                el.append($('<div>┌\r\n│\n│\n│\n│\n│\n│\n└</div>').addClass('edgeL'));
                 el.AppendProperties(['m0', 'm1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7', 'm8', 'm9', 'm10', 'm11', 'm12', 'm13', 'm14', 'm15'], 'div', auth.editable ? 'avaterNumber' : 'readonlyAvaterNumber');
+                el.append($('<div>┐\r\n│\n│\n│\n│\n│\n│\n┘</div>').addClass('edgeR'));
                 break;
             case 'MPTexture':
                 el.AppendProperties(['texData'], 'canvas', 'texture');
