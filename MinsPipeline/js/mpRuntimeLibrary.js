@@ -231,13 +231,19 @@ class Vector3 {
     set xyz(val) { this.self = val; }
     set rgb(val) { this.self = val; }
 
-    static magnitude(v3) {
+    static Magnitude(v3) {
         let x = v3.x, y = v3.y, z = v3.z;
         return Math.sqrt(x * x + y * y + z * z);
     }
-    static sqrMagnitude(v3) {
+    magnitude() {
+        return Vector3.Magnitude(this);
+    }
+    static SqrMagnitude(v3) {
         let x = v3.x, y = v3.y, z = v3.z;
         return x * x + y * y + z * z;
+    }
+    sqrMagnitude() {
+        return Vector3.SqrMagnitude(this);
     }
     static Normalize(v3) {
         let m = Vector3.magnitude(v3);
@@ -246,6 +252,9 @@ class Vector3 {
         y /= m;
         z /= m;
         return vec3(x, y, z);
+    }
+    normalized() {
+        return Vector3.Normalize(this);
     }
     static Dot(lhs, rhs) {
         return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
@@ -330,6 +339,31 @@ class Vector4 {
     static __Vec4MinVec4(l, r) { return vec4(l.x - r.x, l.y - r.y, l.z - r.z, l.w - r.w); }
     static __Vec4MulVec4(l, r) { return vec4(l.x * r.x, l.y * r.y, l.z * r.z, l.w * r.w); }
     static __Vec4DivVec4(l, r) { return vec4(l.x / r.x, l.y / r.y, l.z / r.z, l.w / r.w); }
+    static __QuatMulQuat(l, r) {
+        return vec4(
+            l.x * r.w + l.y * r.z - l.z * r.y + l.w * r.x,
+            -l.x * r.z + l.y * r.w + l.z * r.x + l.w * r.y,
+            l.x * r.y - l.y * r.x + l.z * r.w + l.w * r.z,
+            -l.x * r.x - l.y * r.y - l.z * r.z + l.w * r.w
+        );
+    }
+    static __QuatMulVec3(l, r) {
+        let x2 = l.x * l.x,
+            y2 = l.y * l.y,
+            z2 = l.z * l.z,
+            w2 = l.w * l.w,
+            xy2 = 2 * l.x * l.y,
+            xz2 = 2 * l.x * l.z,
+            xw2 = 2 * l.x * l.w,
+            yz2 = 2 * l.y * l.z,
+            yw2 = 2 * l.y * l.w,
+            zw2 = 2 * l.z * l.w;
+        return vec3(
+            r.x * (x2 - y2 - z2 + w2) + r.y * (xy2 - zw2) + r.z * (xz2 + yw2),
+            r.x * (xy2 + zw2) + r.y * (-x2 + y2 - z2 + w2) + r.z * (-xw2 + yz2),
+            r.x * (xz2 - yw2) + r.y * (xw2 + yz2) + r.z * (-x2 - y2 + z2 + w2)
+        );
+    }
 
     // 访问器
     get length() { return 4; }
@@ -543,16 +577,26 @@ var Quaternion = {
         return vec4(x, y, z, w);
     },
     //用欧拉角创建四元数
-    Euler(v3) {
-        let x = v3.x,
-            y = v3.y,
-            z = v3.z;
-        x = wrap180(x);
-        y = wrap180(y);
-        z = wrap180(z);
-        x /= _PID;
-        y /= _PID;
-        z /= _PID;
+    Euler(v3, y, z) {
+        let x;
+        switch (arguments.length) {
+            case 1:
+                if (v3.constructor === Vector3) {
+                    x = v3.x / _PID;
+                    y = v3.y / _PID;
+                    z = v3.z / _PID;
+                    break;
+                }
+                throw new Error("Euler接收了不支持的参数！");
+            case 3:
+                if (v3.constructor === Number && v3y.constructor === Number && v3z.constructor === Number) {
+                    x = v3;
+                    break;
+                }
+            default:
+                throw new Error("Euler接收了不支持的参数！");
+        }
+
         let
             sx = Math.sin(x),
             cx = Math.cos(x),
@@ -564,7 +608,7 @@ var Quaternion = {
             vec4(
                 sx * cy * cz + cx * sy * sz,
                 cx * sy * cz - sx * cy * sz,
-                cx * cy * sz + sx * sy * cz,
+                cx * cy * sz - sx * sy * cz,
                 cx * cy * cz + sx * sy * sz
             ));
     },
@@ -698,6 +742,14 @@ function matrix() {
                 case 'Matrix': return new Matrix(...Array.from(a));
             }
             break;
+        case 2:
+            if (arguments[0].constructor === Vector3 && arguments[1].constructor === Vector4) {
+                let out = Matrix.Identity;
+                out.SetTransition(arguments[0]);
+                out.SetRotation(arguments[1]);
+                return out;
+            }
+            break;
         case 4:
             if (Array.from(arguments).every(function (val, i) { return val.constructor.name === 'Vector4' }))
                 return new Matrix(
@@ -745,6 +797,9 @@ class Matrix {
             m[8] * r.x + m[9] * r.y + m[10] * r.z + m[11] * r.w,
             m[12] * r.x + m[13] * r.y + m[14] * r.z + m[15] * r.w
         );
+    }
+    static __MatMulVec3(m, r) {
+        return this.__MatMulVec4(m, vec4(r, 1));
     }
 
     // 访问器
@@ -846,13 +901,13 @@ class Matrix {
             wy = v4.w * v4.y,
             wz = v4.w * v4.z;
         this._m[0] = 1 - 2 * (y2 + z2);
-        this._m[4] = 2 * (xy - wz);
-        this._m[8] = 2 * (wy + xz);
-        this._m[1] = 2 * (xy + wz);
+        this._m[1] = 2 * (xy - wz);
+        this._m[2] = 2 * (wy + xz);
+        this._m[4] = 2 * (xy + wz);
         this._m[5] = 1 - 2 * (x2 + z2);
-        this._m[9] = 2 * (yz - wx);
-        this._m[2] = 2 * (xz - wy);
-        this._m[6] = 2 * (wx + yz);
+        this._m[6] = 2 * (yz - wx);
+        this._m[8] = 2 * (xz - wy);
+        this._m[9] = 2 * (wx + yz);
         this._m[10] = 1 - 2 * (x2 + y2);
     }
     /**获取四元数 */
@@ -877,12 +932,15 @@ class Matrix {
             0, 0, 0, 1
         );
     }
+    get reversed() {
+        return Matrix.Reverse(this);
+    }
     static Conjugate(m) {
         return matrix(
             m[0], m[4], m[8], m[12],
             m[1], m[5], m[9], m[13],
             m[2], m[6], m[10], m[14],
-            m[3], m[7], m[11], m[14]
+            m[3], m[7], m[11], m[15]
         );
     }
     /**取四个向量作为列向量 */

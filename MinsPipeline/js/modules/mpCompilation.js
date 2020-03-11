@@ -159,6 +159,7 @@ var operators = {
     '②': 1,
     '③': 2,
     '④': 2,
+    '⑫': 3,
 };
 var operatorReplacerInversed = {
     '①': '+',
@@ -172,6 +173,7 @@ var operatorReplacerInversed = {
     '⑨': ']',
     '⑩': ';',
     '⑪': '=',
+    '⑫': '^',
 }
 // 所有的运算符重载方法在此注册
 var overrides = {
@@ -261,6 +263,10 @@ var overrides = {
         '/': {
             'Number': Vector4.__Vec4DivNum,
             'Vector4': Vector4.__Vec4DivVec4,
+        },
+        '^': {
+            'Vector4': Vector4.__QuatMulQuat,
+            'Vector3': Vector4.__QuatMulVec3,
         },
     },
     'Matrix': {
@@ -363,7 +369,7 @@ function CompileOperators_Expression(code) {
 }
 
 /**加减乘除的Reg */
-var opTester = /[①②③④]/;
+var opTester = /[①②③④⑫]/;
 var numberTest = /^[^a-zA-Z]*$/;
 /**无括号，无等于号 */
 function CompileOperators_SimpleExpression(code) {
