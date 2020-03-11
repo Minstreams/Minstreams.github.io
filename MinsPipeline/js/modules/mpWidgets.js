@@ -128,6 +128,14 @@ var onBindFunctions = {
             autocorrect: true,
             autocapitalize: true,
             styleActiveLine: { nonEmpty: true },
+            extraKeys: {
+                'Ctrl-S': function(){
+                    $('#toolSave').click();
+                },
+                'F5':function(){
+                    $('#toolRunCode').click();
+                }
+            },
         });
         this.data('mirror', cmr);
         // this.on('click', function () {
