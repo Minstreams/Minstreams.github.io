@@ -373,7 +373,7 @@ async function _onload() {
             let bsli = bsDiv.children('ul').children('li').css('margin-left', preCsDiv.width() + bsDiv.width());
             preBsul.append(bsli).sortable('refresh').BSResort();
             bsli.css('margin-left', 0);
-            preCsul.children('div').last().before(csDiv.children('ul').children('li'));
+            preCsul.append(csDiv.children('ul').children('li'));
 
             preBsDiv.click();
 
