@@ -173,6 +173,7 @@ function compress(str) {
 }
 /**解压 */
 function decompress(str) {
+    str = str.replace(/^ +| +$/, '');
     if (debug) console.log('start decompressing(length:' + str.length + '):\n' + str);
     if (str[0] !== pathMark.cur) {
         console.warn('decompress传入的不是压缩数据！');

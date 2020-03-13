@@ -1039,3 +1039,12 @@ Quaternion.LookAtRotation = function (forward, up) {
     let m = Matrix.VectorAsRow(right, up, -forward);
     return Matrix.GetRotation(m);
 }
+
+
+function log(msg) {
+    console.log(msg);
+}
+
+function error(msg) {
+    console.error(msg);
+}

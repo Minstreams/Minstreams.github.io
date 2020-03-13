@@ -1,1 +1,93 @@
 /**管线数据控件外观,整个网站通用的 */
+
+.contentDiv {
+    border: 1px solid var(--c1a);
+    border-radius: 2px;
+    margin: 6px 2px;
+    padding: 4px;
+    position: relative;
+    height: fit-content;
+}
+
+.contentDiv>.name {
+    position: absolute;
+    color: var(--c0);
+    right: 20px;
+    top: 0px;
+    font-size: 16px;
+    margin: 1px 0px;
+    line-height: 1em;
+}
+
+.contentDiv>.description {
+    margin: 0px;
+    position: absolute;
+    right: 20px;
+    top: 16px;
+    color: gray;
+    font-size: 0.5em;
+}
+
+/* Vector */
+
+.contentDiv>.x, .contentDiv>.y, .contentDiv>.z, .contentDiv>.w {
+    display: inline;
+    color: var(--c0a);
+    padding: 0 4px 0 3px;
+}
+
+.contentDiv>.x {
+    margin-left: 7px;
+}
+
+.contentDiv.MPF4>.z:after, .contentDiv.MPF4>.y:after, .contentDiv.MPF4>.x:after, .contentDiv.MPF3>.y:after, .contentDiv.MPF3>.x:after, .contentDiv.MPF2>.x:after {
+    content: ",";
+    color: var(--c1);
+}
+
+.contentDiv.MPF4>.x:before, .contentDiv.MPF3>.x:before, .contentDiv.MPF2>.x:before, .contentDiv.MPF1>.x:before {
+    content: "(";
+    color: var(--c1);
+}
+
+.contentDiv.MPF4>.w:after, .contentDiv.MPF3>.z:after, .contentDiv.MPF2>.y:after, .contentDiv.MPF1>.x:after {
+    content: " )";
+    color: var(--c1);
+}
+
+/* Matrix */
+
+.contentDiv.MPMatrix {
+    display: grid;
+    grid-template-columns: repeat(6, max-content);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 4px;
+    grid-auto-flow: row dense;
+}
+
+.contentDiv.MPMatrix>.edgeL, .contentDiv.MPMatrix>.edgeR {
+    white-space: pre;
+    line-height: 87%;
+    grid-row: 1 / 5;
+    color: var(--c1);
+    user-select: none;
+}
+
+.contentDiv.MPMatrix>.edgeL {
+    grid-column: 1;
+}
+
+.contentDiv.MPMatrix>.edgeR {
+    grid-column: 6;
+}
+
+.contentDiv.MPMatrix>[class^=m] {
+    white-space: pre;
+    min-width: 13px;
+    padding-right: 6px;
+    color: var(--c0a);
+}
+
+.contentDiv.MPMatrix>[class^=m]:hover {
+    color: var(--c0);
+}

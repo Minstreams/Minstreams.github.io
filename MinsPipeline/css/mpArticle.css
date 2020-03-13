@@ -1,3 +1,7 @@
-#mpData{
+mpData {
     display: none;
+}
+
+.contentDiv.MPMatrix {
+    display: inline-grid;
 }
