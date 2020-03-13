@@ -234,6 +234,7 @@ var propertyBindTemplate = {
 export function UpdateAll() {
     // todo:可以通过缓存所有可更新元素，不每次更新，来优化效率
     // todo:可以通过一个简单的计时器和相关变量，来阻止短时间内的大量更新
+    $(':data(preUpdateFunc)').each(function () { $(this).data('preUpdateFunc')(); });
     $(':data(updateFunc)').UpdateProperty();
 }
 

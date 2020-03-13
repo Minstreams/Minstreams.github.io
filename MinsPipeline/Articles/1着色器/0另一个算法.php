@@ -5,7 +5,7 @@
 <p>和传统的图文文章一样</p>
 <p>下面是交互管线控件</p>
 <mpWidget>
-    <div class='mpCode' section='0' node='0'></div>
+    <div class='mpCode' node='-1'></div>
     <div class='mpBuffer' section='0' node='6'></div>
 </mpWidget>
 <p>这是另一些正文</p>
