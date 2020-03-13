@@ -23,3 +23,9 @@ body::-webkit-scrollbar-track, #bufferDiv::-webkit-scrollbar-track, #codeDiv>.co
     border-radius: 1px;
     background: var(--c1b);
 }
+
+[contenteditable=plaintext-only] {
+    -webkit-user-modify: read-write-plaintext-only;
+    -moz-user-modify: read-write-plaintext-only;
+    white-space: nowrap;
+}

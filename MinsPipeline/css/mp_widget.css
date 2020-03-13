@@ -1,9 +1,34 @@
 /**管线数据控件外观,整个网站通用的 */
 
+.codeTextDiv, .contentDiv {
+    margin: 6px 2px;
+}
+
+/* 代码项 */
+
+.codeTextDiv {
+    border: 1px solid var(--c1);
+    overflow-y: auto;
+    padding: 10px;
+    font-family: monospace;
+    flex-grow: 1;
+    background: var(--bgd);
+}
+
+.codeTextDiv [contenteditable=plaintext-only] {
+    /* min-height: 150px; */
+    white-space: normal;
+}
+
+.codeTextDiv>.args {
+    padding: 3px;
+}
+
+/* 数据项 */
+
 .contentDiv {
     border: 1px solid var(--c1a);
     border-radius: 2px;
-    margin: 6px 2px;
     padding: 4px;
     position: relative;
     height: fit-content;
@@ -12,7 +37,7 @@
 .contentDiv>.name {
     position: absolute;
     color: var(--c0);
-    right: 20px;
+    right: 0px;
     top: 0px;
     font-size: 16px;
     margin: 1px 0px;
@@ -22,9 +47,9 @@
 .contentDiv>.description {
     margin: 0px;
     position: absolute;
-    right: 20px;
+    right: 0px;
     top: 16px;
-    color: gray;
+    color: var(--c1a);
     font-size: 0.5em;
 }
 

@@ -32,6 +32,15 @@
 
 /* 内容 */
 
+.contentDiv>.name{
+    right: 20px;
+    top: 0px;
+}
+.contentDiv>.description {
+    right: 20px;
+    top: 16px;
+}
+
 .contentDiv>.dragHandler {
     position: absolute;
     width: 14px;

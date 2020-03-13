@@ -80,32 +80,7 @@ tabDescription {
     transition: font-size 0.4s;
 }
 
-/* 代码页面 */
 
-#codeDiv>.codeTextDiv {
-    border: 1px solid var(--c1);
-    overflow-y: auto;
-    padding: 10px;
-    font-family: monospace;
-    flex-grow: 1;
+.codeTextDiv {
     margin: -1px 4px 4px 4px;
-    background: var(--bgd);
-    flex-basis: 4px;
-}
-
-
-
-.codeTextDiv [contenteditable=plaintext-only] {
-    /* min-height: 150px; */
-    white-space: normal;
-}
-
-[contenteditable=plaintext-only] {
-    -webkit-user-modify: read-write-plaintext-only;
-    -moz-user-modify: read-write-plaintext-only;
-    white-space: nowrap;
-}
-
-.codeTextDiv>.args {
-    padding: 3px;
 }

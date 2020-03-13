@@ -20,4 +20,7 @@
 <link rel="stylesheet" href="/MinsPipeline/css/mp_widget.css" />
 <link rel="stylesheet" href="/MinsPipeline/css/mpArticle.css" />
 
+<!--temp-->
+<link rel="stylesheet" href="/MinsPipeline/css/codewarm.css" />
+
 <?php include $_SERVER['DOCUMENT_ROOT'].'/MinsPipeline/php/mpDataGetter.php' ?>

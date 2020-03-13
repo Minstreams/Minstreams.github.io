@@ -1,7 +1,111 @@
+/* 控件相关 */
+
 mpData {
     display: none;
 }
 
+mpWidget {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.contentDiv {
+    display: inline-block;
+    padding-top: 32px;
+}
+
+.contentDiv>.name {
+    left: 4px;
+    top: 0px;
+}
+
+.contentDiv>.description {
+    left: 4px;
+    top: 16px;
+}
+
 .contentDiv.MPMatrix {
     display: inline-grid;
+}
+
+.codeTextDiv {
+    flex-basis: 220px;
+}
+
+/* 布局 */
+
+#topDiv {
+    background-color: var(--bgd);
+    height: 64px;
+}
+
+#topDiv>div {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin: 0 auto;
+    max-width: 1280px;
+    height: 100%;
+}
+
+#topDiv #indexLink {
+    font-family: Calibri, 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+    font-size: 48px;
+    font-weight: lighter;
+    position: absolute;
+    left: 0;
+    top: 0;
+    line-height: 48px;
+    user-select: none;
+}
+
+#mainDiv {
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#sideDiv {
+    background-color: var(--bgd);
+    flex-basis: 200px;
+    min-width: 100px;
+    flex-shrink: 1;
+    margin: 0 12px;
+}
+
+#artDiv {
+    flex-basis: 800px;
+    max-width: 1064px;
+    flex-grow: 1;
+    margin: 0 12px;
+}
+
+#introSec {
+    padding: 8px 32px;
+    background-color: var(--bgd);
+    border-top: 12px dashed var(--bg);
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    color: var(--c0a);
+    margin: 0;
+}
+
+#linkSec {
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bgd);
+    border-bottom: 4px dashed var(--bg);
+}
+
+#bottomDiv {
+    height: 64px;
+    text-align: center;
+    padding: 8px 32px;
+    background-color: var(--bgd);
+    color: var(--c0b);
 }
