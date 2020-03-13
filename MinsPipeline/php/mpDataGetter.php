@@ -21,7 +21,10 @@ function getMPData($table, $name)
     }
     
     $result=mysqli_query($conn, "SELECT data from $table where name='$name'");
-    echo mysqli_fetch_array($result)[0];
+    $output=mysqli_fetch_array($result)[0];
     
     $conn->close();
+    return $output;
 }
+?>
+<!-- -->

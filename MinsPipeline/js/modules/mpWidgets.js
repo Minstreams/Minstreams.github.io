@@ -129,10 +129,10 @@ var onBindFunctions = {
             autocapitalize: true,
             styleActiveLine: { nonEmpty: true },
             extraKeys: {
-                'Ctrl-S': function(){
+                'Ctrl-S': function () {
                     $('#toolSave').click();
                 },
-                'F5':function(){
+                'F5': function () {
                     $('#toolRunCode').click();
                 }
             },
@@ -351,7 +351,7 @@ $.fn.extend({
                 break;
             case 'MPTexture':
                 el.AppendProperties(['texData'], 'canvas', 'texture');
-                el.AppendProperties(['width', 'height'], 'div', 'number');
+                el.AppendProperties(['width', 'height'], 'div', auth.fullControl ? 'number' : 'readonlyNumber');
                 break;
             case 'MPCodeData':
                 el.addClass('codeTextDiv cm-s-codewarm')

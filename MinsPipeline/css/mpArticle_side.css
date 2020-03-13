@@ -1,0 +1,37 @@
+#sideDiv {
+    display: flex;
+    flex-direction: column;
+    height: max-content;
+    border-bottom: 4px dashed var(--c0b);
+    margin-top: 6px;
+}
+
+#sideDiv>.sideTitle {
+    font-size: 24px;
+    color: var(--c0b);
+    text-align: center;
+    letter-spacing: 8px;
+    line-height: 64px;
+    border-top: 4px dashed var(--c0b);
+    border-bottom: 4px dashed var(--c0b);
+}
+
+#sideDiv>.articleLink {
+    background-color: var(--bgd);
+    border-radius: 5px;
+    padding: 8px;
+    margin: 6px 0;
+    color: #00000000;
+    cursor: pointer;
+    transition: 0.2s;
+    border: 1px solid var(--c1b);
+    text-shadow: 0 0 0.3px var(--c1a);
+}
+
+#sideDiv>.articleLink:hover {
+    border: 1px solid var(--c1);
+    transform: translateX(6px);
+    color: var(--c0);
+    text-shadow: 0 0 4px var(--c1a);
+    padding-left: 12px;
+}

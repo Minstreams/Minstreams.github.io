@@ -42,7 +42,7 @@ async function _onload() {
             return;
         }
         let node = parseInt($(this).attr('node'));
-        if ($(this).attr('section') === undefined && node>=0) {
+        if ($(this).attr('section') === undefined && node >= 0) {
             error('mpCode requires attributes "section"!');
             return;
         }
@@ -53,4 +53,10 @@ async function _onload() {
     });
 
     _MP.UpdateAll();
+
+
+
+
+
+
 }

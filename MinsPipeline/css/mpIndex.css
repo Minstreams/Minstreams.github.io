@@ -6,6 +6,7 @@
     background-color: var(--bgd);
     height: 640px;
     user-select: none;
+    text-shadow: 0 0 4px var(--c1b);
 }
 
 #welcomeSec>h1 {

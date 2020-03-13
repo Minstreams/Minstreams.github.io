@@ -6,15 +6,6 @@
 
 /* 代码项 */
 
-.codeTextDiv {
-    border: 1px solid var(--c1);
-    overflow-y: auto;
-    padding: 10px;
-    font-family: monospace;
-    flex-grow: 1;
-    background: var(--bgd);
-}
-
 .codeTextDiv [contenteditable=plaintext-only] {
     /* min-height: 150px; */
     white-space: normal;
