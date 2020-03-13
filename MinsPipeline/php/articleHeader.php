@@ -49,6 +49,10 @@ function getPure($str)
 function getSelf()
 {
     $php_self = $_SERVER['PHP_SELF'];
+    $fileType = mb_detect_encoding($php_self, array('UTF-8','GBK','LATIN1','BIG5')) ;
+    if ($fileType != 'UTF-8') {
+        $php_self = mb_convert_encoding($php_self, 'utf-8', $fileType);
+    }
     $php_self = mb_substr($php_self, mb_strrpos($php_self, '/')+1);
     return $php_self;
 }
@@ -58,6 +62,10 @@ $self = getSelf();
 function getParent()
 {
     $php_self = $_SERVER['PHP_SELF'];
+    $fileType = mb_detect_encoding($php_self, array('UTF-8','GBK','LATIN1','BIG5')) ;
+    if ($fileType != 'UTF-8') {
+        $php_self = mb_convert_encoding($php_self, 'utf-8', $fileType);
+    }
     $php_self = mb_substr($php_self, 0, mb_strrpos($php_self, '/'));
     $php_self = mb_substr($php_self, mb_strrpos($php_self, '/')+1);
     return $php_self;

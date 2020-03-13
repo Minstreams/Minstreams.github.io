@@ -22,7 +22,6 @@
     border-radius: 2px;
     padding: 4px;
     position: relative;
-    height: fit-content;
 }
 
 .contentDiv>.name {
