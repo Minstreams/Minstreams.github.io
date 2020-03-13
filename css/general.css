@@ -9,6 +9,10 @@ tooltip {
     white-space: nowrap;
 }
 
+.hide{
+    display: none;
+}
+
 .noselect, .tutorial {
     -webkit-touch-callout: none;
     /* iOS Safari */

@@ -1,0 +1,25 @@
+:root {
+    /* --bg: bisque; */
+}
+
+/**管线相关界面的通常主题 */
+
+body {
+    background: var(--bg) var(--texImg);
+    color: var(--c0);
+    margin: 0;
+}
+
+body::-webkit-scrollbar, #bufferDiv::-webkit-scrollbar, #codeDiv>.codeTextDiv::-webkit-scrollbar {
+    width: 4px;
+}
+
+body::-webkit-scrollbar-thumb, #bufferDiv::-webkit-scrollbar-thumb, #codeDiv>.codeTextDiv::-webkit-scrollbar-thumb {
+    border-radius: 1px;
+    background: var(--c1);
+}
+
+body::-webkit-scrollbar-track, #bufferDiv::-webkit-scrollbar-track, #codeDiv>.codeTextDiv::-webkit-scrollbar-track {
+    border-radius: 1px;
+    background: var(--c1b);
+}
