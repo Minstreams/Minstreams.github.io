@@ -46,9 +46,7 @@
             <?php
             echo "<div class='sideTitle'>".noPre($parent)."</div>";
             for ($x=0;$x<$artCount;$x++) {
-                if ($articles[$x]!="index.html") {
-                    echo "<div class='articleLink'".($x==$selfIndex?"":" onclick=\"window.location.href='./".noExt($articles[$x])."'\"").">".getPure($articles[$x])."</div>";
-                }
+                echo "<div class='articleLink'".($x==$selfIndex?"":" onclick=\"window.location.href='./".noExt($articles[$x])."'\"").">".getPure($articles[$x])."</div>";
             }
             ?>
         </div>

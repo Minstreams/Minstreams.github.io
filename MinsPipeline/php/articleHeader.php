@@ -70,7 +70,7 @@ function getSubDir($dir)
     $files = [];
     if (@$handle = opendir($dir)) {
         while (($file = readdir($handle)) !== false) {
-            if ($file != ".." && $file != ".") {
+            if ($file != ".." && $file != "." && $file!="index.html") {
                 $files[] = $file;
             }
         }
