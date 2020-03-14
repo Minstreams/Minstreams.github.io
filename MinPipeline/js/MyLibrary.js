@@ -17,6 +17,7 @@ function stopBubbling(e) {
     } else {
         e.cancelBubble = true;   //ie兼容
     }
+    e.preventDefault();
 }
 /**获取rul参数 */
 function getQueryString(name) {
