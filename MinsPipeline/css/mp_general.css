@@ -29,3 +29,7 @@ body::-webkit-scrollbar-track, #bufferDiv::-webkit-scrollbar-track, #codeDiv>.co
     -moz-user-modify: read-write-plaintext-only;
     white-space: nowrap;
 }
+
+System{
+    display: none;
+}

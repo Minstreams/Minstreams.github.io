@@ -7,6 +7,7 @@
  *      mpRuntimeLibrary.js
  *      @module mpCore
  *      @module mpDataNodes
+ *      @module mpCodeEditor
  * 
  * 标签属性:{
  *      id: mpWidget,
@@ -15,7 +16,8 @@
  * }
  */
 
-import { MPPrototype } from './mpCore.js';
+import { MPPrototype, MPData } from './mpCore.js';
+import { mpCodeMirror, getCodeData } from './mpCodeEditor.js';
 
 // 一些配置
 /**小数点位数,保留小数点3位 */
@@ -71,10 +73,6 @@ var applyFunctions = {
         let text = this.text().replace(/\W/g, '');
         if (text) target[propertyName] = text;
     },
-    /**将代码强制转换为html */
-    html(target, propertyName) {
-        target['_' + propertyName] = $('<div>').text(this.data('mirror').getValue()).html();
-    },
     /**只有字母数字下划线的参数表列 */
     args(target, propertyName) {
         //先去掉特殊字符，再去掉参数首数字/连续逗号/头尾部逗号
@@ -85,7 +83,7 @@ var applyFunctions = {
  * @onBind 是绑定时额外调用的函数，用于添加特定功能
  */
 var onBindFunctions = {
-    /**双击可编辑 */
+    /**可编辑 */
     editable() {
         this.on('click', function () { $(this).attr({ contentEditable: 'plaintext-only', spellCheck: false }).focus(); })
             .on('blur', function () { this.removeAttribute('contenteditable'); this.removeAttribute('spellcheck'); });
@@ -115,34 +113,6 @@ var onBindFunctions = {
     },
     /**禁止选择 */
     noSelection() { this.disableSelection(); },
-    /**初始化代码框 */
-    code(target, propertyName) {
-        var cmr = CodeMirror(this[0], {
-            value: $('<div>').html(target[propertyName]).text(),
-            lineNumbers: true,
-            mode: 'javascript',
-            theme: 'codewarm',
-            lineWrapping: true,
-            scrollbarStyle: null,
-            spellcheck: true,
-            autocorrect: true,
-            autocapitalize: true,
-            styleActiveLine: { nonEmpty: true },
-            extraKeys: {
-                'Ctrl-S': function () {
-                    $('#toolSave').click();
-                },
-                'F5': function () {
-                    $('#toolRunCode').click();
-                }
-            },
-        });
-        this.data('mirror', cmr);
-        // this.on('click', function () {
-        //     console.log('cmrFocus!');
-        //     cmr.refresh();
-        // });
-    }
 };
 /**各种元素的绑定模板
  * @updateFunc 是数据改变时HTML标签的响应方法
@@ -194,12 +164,6 @@ var propertyBindTemplate = {
         updateFunc: updateFunctions.avaterNumber,
         onBind: 'noSelection',
     },
-    /**代码正文 */
-    code: {
-        applyFunc: applyFunctions.html,
-        applyEvent: 'blur remove',
-        onBind: 'code',
-    },
     /**代码参数 */
     args: {
         updateFunc: updateFunctions.text,
@@ -234,7 +198,6 @@ var propertyBindTemplate = {
 export function UpdateAll() {
     // todo:可以通过缓存所有可更新元素，不每次更新，来优化效率
     // todo:可以通过一个简单的计时器和相关变量，来阻止短时间内的大量更新
-    $(':data(preUpdateFunc)').each(function () { $(this).data('preUpdateFunc')(); });
     $(':data(updateFunc)').UpdateProperty();
 }
 
@@ -260,9 +223,12 @@ $.fn.extend({
      * @param {MPPrototype} target 属性所在对象
      * @param {string} propertyName 属性名称
      * @param {string} template 绑定模板名称
+     * @param {string|Function} onapply 额外事件
      * @return {JQuery<HTMLElement>} 元素自身的引用
      */
-    BindProperty(target, propertyName, template) {
+    BindProperty(target, propertyName, template, onapply) {
+
+        /**@type {JQuery<HTMLElement>} */
         var el = this;
         // 查重
         if (el.data('binded')) return el;
@@ -274,12 +240,27 @@ $.fn.extend({
         // 定义响应方法
         if (temp.updateFunc) { el.data('updateFunc', function () { temp.updateFunc.call(el, target, propertyName); return el; }); }
         // 定义更新方法
-        if (temp.applyFunc) { el.data('applyFunc', function () { temp.applyFunc.call(el, target, propertyName); UpdateAll(); return el; }); }
+        if (temp.applyFunc) {
+            el.data('applyFunc', function () {
+                temp.applyFunc.call(el, target, propertyName);
+                $('EventHandler').trigger('change');
+                el.trigger('apply');
+                return el;
+            });
+        }
         // 绑定更新事件
         if (temp.applyEvent) el.on(temp.applyEvent, el.data('applyFunc'));
         // 绑定响应
-        if (temp.onBind) temp.onBind.split(' ').forEach(bindF => onBindFunctions[bindF].call(el, target, propertyName));
+        if (temp.onBind) temp.onBind.split(' ').forEach(bindF => onBindFunctions[bindF].call(el));
 
+        if (onapply) {
+            if (typeof onapply === 'string') el.on('apply', function () { $('EventHandler').trigger(onapply); });
+            else el.on('apply', onapply);
+        }
+        else {
+            // 默认apply时更新当前数据
+            if (temp.updateFunc) el.on('apply', function () { el.data('updateFunc')(); });
+        }
         // 标记绑定状态
         el.data('binded', true);
 
@@ -327,11 +308,9 @@ $.fn.extend({
 
         // 数据项
         let mpObjName = mpObject.constructor.name;
-        if (mpObjName !== 'MPCodeData') {
-            el.addClass('contentDiv ' + mpObjName)
-                .AppendProperties(['name'], 'h3', auth.fullControl ? 'name' : 'readonly')
-                .AppendProperties(['description'], 'p', auth.fullControl ? 'text' : 'readonly');
-        }
+        el.addClass('contentDiv ' + mpObjName)
+            .AppendProperties(['name'], 'h3', auth.fullControl ? 'name' : 'readonly', 'restruct')
+            .AppendProperties(['description'], 'p', auth.fullControl ? 'text' : 'readonly', 'restruct');
         switch (mpObjName) {
             case 'MPF1':
                 el.AppendProperties(['x'], 'div', auth.editable ? 'number' : 'readonlyNumber');
@@ -354,24 +333,74 @@ $.fn.extend({
                 el.AppendProperties(['texData'], 'canvas', 'texture');
                 el.AppendProperties(['width', 'height'], 'div', auth.fullControl ? 'number' : 'readonlyNumber');
                 break;
-            case 'MPCodeData':
-                el.addClass('codeTextDiv cm-s-codewarm')
-                    .append(
-                        $('<span>// </span>').addClass('cm-comment'),
-                        $('<span></span>').BindProperty(mpObject, 'description', auth.fullControl ? 'text' : 'readonly').addClass('cm-comment'),
-                        $('<br />').addClass('cm-comment'),
-                        $('<span>function </span>').addClass('cm-keyword'),
-                        $('<span></span>').addClass('cm-def').BindProperty(mpObject, 'name', auth.fullControl ? 'name' : 'readonly'),
-                        $('<span>(</span>').addClass('cm-operator'),
-                        $('<span></span>').addClass('cm-variable').BindProperty(mpObject, 'args', auth.fullControl ? 'args' : 'readonly'),
-                        $('<span>){</span>').addClass('cm-operator'),
-                        $('<div></div>').BindProperty(mpObject, 'codeText', 'code'),
-                        $('<span>}</span>').addClass('cm-operator')
-                    );
-                el.children('div').data('mirror').refresh();
-                break;
         }
         return this;
     },
+    /**加载代码编辑器 */
+    MPCodeEditor(mpData, section, node, authority) {
+        /**@type {JQuery<HTMLElement>} */
+        let el = this;
+        let auth = getAuth(authority);
+        let codeData = getCodeData(mpData, section, node);
+        el.addClass('codeTextDiv cm-s-codewarm')
+            .append(
+                $('<span>// </span>').addClass('cm-comment'),
+                $('<span></span>').BindProperty(codeData, 'description', auth.fullControl ? 'text' : 'readonly', 'restruct').addClass('cm-comment'),
+                $('<br />').addClass('cm-comment'),
+                $('<span>function </span>').addClass('cm-keyword'),
+                $('<span></span>').addClass('cm-def').BindProperty(codeData, 'name', auth.fullControl ? 'name' : 'readonly', 'restruct'),
+                $('<span>(</span>').addClass('cm-operator'),
+                $('<span></span>').addClass('cm-variable').BindProperty(codeData, 'args', auth.fullControl ? 'args' : 'readonly', 'restruct'),
+                $('<span>){</span>').addClass('cm-operator'),
+                $('<div></div>'),
+                $('<span>}</span>').addClass('cm-operator'),
+                newWidgetTool()
+            );
+        let codeDiv = el.children('div');
+        mpCodeMirror(codeDiv, mpData, section, node);
+        el.MPAddToolFunction('showDocument', function () { }, '?', '显示API文档');
+        el.MPAddToolFunction('todo', function () { }, '₪', '更多选项开发中');
+        return this;
+    },
+    /**@param {MPData} mpData */
+    MPAutoCodeEditor(mpData, codeData, authority) {
+        if (codeData === mpData.mainCode) return this.MPCodeEditor(mpData, 0, -1, authority);
+        let cn = mpData.uniformSection.codeSection._codeNodes;
+        for (let i = 0; i < cn.length; ++i) {
+            if (codeData === cn[i]) return this.MPCodeEditor(mpData, -1, i, authority);
+        }
+        for (let section = 0; section < mpData.sections.length; ++section) {
+            let cn = mpData.sections[section].codeSection._codeNodes;
+            for (let i = 0; i < cn.length; ++i) {
+                if (codeData === cn[i]) return this.MPCodeEditor(mpData, section, i, authority);
+            }
+        }
+        throw new Error("???");
+    },
+    /**给控件小工具栏添加方法 */
+    MPAddToolFunction(name, func, signal, tooltip) {
+        /**@type {JQuery<HTMLElement>} */
+        let panel = this.children('.widgetTool').children('.toolPanel');
+        panel.append(
+            $('<div></div>').addClass(name).text(signal).click(func).append($('<tooltip></tooltip>').text(tooltip))
+        );
+        let o = 24, r = 16;
+        let funcs = panel.children();
+        funcs.each(function (i, e) {
+            let angle = (i / funcs.length) * 2 * Math.PI;
+            $(this).css({
+                top: (o + r * Math.cos(angle)) + 'px',
+                left: (o - r * Math.sin(angle)) + 'px'
+            });
+        });
+        return this;
+    },
 });
+
+function newWidgetTool() {
+    return $('<div></div>').addClass('widgetTool').append(
+        $('<div></div>').addClass('toolPanel'),
+        $('<div>₴</div>').addClass('toolImg')
+    );
+}
 

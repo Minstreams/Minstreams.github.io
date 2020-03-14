@@ -68,7 +68,7 @@ async function _onload() {
             let newTabId = codeDataObject.name + tabCounter++;
             let isMainCode = codeDataObject === _mpData.mainCode;
             // 标签内容
-            let codeTextDiv = $('<div id=\'code' + newTabId + '\'></div>').appendTo('#codeDiv').MPLoadWidget(codeDataObject, isMainCode ? 'editable' : 'fullControl');
+            let codeTextDiv = $('<div id=\'code' + newTabId + '\'></div>').appendTo('#codeDiv').MPAutoCodeEditor(_mpData, codeDataObject, isMainCode ? 'editable' : 'fullControl');
             // 标签页
             let tabLi = $('<li></li>')
                 .append(
@@ -500,6 +500,7 @@ async function _onload() {
             $('#toolEditSectionOff').css('display', 'block');
             _mpEdit = false;
         });
+        $('EventHandler').on('restruct', _MP.UpdateAll);
     }
     $('#topDiv>#toolDiv>#toolYClamper>.toolSection>div').addClass('noselect');
     $('#bufferDiv').sortable({

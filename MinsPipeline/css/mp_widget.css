@@ -2,6 +2,80 @@
 
 .codeTextDiv, .contentDiv {
     margin: 6px 2px;
+    position: relative;
+}
+
+/* 工具按钮 */
+
+.widgetTool {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    height: 16px;
+    width: 16px;
+}
+
+.widgetTool>.toolImg {
+    width: 16px;
+    text-align: center;
+    font-size: 16px;
+    line-height: 16px;
+    border-radius: 50%;
+    /* border: 1px solid var(--c1); */
+    color: var(--c1);
+    user-select: none;
+    transition: 0.2s;
+}
+
+.widgetTool:hover>.toolImg {
+    transform: scale(0.1);
+}
+
+.widgetTool>.toolPanel {
+    position: absolute;
+    height: 48px;
+    width: 48px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    transform: translate(-50%, -50%) scale(0.1) rotate(-45deg);
+    transition: 0.2s;
+}
+
+.widgetTool:hover>.toolPanel {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.widgetTool>.toolPanel>div {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 12px;
+    height: 12px;
+    font-size: 12px;
+    line-height: 12px;
+    border-radius: 50%;
+    border: 1px solid #00000000;
+    color: var(--c1a);
+    cursor: pointer;
+    transition: 0.1s;
+}
+
+.widgetTool>.toolPanel>div:hover {
+    border-color: var(--c1);
+    color: var(--c0);
+}
+
+.widgetTool>.toolPanel>div>tooltip {
+    font-size: 9px;
+    right: 120%;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--c0a);
+}
+
+.widgetTool>.toolPanel>div:hover>tooltip {
+    visibility: visible;
 }
 
 /* 代码项 */
@@ -21,7 +95,6 @@
     border: 1px solid var(--c1a);
     border-radius: 2px;
     padding: 4px;
-    position: relative;
 }
 
 .contentDiv>.name {

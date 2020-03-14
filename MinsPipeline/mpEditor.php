@@ -10,7 +10,7 @@
     <script src="/JQuery/jquery.mousewheel.min.js"></script>
 
     <script src="/codemirror/lib/codemirror.js"></script>
-    <script src="/codemirror/mode/javascript/javascript.js"></script>
+    <script src="/MinsPipeline/js/javascript.js"></script>
     <script src="/codemirror/addon/selection/active-line.js"></script>
 
     <link rel="stylesheet" href="/JQuery/jquery-ui.css">
@@ -144,7 +144,7 @@
         </div>
     </div>
     <div id='bottomDiv'></div>
-    <pipeline></pipeline>
+    <?php include $_SERVER['DOCUMENT_ROOT'].'/MinsPipeline/php/systemTail.php' ?>
     <noscript>抱歉，你的浏览器不支持 JavaScript!</noscript>
 </body>
 

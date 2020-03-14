@@ -3,7 +3,7 @@
 <script src="/JQuery/jquery-ui.min.js"></script>
 
 <script src="/codemirror/lib/codemirror.js"></script>
-<script src="/codemirror/mode/javascript/javascript.js"></script>
+<script src="/MinsPipeline/js/javascript.js"></script>
 <script src="/codemirror/addon/selection/active-line.js"></script>
 
 <link rel="stylesheet" href="/JQuery/jquery-ui.css" />

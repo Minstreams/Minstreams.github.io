@@ -49,22 +49,20 @@ async function _onload() {
         let index = parseInt($(this).attr('data')) || 0;
         let section = parseInt($(this).attr('section'));
         let authority = $(this).attr('authority') || 'editable';
-        $(this).MPLoadWidget(node < 0 ? _mpData[index].mainCode : section < 0 ? _mpData[index].uniformSection.codeSection._codeNodes[node] : _mpData[index].sections[section].codeSection._codeNodes[node], authority);
-        $(this).on('keyup', () => $('.codeText').ApplyProperty());
+        $(this).MPCodeEditor(_mpData[index], section, node, authority);
+        $(this).on('keyup', function () { $(this).children('.codeText').ApplyProperty(); });
     });
 
-    $('mpData').data('preUpdateFunc', function () {
-        console.log("sad");
+    $('EventHandler').on('change', function () {
         try {
             for (let i = 0; i < _mpData.length; ++i) {
                 _mpData[i].Run();
             }
+            _MP.UpdateAll();
         }
         catch (err) {
             error(err);
         }
     });
-    _MP.UpdateAll();
-
-
+    $('EventHandler').trigger('change');
 }

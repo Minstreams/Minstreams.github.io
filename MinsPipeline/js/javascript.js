@@ -1,10 +1,6 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: https://codemirror.net/LICENSE
 
-/**自定义高亮变量 */
-var __mpVars = ['abc'];
-/**自定义高亮方法 */
-var __mpFuncs = ['ree'];
 
 (function (mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -23,6 +19,10 @@ var __mpFuncs = ['ree'];
     var jsonMode = parserConfig.json || jsonldMode;
     var isTS = parserConfig.typescript;
     var wordRE = parserConfig.wordCharacters || /[\w$\xa1-\uffff]/;
+    var constVars = config.constVars;
+    var constFuncs = config.constFuncs;
+    var dynamVars = config.dynamVars;
+    var dynamFuncs = config.dynamFuncs;
 
     // Tokenizer
 
@@ -127,13 +127,17 @@ var __mpFuncs = ['ree'];
             var kw = keywords[word]
             return ret(kw.type, kw.style, word)
           }
-          if (__mpVars.includes(word)) {
-            let mv = __mpVars[word];
-            return ret(mv, 'mp-variable', word);
+          if (constVars.includes(word)) {
+            return ret('mp-variable', 'mp-variable', word);
           }
-          if (__mpFuncs.includes(word)) {
-            let mf = __mpFuncs[word];
-            return ret(mf, 'mp-function', word);
+          if (constFuncs.includes(word)) {
+            return ret('mp-function', 'mp-function', word);
+          }
+          if (dynamVars.includes(word)) {
+            return ret('mp-variable', 'mp-variable', word);
+          }
+          if (dynamFuncs.includes(word)) {
+            return ret('mp-function', 'mp-function', word);
           }
           if (word == "async" && stream.match(/^(\s|\/\*.*?\*\/)*[\[\(\w]/, false))
             return ret("async", "keyword", word)
@@ -844,6 +848,7 @@ var __mpFuncs = ['ree'];
         (state.lastType == "quasi" && /\{\s*$/.test(stream.string.slice(0, stream.pos - (backUp || 0))))
     }
 
+
     // Interface
 
     return {
@@ -905,6 +910,7 @@ var __mpFuncs = ['ree'];
         else if (lexical.align) return lexical.column + (closing ? 0 : 1);
         else return lexical.indented + (closing ? 0 : indentUnit);
       },
+
 
       electricInput: /^\s*(?:case .*?:|default:|\{|\})$/,
       blockCommentStart: jsonMode ? null : "/*",
