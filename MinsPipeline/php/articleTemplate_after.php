@@ -22,7 +22,7 @@
             ?>
         </div>
     </div>
-    <div id='bottomDiv'>这是底栏,还不知道写啥。abcdefg</div>
+    <div id='bottomDiv'>如果你的屏幕够大，推荐将页面缩放到125%</div>
     <mpData>
         <?php
         $mpCount=count($mpData);
