@@ -100,6 +100,8 @@ function ToJs(mpData) {
 function InitCodeData(cd) {
     //将代码从html格式转换为可执行的文本
     let code = $('<div>').html(cd._codeText).text();
+    //去掉注释
+    code = code.replace(/\/\*(?:.|\n)*?(?:\*\/|$)/g, '').replace(/\/\/.*\n/g, '');
     //先去掉连续空格
     code = code.replace(/\s+/g, ' ');
     //再去掉非变量声明处的空格
