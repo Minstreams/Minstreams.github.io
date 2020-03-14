@@ -19,8 +19,8 @@ var _mpData = [];
 
 
 async function _onload() {
-    /**MP模块 */
     _MP = await import('./modules/mpModule.js');
+    _MP.Init();
 
     $('mpData>pre').each(function () {
         _mpData.push(_MP.MPOS.parse(this.innerHTML));

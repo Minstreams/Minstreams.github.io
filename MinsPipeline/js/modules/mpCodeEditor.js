@@ -6,12 +6,25 @@
  *      @module mpCore
  */
 
-import { MPData } from "./mpCore.js";
+import { MPData, MPSection } from "./mpCore.js";
+import { declareArgReg } from "./mpCompilation.js";
 
 /**运行时库中的所有变量 */
-var constVars = [];
+var constVars = ['Math', 'Vector3', 'Vector4', 'Quaternion'];
 /**运行时库中的所有方法 */
 var constFuncs = [];
+/**运行时库的用户手册 */
+var constDocument = "";
+
+/**获取mp数据对应的运行时数据结构名 */
+var runtimeClass = {
+    'MPF1': 'float',
+    'MPF2': 'vec2',
+    'MPF3': 'vec3',
+    'MPF4': 'vec4',
+    'MPMatrix': 'matrix',
+    'MPTexture': 'texture',
+}
 
 /**获取codeData
  * @param {MPData} mpData
@@ -32,6 +45,54 @@ export function getCodeData(mpData, section, node) {
  */
 export function mpCodeMirror(codeDiv, mpData, section, node) {
     let codeData = getCodeData(mpData, section, node);
+
+    let calContext = function () {
+        // 查找上下文，更新关键词，并生成文档
+        let dynamVars = [];
+        let dynamFuncs = [];
+        let document = constDocument;
+        /**@param {MPSection} mpSec */
+        function proceedSection(mpSec) {
+            let dn, cn;
+            document += '\n【' + mpSec.bufferSection.name + '】\t//' + mpSec.bufferSection.description;
+            dn = mpSec.bufferSection._dataNodes;
+            if (dn.length > 0) document += '\nVariables:';
+            for (let i = 0; i < dn.length; ++i) {
+                dynamVars.push(dn[i].name);
+                document += '\n\t' + runtimeClass[dn[i].constructor.name] + ' ' + dn[i].name + '\n\t\t-' + dn[i].description;
+            }
+            cn = mpSec.codeSection._codeNodes;
+            if (cn.length > 0) document += '\nFunctions:';
+            for (let i = 0; i < cn.length; ++i) {
+                dynamFuncs.push(cn[i].name);
+                document += '\n\t' + cn[i].name + '(' + cn[i].args + ');' + '\n\t\t-' + cn[i].description;
+            }
+        }
+        // 先找uniform变量和方法
+        proceedSection(mpData.uniformSection);
+        // 再找别的
+        if (node < 0) {
+            // 主函数，遍历所有
+            for (let i = 0; i < mpData.sections.length; ++i) {
+                proceedSection(mpData.sections[i]);
+            }
+        } else {
+            if (section > 0) proceedSection(mpData.sections[section - 1]);
+            if (section >= 0) proceedSection(mpData.sections[section]);
+        }
+        // 添加形式参数
+        if (codeData.args) codeData.args.split(',').forEach(arg => {
+            arg = arg.replace(declareArgReg, '');
+            dynamVars.push(arg);
+        });
+        return {
+            dynamVars,
+            dynamFuncs,
+            document
+        }
+    }
+    let config = calContext();
+    codeDiv.data('document', config.document);
     let cmr = CodeMirror(codeDiv[0], {
         value: $('<div>').html(codeData._codeText).text(),
         lineNumbers: true,
@@ -53,17 +114,27 @@ export function mpCodeMirror(codeDiv, mpData, section, node) {
         },
         constVars: constVars,
         constFuncs: constFuncs,
-        dynamVars: [],
-        dynamFuncs: [],
+        dynamVars: config.dynamVars,
+        dynamFuncs: config.dynamFuncs,
     });
     let applyFunc = function () {
         codeData._codeText = $('<div>').text(cmr.getValue()).html();
         $('EventHandler').trigger('change');
     };
-    codeDiv.addClass('codeText').data('binded', true).data('applyFunc', applyFunc).on('blur remove', applyFunc);
+    let restructFunc = function () {
+        let config = calContext();
+        cmr.setOption('dynamVars', config.dynamVars);
+        cmr.setOption('dynamFuncs', config.dynamFuncs);
+        codeDiv.data('document', config.document);
+        console.log('Restruct!' + config.document);
+        cmr.refresh();
+    }
+    codeDiv.addClass('codeText').data('binded', true).data('applyFunc', applyFunc).on('blur remove', applyFunc)
+        .data('restructFunc', restructFunc);
     cmr.refresh();
     return codeData;
 }
+
 
 function generateDocument(mpData, section, node) {
 

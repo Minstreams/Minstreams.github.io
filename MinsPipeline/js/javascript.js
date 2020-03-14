@@ -21,8 +21,16 @@
     var wordRE = parserConfig.wordCharacters || /[\w$\xa1-\uffff]/;
     var constVars = config.constVars;
     var constFuncs = config.constFuncs;
-    var dynamVars = config.dynamVars;
-    var dynamFuncs = config.dynamFuncs;
+    var dynamVars;
+    var dynamFuncs;
+
+    CodeMirror.defineOption('dynamVars', [], function (cm,val) {
+      dynamVars = val;
+    })
+    CodeMirror.defineOption('dynamFuncs', [], function (cm,val) {
+      dynamFuncs = val;
+    })
+
 
     // Tokenizer
 
@@ -34,7 +42,19 @@
       return {
         "if": kw("if"), "while": A, "with": A, "else": B, "do": B, "try": B, "finally": B,
         "return": D, "break": D, "continue": D, "new": kw("new"), "delete": C, "void": C, "throw": C,
-        "debugger": kw("debugger"), "var": kw("var"), "const": kw("var"), "let": kw("var"),
+        "debugger": kw("debugger"), 
+        "var": kw("var"), 
+        "const": kw("var"), 
+        "let": kw("var"),
+        "int": kw("var"),
+        "string": kw("var"),
+        "float": kw("var"),
+        "vec2": kw("var"),
+        "vec3": kw("var"),
+        "vec4": kw("var"),
+        "matrix": kw("var"),
+        "texture": kw("var"),
+        "array": kw("var"),
         "function": kw("function"), "catch": kw("catch"),
         "for": kw("for"), "switch": kw("switch"), "case": kw("case"), "default": kw("default"),
         "in": operator, "typeof": operator, "instanceof": operator,
@@ -945,5 +965,6 @@
   CodeMirror.defineMIME("application/ld+json", { name: "javascript", jsonld: true });
   CodeMirror.defineMIME("text/typescript", { name: "javascript", typescript: true });
   CodeMirror.defineMIME("application/typescript", { name: "javascript", typescript: true });
+
 
 });

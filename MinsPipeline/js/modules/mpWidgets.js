@@ -18,6 +18,7 @@
 
 import { MPPrototype, MPData } from './mpCore.js';
 import { mpCodeMirror, getCodeData } from './mpCodeEditor.js';
+import { Init } from './mpEvent.js';
 
 // 一些配置
 /**小数点位数,保留小数点3位 */
@@ -350,7 +351,7 @@ $.fn.extend({
                 $('<span>function </span>').addClass('cm-keyword'),
                 $('<span></span>').addClass('cm-def').BindProperty(codeData, 'name', auth.fullControl ? 'name' : 'readonly', 'restruct'),
                 $('<span>(</span>').addClass('cm-operator'),
-                $('<span></span>').addClass('cm-variable').BindProperty(codeData, 'args', auth.fullControl ? 'args' : 'readonly', 'restruct'),
+                $('<span></span>').addClass('cm-mp-variable').BindProperty(codeData, 'args', auth.fullControl ? 'args' : 'readonly', 'restruct'),
                 $('<span>){</span>').addClass('cm-operator'),
                 $('<div></div>'),
                 $('<span>}</span>').addClass('cm-operator'),
@@ -358,8 +359,8 @@ $.fn.extend({
             );
         let codeDiv = el.children('div');
         mpCodeMirror(codeDiv, mpData, section, node);
-        el.MPAddToolFunction('showDocument', function () { }, '?', '显示API文档');
-        el.MPAddToolFunction('todo', function () { }, '₪', '更多选项开发中');
+        el.MPAddToolFunction('showDocument', function () { showDocument(codeDiv); }, '?', '显示API文档');
+        el.MPAddToolFunction('todo', function () { }, '♞', '更多选项开发中');
         return this;
     },
     /**@param {MPData} mpData */
@@ -400,7 +401,65 @@ $.fn.extend({
 function newWidgetTool() {
     return $('<div></div>').addClass('widgetTool').append(
         $('<div></div>').addClass('toolPanel'),
-        $('<div>₴</div>').addClass('toolImg')
+        $('<div>┭</div>').addClass('toolImg')
     );
 }
 
+
+// 浮动API文档
+var curCodeDiv;
+Init(function () {
+    let cd = $('#codeDocument');
+    cd.data('afterRestructFunc', function () {
+        if (cd.css('display') !== 'none') {
+            $('#codeDocumentText').text(codeDiv.data('document'));
+        }
+    });
+    let offX;
+    let offY;
+    let down = false;
+    $('#codeDocumentText')
+        .mousemove(function (e) {
+            stopBubbling(e);
+            if (down) {
+                cd.css({
+                    left: e.offsetX - offX + parseInt(cd.css('left')),
+                    top: e.offsetY - offY + parseInt(cd.css('top'))
+                });
+            }
+        })
+        .mouseleave(function (e) {
+            stopBubbling(e);
+            down = false;
+        })
+        .mousedown(function (e) {
+            stopBubbling(e);
+            offX = e.offsetX;
+            offY = e.offsetY;
+            down = true;
+        })
+        .mouseup(function (e) {
+            stopBubbling(e);
+            down = false;
+        });
+    cd.children('.closeBtn')
+        .click(function (e) {
+            cd.css('display', 'none');
+        })
+        .mousedown(function (e) {
+            stopBubbling(e);
+        });
+});
+/**@param {JQuery<HTMLElement>} codeDiv */
+function showDocument(codeDiv) {
+    curCodeDiv = codeDiv;
+    let cd = $('#codeDocument');
+    if (cd.css('display') == 'none') {
+        cd.css({
+            display: 'block',
+            left: '100px',
+            top: codeDiv.offset().top
+        });
+    }
+    $('#codeDocumentText').text(codeDiv.data('document'));
+}

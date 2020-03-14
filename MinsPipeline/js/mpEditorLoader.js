@@ -4,15 +4,18 @@
  * ·    mp套件
  * ·    jquery-ui.js
  */
-/**MP模块 */
+/**@type {typeof import('./modules/mpModule')} */
 var _MP;
-var mo;
+
 /**存放当前mpData 
  * @type {typeof _MP.MPData.prototype}
  */
 var _mpData;
+
+
 async function _onload() {
     _MP = await import('./modules/mpModule.js');
+    _MP.Init();
     //#region Code标签
     let tabCounter = 0;     //辅助变量，防止标签id重复
     let targetScrollLeft = 0;   //辅助计算横向滚动位置
@@ -500,7 +503,6 @@ async function _onload() {
             $('#toolEditSectionOff').css('display', 'block');
             _mpEdit = false;
         });
-        $('EventHandler').on('restruct', _MP.UpdateAll);
     }
     $('#topDiv>#toolDiv>#toolYClamper>.toolSection>div').addClass('noselect');
     $('#bufferDiv').sortable({

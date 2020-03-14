@@ -34,8 +34,6 @@
     <link rel="stylesheet" href="/MinsPipeline/css/mpEditor_buffer.css">
     <!--temp-->
     <link rel="stylesheet" href="/MinsPipeline/css/codewarm.css">
-    <link rel="stylesheet" href="css/jqUIExtend.css">
-    <link rel="stylesheet" href="css/mpCss.css">
 </head>
 
 <body onload="_onload();">

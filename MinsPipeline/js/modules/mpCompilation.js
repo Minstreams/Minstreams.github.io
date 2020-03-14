@@ -35,7 +35,8 @@ var mk = {
     '.call(this,': '❼',
     'let ': '❽.',
 };
-var declaration = ['let ', 'var ', 'int ', 'string ', 'float '];
+var declaration = ['let ', 'var ', 'int ', 'string ', 'float ', 'vec2 ', 'vec3 ', 'vec4 ', 'matrix ', 'texture ', 'array '];
+export var declareArgReg = /^(?:let|var|int|string|float|vec2|vec3|vec4|matrix|texture|array) \w/;
 var argPrefix = 'MPARG_';
 var funcPrefix = 'MPFUNC_';
 /**编译后代码调用模块内方法时使用的前缀 */
@@ -104,7 +105,10 @@ function InitCodeData(cd) {
     //再去掉非变量声明处的空格
     code = code.replace(/(?<=\w) (?=\W)|(?<=\W) (?=\W)|(?<=\W) (?=\w)/g, '');
     //翻译所有参数引用
-    if (cd.args) cd.args.split(',').forEach(arg => { code = code.replace(new RegExp('(?<![\\.\\w])' + arg + '(?!\\w)', 'g'), argPrefix + arg); });
+    if (cd.args) cd.args.split(',').forEach(arg => {
+        arg = arg.replace(declareArgReg, '');
+        code = code.replace(new RegExp('(?<![\\.\\w])' + arg + '(?!\\w)', 'g'), argPrefix + arg);
+    });
     //转换所有声明引用
     declaration.forEach(dec => code = code.replace(new RegExp(dec, 'g'), mk['let ']));
     code = CompileOperators(code);

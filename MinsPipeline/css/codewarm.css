@@ -14,8 +14,8 @@
 .cm-s-codewarm span.cm-variable-3, .cm-s-codewarm span.cm-type { color: #fabd2f; }
 .cm-s-codewarm span.cm-operator { color: #ebdbb2; }
 .cm-s-codewarm span.cm-callee { color: #ebdbb2; }
-.cm-s-codewarm span.cm-def { color: #ffa500; }
-.cm-s-codewarm span.cm-property { color: #ffa500; }
+.cm-s-codewarm span.cm-def { color: var(--c3); }
+.cm-s-codewarm span.cm-property { color: var(--c3); }
 .cm-s-codewarm span.cm-string { color: #b8bb26; }
 .cm-s-codewarm span.cm-string-2 { color: #8ec07c; }
 .cm-s-codewarm span.cm-qualifier { color: #8ec07c; }
@@ -27,8 +27,8 @@
 .cm-s-codewarm span.cm-builtin { color: #fe8019; }
 .cm-s-codewarm span.cm-tag { color: #fe8019; }
 
-.cm-s-codewarm span.cm-mp-variable{ color: var(--c1); }
-.cm-s-codewarm span.cm-mp-function{ color: var(--c1); }
+.cm-s-codewarm span.cm-mp-variable{ color: var(--c4); }
+.cm-s-codewarm span.cm-mp-function{ color: var(--c3); }
 .cm-s-codewarm .CodeMirror-activeline{ color: var(--bgdd); }
 .cm-s-codewarm .CodeMirror-activeline-background{ background: var(--c1b); }
 .cm-s-codewarm .CodeMirror-activeline-gutter{ background: var(--c1); }
