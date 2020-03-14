@@ -78,6 +78,7 @@ System {
     white-space: pre;
     color: var(--bgd);
     user-select: none;
+    min-height: 100%;
 }
 
 #codeDocumentContent {
