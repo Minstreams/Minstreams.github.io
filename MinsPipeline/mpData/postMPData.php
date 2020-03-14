@@ -6,9 +6,13 @@
 //  description
 //  data
 //}
-$servername = "localhost:3308";
-$username = "root";
-$password = "";
+// $servername = "localhost:3308";
+// $username = "root";
+// $password = "";
+// $dbname = "mpdb";
+$servername = "localhost:3306";
+$username = "pipelineUser";
+$password = "MinsPipeline0";
 $dbname = "mpdb";
  
 $table = $_POST['table'];
