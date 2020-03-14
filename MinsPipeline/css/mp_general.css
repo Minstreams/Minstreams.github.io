@@ -50,8 +50,8 @@ System {
 
 #codeDocument>.closeBtn {
     position: absolute;
-    top: 2px;
-    right: 2px;
+    top: 5px;
+    right: 5px;
     height: 16px;
     width: 16px;
     z-index: 10;

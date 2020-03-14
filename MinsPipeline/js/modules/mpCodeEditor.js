@@ -14,7 +14,7 @@ var constVars = ['Math', 'Vector3', 'Vector4', 'Quaternion'];
 /**运行时库中的所有方法 */
 var constFuncs = [];
 /**运行时库的用户手册 */
-var constDocument = "";
+var constDocument = "文档";
 
 /**获取mp数据对应的运行时数据结构名 */
 var runtimeClass = {
@@ -52,14 +52,16 @@ export function mpCodeMirror(codeDiv, mpData, section, node) {
         let dynamFuncs = [];
         let document = constDocument;
         /**@param {MPSection} mpSec */
-        function proceedSection(mpSec) {
+        function proceedSection(mpSec, noDn) {
             let dn, cn;
             document += '\n【' + mpSec.bufferSection.name + '】\t//' + mpSec.bufferSection.description;
-            dn = mpSec.bufferSection._dataNodes;
-            if (dn.length > 0) document += '\nVariables:';
-            for (let i = 0; i < dn.length; ++i) {
-                dynamVars.push(dn[i].name);
-                document += '\n\t' + runtimeClass[dn[i].constructor.name] + ' ' + dn[i].name + '\n\t\t-' + dn[i].description;
+            if (!noDn) {
+                dn = mpSec.bufferSection._dataNodes;
+                if (dn.length > 0) document += '\nVariables:';
+                for (let i = 0; i < dn.length; ++i) {
+                    dynamVars.push(dn[i].name);
+                    document += '\n\t' + runtimeClass[dn[i].constructor.name] + ' ' + dn[i].name + '\n\t\t-' + dn[i].description;
+                }
             }
             cn = mpSec.codeSection._codeNodes;
             if (cn.length > 0) document += '\nFunctions:';
@@ -77,7 +79,7 @@ export function mpCodeMirror(codeDiv, mpData, section, node) {
                 proceedSection(mpData.sections[i]);
             }
         } else {
-            if (section > 0) proceedSection(mpData.sections[section - 1]);
+            if (section > 0) proceedSection(mpData.sections[section - 1], true);
             if (section >= 0) proceedSection(mpData.sections[section]);
         }
         // 添加形式参数
