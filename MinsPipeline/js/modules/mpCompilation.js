@@ -328,6 +328,8 @@ function CompileOperators(code) {
     code = code.replace(/[^⑩\t\{\}]+/g, CompileOperators_Expression);
     // 恢复分号
     code = code.replace(/⑩/g, ';\n');
+    // 恢复其它
+    code = code.replace(/⑤/g, ',');
     return code;
 }
 /**参数分割的Reg */
