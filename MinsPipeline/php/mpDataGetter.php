@@ -8,7 +8,8 @@
 // $username = "root";
 // $password = "";
 // $dbname = "mpdb";
-$servername = "localhost:3306";
+$servername = "111.229.94.88:3306";
+// $servername = "localhost:3306";
 $username = "pipelineUser";
 $password = "MinsPipeline0";
 $dbname = "mpdb";
