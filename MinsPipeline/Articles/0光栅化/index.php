@@ -1,1 +1,1 @@
-<?php header("Location: 0待定"); ?>
+<?php header("Location: 0概述"); ?>
