@@ -17,7 +17,7 @@
                 $sections = getSubDir('../');
                 $secCount = count($sections);
                 for ($x=0;$x<$secCount;$x++) {
-                    echo "<div class='sectionLink'".($parent==$sections[$x]?"":"onclick=\"window.location.href = '/MinsPipeline/Articles/$sections[$x]'\"").">".noPre($sections[$x])."</div>";
+                    echo "<div class='sectionLink".($parent==$sections[$x]?" current'":"' onclick=\"window.location.href = '/MinsPipeline/Articles/$sections[$x]'\"").">".noPre($sections[$x])."</div>";
                 }
             ?>
         </div>

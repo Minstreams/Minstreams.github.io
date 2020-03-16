@@ -17,7 +17,7 @@
                 $sections = getSubDir('../');
                 $secCount = count($sections);
                 for ($x=0;$x<$secCount;$x++) {
-                    echo "<div class='sectionLink'".($parent==$sections[$x]?"":"onclick=\"window.location.href = '/MinsPipeline/Articles/$sections[$x]'\"").">".noPre($sections[$x])."</div>";
+                    echo "<div class='sectionLink".($parent==$sections[$x]?" current'":"' onclick=\"window.location.href = '/MinsPipeline/Articles/$sections[$x]'\"").">".noPre($sections[$x])."</div>";
                 }
             ?>
         </div>
@@ -46,12 +46,12 @@
             <?php
             echo "<div class='sideTitle'>".noPre($parent)."</div>";
             for ($x=0;$x<$artCount;$x++) {
-                echo "<div class='articleLink'".($x==$selfIndex?"":" onclick=\"window.location.href='./".noExt($articles[$x])."'\"").">".getPure($articles[$x])."</div>";
+                echo "<div class='articleLink".($x==$selfIndex?" current'>":"' onclick=\"window.location.href='./".noExt($articles[$x])."'\">").getPure($articles[$x])."</div>";
             }
             ?>
         </div>
     </div>
-    <div id='bottomDiv'>这是底栏,还不知道写啥。abcdefg</div>
+    <div id='bottomDiv'>如果你的屏幕够大，推荐将页面缩放到125%</div>
     <mpData>
         <?php
         $mpCount=count($mpData);
@@ -61,6 +61,19 @@
         ?>
     </mpData>
     <?php include $_SERVER['DOCUMENT_ROOT'].'/MinsPipeline/php/systemTail.php' ?>
+    <script>
+        let tDiv = $('.articleLink.current');
+        $('#artDiv>h2').each(function(){
+            let el = $(this);
+            let ttDiv = $('<div></div>').addClass('articleHeaderLink').text(el.text()).click(function(){
+                $("html,body").animate(
+                    {scrollTop:el.offset().top},500 /*scroll实现定位滚动*/
+                );
+            });
+            tDiv.after(ttDiv);
+            tDiv=ttDiv;
+        });
+    </script>
     <noscript>抱歉，你的浏览器不支持 JavaScript!</noscript>
 </body>
 

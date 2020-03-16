@@ -44,10 +44,14 @@
     padding: 4px 8px;
     border-right: 1px solid var(--c1b);
     margin-left: 1px;
-    color: var(--c0b);
+    color: var(--c1b);
     user-select: none;
     transition: 0.1s;
     cursor: pointer;
+}
+
+.sectionLink.current {
+    color: var(--c0b);
 }
 
 .sectionLink:hover {

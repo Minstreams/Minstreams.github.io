@@ -28,10 +28,42 @@
     text-shadow: 0 0 0.3px var(--c1a);
 }
 
+#sideDiv>.articleLink.current {
+    text-shadow: 0 0 0.3px var(--c0a);
+}
+
 #sideDiv>.articleLink:hover {
     border: 1px solid var(--c1);
     transform: translateX(6px);
     color: var(--c0);
     text-shadow: 0 0 4px var(--c1a);
     padding-left: 12px;
+}
+
+#sideDiv>.articleHeaderLink {
+    border: 1px solid var(--bgd);
+    border-radius: 8px;
+    padding: 4px;
+    margin: 2px 0 2px 12px;
+    color: var(--c0b);
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 0.8em;
+    user-select: none;
+}
+
+#sideDiv>.articleHeaderLink::before {
+    content: '>';
+}
+
+#sideDiv>.articleHeaderLink:hover {
+    transform: translateX(3px);
+    color: var(--c1);
+    padding-left: 6px;
+}
+
+#sideDiv>.articleHeaderLink:active {
+    color: var(--c0);
+    border: 1px solid var(--c1b);
+    transition: 0s;
 }
