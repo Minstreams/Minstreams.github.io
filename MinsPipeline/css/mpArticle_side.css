@@ -30,6 +30,7 @@
 
 #sideDiv>.articleLink.current {
     text-shadow: 0 0 0.3px var(--c0a);
+    border: 1px solid var(--c0b);
 }
 
 #sideDiv>.articleLink:hover {
