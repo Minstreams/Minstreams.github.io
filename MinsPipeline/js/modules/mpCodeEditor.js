@@ -57,7 +57,7 @@ function getCodeInfo(mpData, codeData) {
  * @param {MPData} mpData
  * @param {MPCodeData} codeData
  */
-export function mpCodeMirror(codeDiv, mpData, codeData) {
+export function mpCodeMirror(codeDiv, mpData, codeData, readOnly) {
     let calContext = function () {
         // 查找上下文，更新关键词，并生成文档
         let codeInfo = getCodeInfo(mpData, codeData);
@@ -71,18 +71,18 @@ export function mpCodeMirror(codeDiv, mpData, codeData) {
             document += '\n【' + mpSec.bufferSection.name + '】\t//' + mpSec.bufferSection.description;
             if (!noDn) {
                 dn = mpSec.bufferSection._dataNodes;
-                if (dn.length > 0) document += '\nVariables:';
+                if (dn.length > 0) document += '\n\tVariables:';
                 for (let i = 0; i < dn.length; ++i) {
                     dynamVars.push(dn[i].name);
-                    document += '\n\t' + runtimeClass[dn[i].constructor.name] + ' ' + dn[i].name + '\n\t\t-' + dn[i].description;
+                    document += '\n\t\t' + runtimeClass[dn[i].constructor.name] + ' ' + dn[i].name + '\n\t\t\t-' + dn[i].description;
                 }
             }
             if (!noCn) {
                 cn = mpSec.codeSection._codeNodes;
-                if (cn.length > 0) document += '\nFunctions:';
+                if (cn.length > 0) document += '\n\tFunctions:';
                 for (let i = 0; i < cn.length; ++i) {
                     dynamFuncs.push(cn[i].name);
-                    document += '\n\t' + cn[i].name + '(' + cn[i].args + ');' + '\n\t\t-' + cn[i].description;
+                    document += '\n\t\t' + cn[i].name + '(' + cn[i].args + ');' + '\n\t\t\t-' + cn[i].description;
                 }
             }
         }
@@ -134,6 +134,7 @@ export function mpCodeMirror(codeDiv, mpData, codeData) {
         constFuncs: constFuncs,
         dynamVars: config.dynamVars,
         dynamFuncs: config.dynamFuncs,
+        readOnly: readOnly,
     });
     let applyFunc = function () {
         codeData._codeText = $('<div>').text(cmr.getValue()).html();

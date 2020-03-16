@@ -357,7 +357,7 @@ $.fn.extend({
                 newWidgetTool()
             );
         let codeDiv = el.children('div');
-        mpCodeMirror(codeDiv, mpData, codeData);
+        mpCodeMirror(codeDiv, mpData, codeData, auth.readonly);
         el.MPAddToolFunction('showDocument', function () { showDocument(codeDiv); }, '?', '显示API文档');
         el.MPAddToolFunction('todo', function () { }, '♞', '更多选项开发中');
         return this;
