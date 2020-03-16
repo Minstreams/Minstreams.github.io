@@ -2,6 +2,14 @@
     /* --bg: bisque; */
 }
 
+a {
+    color: var(--c1);
+}
+
+a:active {
+    color: var(--c0b);
+}
+
 /**管线相关界面的通常主题 */
 
 body {
@@ -46,7 +54,6 @@ System {
     display: none;
     overflow: hidden;
 }
-
 
 #codeDocument>.closeBtn {
     position: absolute;
