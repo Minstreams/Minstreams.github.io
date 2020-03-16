@@ -40,7 +40,7 @@ export var MPOS = {
             }
         }
         serializeInternal(obj, 'mo');
-        return compress(result.replace(/MP/g, '_MP.MP'));
+        return compress(result.replace(/(?<=new )MP/g, '_MP.MP'));
     },
     /**将mpos字符串转化为MP对象
      * @param {string} str mpos字符串

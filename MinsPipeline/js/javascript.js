@@ -24,10 +24,10 @@
     var dynamVars;
     var dynamFuncs;
 
-    CodeMirror.defineOption('dynamVars', [], function (cm,val) {
+    CodeMirror.defineOption('dynamVars', [], function (cm, val) {
       dynamVars = val;
     })
-    CodeMirror.defineOption('dynamFuncs', [], function (cm,val) {
+    CodeMirror.defineOption('dynamFuncs', [], function (cm, val) {
       dynamFuncs = val;
     })
 
@@ -42,9 +42,9 @@
       return {
         "if": kw("if"), "while": A, "with": A, "else": B, "do": B, "try": B, "finally": B,
         "return": D, "break": D, "continue": D, "new": kw("new"), "delete": C, "void": C, "throw": C,
-        "debugger": kw("debugger"), 
-        "var": kw("var"), 
-        "const": kw("var"), 
+        "debugger": kw("debugger"),
+        "var": kw("var"),
+        "const": kw("var"),
         "let": kw("var"),
         "int": kw("var"),
         "string": kw("var"),
@@ -55,7 +55,8 @@
         "matrix": kw("var"),
         "texture": kw("var"),
         "array": kw("var"),
-        "function": kw("function"), "catch": kw("catch"),
+        // "function": kw("function"),
+        "catch": kw("catch"),
         "for": kw("for"), "switch": kw("switch"), "case": kw("case"), "default": kw("default"),
         "in": operator, "typeof": operator, "instanceof": operator,
         "true": atom, "false": atom, "null": atom, "undefined": atom, "NaN": atom, "Infinity": atom,

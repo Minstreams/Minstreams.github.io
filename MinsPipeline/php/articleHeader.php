@@ -26,25 +26,9 @@
 <link rel="stylesheet" href="/MinsPipeline/css/codewarm.css" />
 
 <?php include $_SERVER['DOCUMENT_ROOT'].'/MinsPipeline/php/mpDataGetter.php' ?>
-
+<?php include $_SERVER['DOCUMENT_ROOT'].'/MinsPipeline/php/dirSearch.php' ?>
 
 <?php
-
-function noPre($str)
-{
-    return mb_substr($str, 1);
-}
-
-function noExt($str)
-{
-    return mb_substr($str, 0, mb_strrpos($str, '.'));
-}
-
-function getPure($str)
-{
-    return mb_substr($str, 1, mb_strrpos($str, '.')-1);
-}
-
 // 获取文件自身名字
 function getSelf()
 {
@@ -71,21 +55,6 @@ function getParent()
     return $php_self;
 }
 $parent = getParent();
-
-// 遍历获取一个文件夹下的所有子文件（夹）
-function getSubDir($dir)
-{
-    $files = [];
-    if (@$handle = opendir($dir)) {
-        while (($file = readdir($handle)) !== false) {
-            if ($file != ".." && $file != "." && $file!="index.html") {
-                $files[] = $file;
-            }
-        }
-        closedir($handle);
-    }
-    return $files;
-}
 ?>
 <title><?php echo getPure($self)."-".noPre($parent)."-Mins Pipeline 岷溪的软渲染管线"; ?>
 </title>

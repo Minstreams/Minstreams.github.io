@@ -71,7 +71,7 @@ async function _onload() {
             let newTabId = codeDataObject.name + tabCounter++;
             let isMainCode = codeDataObject === _mpData.mainCode;
             // 标签内容
-            let codeTextDiv = $('<div id=\'code' + newTabId + '\'></div>').appendTo('#codeDiv').MPAutoCodeEditor(_mpData, codeDataObject, isMainCode ? 'editable' : 'fullControl');
+            let codeTextDiv = $('<div id=\'code' + newTabId + '\'></div>').appendTo('#codeDiv').MPCodeEditor(_mpData, codeDataObject, isMainCode ? 'editable' : 'fullControl');
             // 标签页
             let tabLi = $('<li></li>')
                 .append(
@@ -219,6 +219,7 @@ async function _onload() {
                             ui.item.parent().data('mpArray').splice(ui.item.index(), 0, data);
                             // 重新排序、重新聚焦
                             ui.item.parent().BSResort().parent().click();
+                            $('EventHandler').trigger('restruct');
                         },
                         beforeStop: function (event, ui) {
                             if (ui.position.top > 150) {
@@ -309,6 +310,7 @@ async function _onload() {
                             ui.item.parent().data('mpArray').splice(ui.item.index(), 0, data);
 
                             ui.item.parent().parent().addClass('csSelected').siblings('.csSelected').removeClass('csSelected');
+                            $('EventHandler').trigger('restruct');
                         },
                         stop: function (event, ui) {
                             if (!ui.item[0].parentNode) return;

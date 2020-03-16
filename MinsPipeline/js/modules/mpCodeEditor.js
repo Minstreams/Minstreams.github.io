@@ -6,7 +6,7 @@
  *      @module mpCore
  */
 
-import { MPData, MPSection } from "./mpCore.js";
+import { MPData, MPSection, MPCodeData } from "./mpCore.js";
 import { ConvertArgs } from "./mpCompilation.js";
 
 /**运行时库中的所有变量 */
@@ -37,22 +37,36 @@ export function getCodeData(mpData, section, node) {
     return mpData.sections[section].codeSection._codeNodes[node];
 }
 
+function getCodeInfo(mpData, codeData) {
+    if (codeData === mpData.mainCode) return { section: 0, node: -1 };
+    let cn = mpData.uniformSection.codeSection._codeNodes;
+    for (let i = 0; i < cn.length; ++i) {
+        if (codeData === cn[i]) return { section: -1, node: i };
+    }
+    for (let sec = 0; sec < mpData.sections.length; ++sec) {
+        let cn = mpData.sections[sec].codeSection._codeNodes;
+        for (let i = 0; i < cn.length; ++i) {
+            if (codeData === cn[i]) return { section: sec, node: i };
+        }
+    }
+    return { section: undefined, node: undefined };
+}
+
 /**生成一个代码编辑器
  * @param {JQuery<HTMLElement>} codeDiv
  * @param {MPData} mpData
- * @param {number} section
- * @param {number} node
+ * @param {MPCodeData} codeData
  */
-export function mpCodeMirror(codeDiv, mpData, section, node) {
-    let codeData = getCodeData(mpData, section, node);
-
+export function mpCodeMirror(codeDiv, mpData, codeData) {
     let calContext = function () {
         // 查找上下文，更新关键词，并生成文档
+        let codeInfo = getCodeInfo(mpData, codeData);
         let dynamVars = [];
         let dynamFuncs = [];
         let document = constDocument;
         /**@param {MPSection} mpSec */
-        function proceedSection(mpSec, noDn) {
+        function proceedSection(mpSec, noDn, noCn) {
+            if ((noDn || mpSec.bufferSection._dataNodes.length == 0) && (noCn || mpSec.codeSection._codeNodes.length == 0)) return;
             let dn, cn;
             document += '\n【' + mpSec.bufferSection.name + '】\t//' + mpSec.bufferSection.description;
             if (!noDn) {
@@ -63,24 +77,27 @@ export function mpCodeMirror(codeDiv, mpData, section, node) {
                     document += '\n\t' + runtimeClass[dn[i].constructor.name] + ' ' + dn[i].name + '\n\t\t-' + dn[i].description;
                 }
             }
-            cn = mpSec.codeSection._codeNodes;
-            if (cn.length > 0) document += '\nFunctions:';
-            for (let i = 0; i < cn.length; ++i) {
-                dynamFuncs.push(cn[i].name);
-                document += '\n\t' + cn[i].name + '(' + cn[i].args + ');' + '\n\t\t-' + cn[i].description;
+            if (!noCn) {
+                cn = mpSec.codeSection._codeNodes;
+                if (cn.length > 0) document += '\nFunctions:';
+                for (let i = 0; i < cn.length; ++i) {
+                    dynamFuncs.push(cn[i].name);
+                    document += '\n\t' + cn[i].name + '(' + cn[i].args + ');' + '\n\t\t-' + cn[i].description;
+                }
             }
         }
         // 先找uniform变量和方法
         proceedSection(mpData.uniformSection);
         // 再找别的
-        if (node < 0) {
+        if (codeInfo.node < 0) {
             // 主函数，遍历所有
             for (let i = 0; i < mpData.sections.length; ++i) {
                 proceedSection(mpData.sections[i]);
             }
-        } else {
-            if (section > 0) proceedSection(mpData.sections[section - 1], true);
-            if (section >= 0) proceedSection(mpData.sections[section]);
+        } else if (codeInfo.section >= 0) {
+            if (codeInfo.section < mpData.sections.length - 1) proceedSection(mpData.sections[codeInfo.section + 1], false, true);
+            proceedSection(mpData.sections[codeInfo.section]);
+            if (codeInfo.section > 0) proceedSection(mpData.sections[codeInfo.section - 1], true);
         }
         // 添加形式参数
         if (codeData.args) ConvertArgs(codeData.args).split(',').forEach(arg => {

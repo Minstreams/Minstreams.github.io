@@ -78,9 +78,35 @@
 
 .articleGroup>.articleGroupInfo {
     position: relative;
-    padding: 42px 32px;
+    margin: 42px 32px;
+    padding: 0;
     color: var(--c0a);
     width: 64%;
+    overflow-y: auto;
+}
+
+.articleGroup>.articleGroupInfo::-webkit-scrollbar {
+    display: none;
+}
+
+.articleGroup>.articleGroupInfo>div {
+    background-color: var(--bgd);
+    border-radius: 5px;
+    padding: 8px;
+    margin: 2px 6px;
+    color: #00000000;
+    cursor: pointer;
+    transition: 0.2s;
+    border: 1px solid var(--c1b);
+    text-shadow: 0 0 0.3px var(--c1a);
+}
+
+.articleGroup>.articleGroupInfo>div:hover {
+    border: 1px solid var(--c1);
+    transform: translateX(6px);
+    color: var(--c0);
+    text-shadow: 0 0 4px var(--c1a);
+    padding-left: 12px;
 }
 
 #editorSec {

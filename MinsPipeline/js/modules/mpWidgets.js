@@ -17,7 +17,7 @@
  */
 
 import { MPPrototype, MPData } from './mpCore.js';
-import { mpCodeMirror, getCodeData } from './mpCodeEditor.js';
+import { mpCodeMirror } from './mpCodeEditor.js';
 import { Init } from './mpEvent.js';
 
 // 一些配置
@@ -77,7 +77,7 @@ var applyFunctions = {
     /**只有字母数字下划线的参数表列 */
     args(target, propertyName) {
         //先去掉连续空格和特殊字符，再去掉参数首数字/连续逗号/头尾部逗号
-        target[propertyName] = this.text().replace(/  +/g,' ').replace(/[^\w, ]/g, '').replace(/^,+|(?<![\da-zA-Z])\d+|(?<=,),+|,+$/g, '');
+        target[propertyName] = this.text().replace(/  +/g, ' ').replace(/[^\w, ]/g, '').replace(/^,+|(?<![\da-zA-Z])\d+|(?<=,),+|,+$/g, '');
     }
 };
 /**所有OnBind方法的集合 
@@ -338,11 +338,10 @@ $.fn.extend({
         return this;
     },
     /**加载代码编辑器 */
-    MPCodeEditor(mpData, section, node, authority) {
+    MPCodeEditor(mpData, codeData, authority) {
         /**@type {JQuery<HTMLElement>} */
         let el = this;
         let auth = getAuth(authority);
-        let codeData = getCodeData(mpData, section, node);
         el.addClass('codeTextDiv cm-s-codewarm')
             .append(
                 $('<span>// </span>').addClass('cm-comment'),
@@ -358,26 +357,12 @@ $.fn.extend({
                 newWidgetTool()
             );
         let codeDiv = el.children('div');
-        mpCodeMirror(codeDiv, mpData, section, node);
+        mpCodeMirror(codeDiv, mpData, codeData);
         el.MPAddToolFunction('showDocument', function () { showDocument(codeDiv); }, '?', '显示API文档');
         el.MPAddToolFunction('todo', function () { }, '♞', '更多选项开发中');
         return this;
     },
-    /**@param {MPData} mpData */
-    MPAutoCodeEditor(mpData, codeData, authority) {
-        if (codeData === mpData.mainCode) return this.MPCodeEditor(mpData, 0, -1, authority);
-        let cn = mpData.uniformSection.codeSection._codeNodes;
-        for (let i = 0; i < cn.length; ++i) {
-            if (codeData === cn[i]) return this.MPCodeEditor(mpData, -1, i, authority);
-        }
-        for (let section = 0; section < mpData.sections.length; ++section) {
-            let cn = mpData.sections[section].codeSection._codeNodes;
-            for (let i = 0; i < cn.length; ++i) {
-                if (codeData === cn[i]) return this.MPCodeEditor(mpData, section, i, authority);
-            }
-        }
-        throw new Error("???");
-    },
+
     /**给控件小工具栏添加方法 */
     MPAddToolFunction(name, func, signal, tooltip) {
         /**@type {JQuery<HTMLElement>} */

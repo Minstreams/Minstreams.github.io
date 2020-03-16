@@ -49,7 +49,7 @@ async function _onload() {
         let index = parseInt($(this).attr('data')) || 0;
         let section = parseInt($(this).attr('section'));
         let authority = $(this).attr('authority') || 'editable';
-        $(this).MPCodeEditor(_mpData[index], section, node, authority);
+        $(this).MPCodeEditor(_mpData[index], _MP.getCodeData(_mpData[index], section, node), authority);
         $(this).on('keyup', function () { $(this).children('.codeText').ApplyProperty(); });
     });
 

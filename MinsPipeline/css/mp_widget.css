@@ -18,7 +18,7 @@
 
 .widgetTool>.toolImg {
     width: 16px;
-    height:16px;
+    height: 16px;
     text-align: center;
     font-size: 16px;
     line-height: 12px;
@@ -115,6 +115,9 @@
     top: 16px;
     color: var(--c1a);
     font-size: 0.5em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Vector */

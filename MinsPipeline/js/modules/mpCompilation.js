@@ -77,8 +77,10 @@ function ToJs(mpData) {
             c = ImportCodeSection(c, -1);
             c = ImportCodeSection(c, i);
             if (i > 0) {
-                c = ImportBufferSection(c, i - 1);
                 c = ImportCodeSection(c, i - 1);
+            }
+            if (i < mpData.sections.length - 1) {
+                c = ImportBufferSection(c, i + 1);
             }
             code += c;
         });
