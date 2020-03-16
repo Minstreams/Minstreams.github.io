@@ -36,7 +36,7 @@ var mk = {
     'let ': '❽.',
 };
 var declaration = ['let ', 'var ', 'int ', 'string ', 'float ', 'vec2 ', 'vec3 ', 'vec4 ', 'matrix ', 'texture ', 'array '];
-export var declareArgReg = /^(?:let|var|int|string|float|vec2|vec3|vec4|matrix|texture|array) \w/;
+var declareArgReg = /(?:let|var|int|string|float|vec2|vec3|vec4|matrix|texture|array) /g;
 var argPrefix = 'MPARG_';
 var funcPrefix = 'MPFUNC_';
 /**编译后代码调用模块内方法时使用的前缀 */
@@ -92,7 +92,9 @@ function ToJs(mpData) {
     return code;
 }
 
-
+export function ConvertArgs(args) {
+    return args.replace(declareArgReg, '').replace(/ /g, '');
+}
 /**初始化一个代码块，在这里处理函数格式，并翻译数据项引用
  * @param {MPCodeData} cd 代码项
  * @return {string} 生成的代码
@@ -107,14 +109,13 @@ function InitCodeData(cd) {
     //再去掉非变量声明处的空格
     code = code.replace(/(?<=\w) (?=\W)|(?<=\W) (?=\W)|(?<=\W) (?=\w)/g, '');
     //翻译所有参数引用
-    if (cd.args) cd.args.split(',').forEach(arg => {
-        arg = arg.replace(declareArgReg, '');
+    if (cd.args) ConvertArgs(cd.args).split(',').forEach(arg => {
         code = code.replace(new RegExp('(?<![\\.\\w])' + arg + '(?!\\w)', 'g'), argPrefix + arg);
     });
     //转换所有声明引用
     declaration.forEach(dec => code = code.replace(new RegExp(dec, 'g'), mk['let ']));
     code = CompileOperators(code);
-    return mk['function '] + funcPrefix + cd.name + '(' + (cd.args ? cd.args.replace(/(?<!\w)/g, argPrefix) : '') + '){\n' + code + '\n}\n';
+    return mk['function '] + funcPrefix + cd.name + '(' + (cd.args ? ConvertArgs(cd.args).replace(/(?<!\w)/g, argPrefix) : '') + '){\n' + code + '\n}\n';
 }
 /**引入缓存节作用域，翻译相关数据项引用
  * @param {string} code 源代码

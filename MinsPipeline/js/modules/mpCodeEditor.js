@@ -7,7 +7,7 @@
  */
 
 import { MPData, MPSection } from "./mpCore.js";
-import { declareArgReg } from "./mpCompilation.js";
+import { ConvertArgs } from "./mpCompilation.js";
 
 /**运行时库中的所有变量 */
 var constVars = ['Math', 'Vector3', 'Vector4', 'Quaternion'];
@@ -83,8 +83,7 @@ export function mpCodeMirror(codeDiv, mpData, section, node) {
             if (section >= 0) proceedSection(mpData.sections[section]);
         }
         // 添加形式参数
-        if (codeData.args) codeData.args.split(',').forEach(arg => {
-            arg = arg.replace(declareArgReg, '');
+        if (codeData.args) ConvertArgs(codeData.args).split(',').forEach(arg => {
             dynamVars.push(arg);
         });
         return {

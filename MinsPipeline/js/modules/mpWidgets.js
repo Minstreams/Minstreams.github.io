@@ -76,8 +76,8 @@ var applyFunctions = {
     },
     /**只有字母数字下划线的参数表列 */
     args(target, propertyName) {
-        //先去掉特殊字符，再去掉参数首数字/连续逗号/头尾部逗号
-        target[propertyName] = this.text().replace(/[^\w,]/g, '').replace(/^,+|(?<![\da-zA-Z])\d+|(?<=,),+|,+$/g, '');
+        //先去掉连续空格和特殊字符，再去掉参数首数字/连续逗号/头尾部逗号
+        target[propertyName] = this.text().replace(/  +/g,' ').replace(/[^\w, ]/g, '').replace(/^,+|(?<![\da-zA-Z])\d+|(?<=,),+|,+$/g, '');
     }
 };
 /**所有OnBind方法的集合 
