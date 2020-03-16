@@ -113,7 +113,7 @@ function InitCodeData(cd) {
         code = code.replace(new RegExp('(?<![\\.\\w])' + arg + '(?!\\w)', 'g'), argPrefix + arg);
     });
     //转换所有声明引用
-    declaration.forEach(dec => code = code.replace(new RegExp(dec, 'g'), mk['let ']));
+    declaration.forEach(dec => code = code.replace(new RegExp(dec + '(?=\\w)', 'g'), mk['let ']));
     code = CompileOperators(code);
     return mk['function '] + funcPrefix + cd.name + '(' + (cd.args ? ConvertArgs(cd.args).replace(/(?<!\w)/g, argPrefix) : '') + '){\n' + code + '\n}\n';
 }
