@@ -16,6 +16,7 @@ body {
     background: var(--bg) var(--texImg);
     color: var(--c0);
     margin: 0;
+    font-family: sans-serif;
 }
 
 body::-webkit-scrollbar, #bufferDiv::-webkit-scrollbar, #codeDiv>.codeTextDiv::-webkit-scrollbar {
