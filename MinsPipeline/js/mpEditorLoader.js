@@ -131,6 +131,7 @@ async function _onload() {
             bsul.data('mpArray').remove(this.data('mpObject'));
             // 删除UI
             this.remove();
+            $('EventHandler').trigger('restruct');
             // 重新排序、重新聚焦
             return bsul.BSResort(true).parent().click();
         },
@@ -154,6 +155,7 @@ async function _onload() {
                 if (!bsdns.includes(dn)) bsdns.push(dn);
             });
             this.BSResort(true).parent().click();
+            $('EventHandler').trigger('restruct');
             return this;
         },
         /**对圆环上的数据项进行排列 
@@ -249,6 +251,7 @@ async function _onload() {
             csul.data('mpArray').remove(codeNode);
             // 删除UI
             this.remove();
+            $('EventHandler').trigger('restruct');
             // 重新排序、重新聚焦
             return csul.sortable('refresh');
         },
@@ -276,6 +279,7 @@ async function _onload() {
                     ;
                 if (!csdns.includes(cn)) csdns.push(cn);
             });
+            $('EventHandler').trigger('restruct');
             return this.sortable('refresh');
         },
         /**代码节按钮初始化 
@@ -383,6 +387,7 @@ async function _onload() {
             csDiv.animate({
                 'flex-grow': 0
             }, 'slow', 'easeInCubic', function () { bsDiv.remove(); csDiv.remove() });
+            $('EventHandler').trigger('restruct');
             stopBubbling(e);
         }).append($('<tooltip></tooltip>').text('删除此数据节点'));
         // 添加按钮
@@ -392,6 +397,7 @@ async function _onload() {
             let newsec = new _MP.MPSection();
             _mpData.sections.splice(index + 1, 0, newsec);
             addSection(newsec, csDiv);
+            $('EventHandler').trigger('restruct');
             stopBubbling(e);
         }).append($('<tooltip></tooltip>').text('在此插入新节点'));
         if (_mpEdit) removeDiv.add(addDiv).css('visibility', 'visible');

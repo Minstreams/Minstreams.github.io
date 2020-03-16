@@ -412,7 +412,7 @@ Init(function () {
     let cd = $('#codeDocument');
     cd.data('afterRestructFunc', function () {
         if (cd.css('display') !== 'none') {
-            $('#codeDocumentText').text(codeDiv.data('document'));
+            $('#codeDocumentText').text(curCodeDiv.data('document'));
         }
     });
     let offX;
