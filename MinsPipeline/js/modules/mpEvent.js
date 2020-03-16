@@ -19,9 +19,9 @@ export function Init(func) {
 
 Init(function () {
     $('EventHandler').on('restruct', function () {
-        $(':data(preRestructFunc)').data('preRestructFunc')();
-        $(':data(restructFunc)').data('restructFunc')();
-        $(':data(afterRestructFunc)').data('afterRestructFunc')();
+        $(':data(preRestructFunc)').executeAll('preRestructFunc');
+        $(':data(restructFunc)').executeAll('restructFunc');
+        $(':data(afterRestructFunc)').executeAll('afterRestructFunc');
         _MP.UpdateAll();
     });
 });

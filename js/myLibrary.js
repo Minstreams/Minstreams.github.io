@@ -66,6 +66,11 @@ $.fn.extend({
         });
         return result;
     },
+    /**执行所有data存储的方法 */
+    executeAll(funcName) {
+        $(this).each(function () { $(this).data(funcName)(); });
+        return this;
+    },
 });
 
 
