@@ -14,21 +14,21 @@ $username = "pipelineUser";
 $password = "MinsPipeline0";
 $dbname = "mpdb";
 
+global $servername,$username,$password,$dbname;
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("数据库连接失败: " . $conn->connect_error);
+}
+
 function getMPData($table, $name)
 {
-    global $servername,$username,$password,$dbname;
+    global $conn;
     if (!(isset($table)&&isset($name))) {
         die("invalid arguments");
-    }
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    if ($conn->connect_error) {
-        die("数据库连接失败: " . $conn->connect_error);
     }
     
     $result=mysqli_query($conn, "SELECT data from $table where name='$name'");
     $output=mysqli_fetch_array($result)[0];
-    
-    $conn->close();
     return $output;
 }
 ?>

@@ -52,26 +52,28 @@
         </div>
     </div>
     <div id='bottomDiv'>如果你的屏幕够大，推荐将页面缩放到125%</div>
+    <?php include $_SERVER['DOCUMENT_ROOT'].'/MinsPipeline/php/mpDataGetter.php' ?>
     <mpData>
         <?php
         $mpCount=count($mpData);
         for ($i = 0;$i<$mpCount;$i++) {
             echo "<pre>".getMPData('test', $mpData[$i])."</pre>";
         }
+        $conn->close();
         ?>
     </mpData>
     <?php include $_SERVER['DOCUMENT_ROOT'].'/MinsPipeline/php/systemTail.php' ?>
     <script>
         let tDiv = $('.articleLink.current');
-        $('#artDiv>h2').each(function(){
+        $('#artDiv>h2').each(function() {
             let el = $(this);
-            let ttDiv = $('<div></div>').addClass('articleHeaderLink').text(el.text()).click(function(){
-                $("html,body").animate(
-                    {scrollTop:el.offset().top},500 /*scroll实现定位滚动*/
-                );
+            let ttDiv = $('<div></div>').addClass('articleHeaderLink').text(el.text()).click(function() {
+                $("html,body").animate({
+                    scrollTop: el.offset().top
+                }, 500 /*scroll实现定位滚动*/ );
             });
             tDiv.after(ttDiv);
-            tDiv=ttDiv;
+            tDiv = ttDiv;
         });
     </script>
     <noscript>抱歉，你的浏览器不支持 JavaScript!</noscript>

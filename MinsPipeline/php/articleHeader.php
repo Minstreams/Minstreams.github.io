@@ -25,7 +25,6 @@
 <!--temp-->
 <link rel="stylesheet" href="/MinsPipeline/css/codewarm.css" />
 
-<?php include $_SERVER['DOCUMENT_ROOT'].'/MinsPipeline/php/mpDataGetter.php' ?>
 <?php include $_SERVER['DOCUMENT_ROOT'].'/MinsPipeline/php/dirSearch.php' ?>
 
 <?php
