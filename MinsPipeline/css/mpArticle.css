@@ -22,7 +22,7 @@ body {
 
 #sideDiv {
     flex-basis: 200px;
-    margin: 0 12px;
+    margin: 0 0px 0 13px;
 }
 
 #artDiv {
@@ -30,8 +30,8 @@ body {
     flex-basis: 800px;
     flex-grow: 1;
     max-width: 1000px;
-    margin: 0 12px;
-    padding-bottom: 36px;
+    margin: 0 13px 0 0px;
+    padding-bottom: 60px;
 }
 
 #artDiv>h2 {
@@ -121,18 +121,10 @@ mpWidget {
     flex-basis: 220px;
 }
 
-/* 响应式布局 - 屏幕尺寸小于 800px 时，两列布局改为上下布局 */
-
-@media screen and (max-width: 1000px) {
-    #sideDiv {
-        flex-grow: 1;
-    }
-}
-
 #introSec {
-    padding: 16px 32px;
+    padding: 8px 36px 12px;
     background-color: var(--bgd);
-    border-top: 12px dashed var(--bg);
+    border-top: 4px dashed var(--bg);
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
     color: var(--c0a);
@@ -142,7 +134,7 @@ mpWidget {
 #linkSec {
     position: absolute;
     width: 100%;
-    height: 36px;
+    height: 48px;
     bottom: 0;
     background-color: var(--bgd);
     border-bottom: 4px dashed var(--bg);
@@ -152,7 +144,7 @@ mpWidget {
 
 #linkSec>div {
     position: absolute;
-    top: 8px;
+    top: 14px;
     color: var(--c1a);
     transition: 0.2s;
     cursor: pointer;
@@ -164,7 +156,7 @@ mpWidget {
 }
 
 #linkSec>div:first-child {
-    left: 8px;
+    left: 16px;
 }
 
 #linkSec>div:first-child::before {
@@ -172,9 +164,32 @@ mpWidget {
 }
 
 #linkSec>div:last-child {
-    right: 8px;
+    right: 16px;
 }
 
 #linkSec>div:last-child::after {
     content: '⇝';
+}
+
+/* 响应式布局 - 屏幕尺寸小于 800px 时，两列布局改为上下布局 */
+
+@media screen and (max-width: 1000px) {
+    #topDiv {
+        height: 88px;
+    }
+    #artDiv {
+        margin: 0 12px;
+        padding-bottom: 60px;
+    }
+    #sideDiv {
+        flex-grow: 1;
+    }
+    #linkSec {
+        height: 60px;
+        border-bottom: none;
+        border-radius: 8px;
+    }
+    #linkSec>div {
+        font-size: 24px;
+    }
 }
