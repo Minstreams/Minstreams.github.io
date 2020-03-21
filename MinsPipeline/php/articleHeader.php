@@ -1,8 +1,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="user-scalable=no, width=device-width,initial-scale=1.0, maximum-scale=1.0" />
 
-<link rel="icon" href="/MinsPipeline/favicon.ico" />
-<link rel="shortcut icon" href="/MinsPipeline/favicon.ico" />
+<link rel="icon" href="/MinsPipeline/favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="/MinsPipeline/favicon.ico" type="image/x-icon" />
 
 <script src="/JQuery/jquery-3.4.1.min.js"></script>
 <script src="/JQuery/jquery-ui.min.js"></script>
