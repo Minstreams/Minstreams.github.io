@@ -12,7 +12,9 @@
                 <h3>Mins Pipeline</h3>
                 <p>岷 溪 的 软 渲 染 管 线</p>
             </div>
-            <div style='flex-grow:1;'></div>
+            <div style='flex-grow:1;position:relative;height:100%;'>
+                <div id='logoMid'></div>
+            </div>
             <?php
                 $sections = getSubDir('../');
                 $secCount = count($sections);
@@ -51,7 +53,10 @@
             ?>
         </div>
     </div>
-    <div id='bottomDiv'>如果你的屏幕够大，推荐将页面缩放到125%</div>
+    <div id='bottomDiv'>
+        <a href='https://www.icourse163.org/course/preview/HUST-1003636001' target='view_window' id='logoBottom'></a>
+        <div id='rights'>Copyright © 2020 Minstreams, All Rights Reserved. 备案号：闽ICP备15012807号-1</div>
+    </div>
     <?php include $_SERVER['DOCUMENT_ROOT'].'/MinsPipeline/php/mpDataGetter.php' ?>
     <mpData>
         <?php

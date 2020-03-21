@@ -31,7 +31,7 @@ body {
     flex-grow: 1;
     max-width: 1000px;
     margin: 0 13px 0 0px;
-    padding-bottom: 60px;
+    padding-bottom: 64px;
 }
 
 #artDiv>h2 {
@@ -49,14 +49,6 @@ body {
 #artDiv>p, #artDiv>li {
     text-indent: 2em;
     line-height: 150%;
-}
-
-#bottomDiv {
-    height: 64px;
-    text-align: center;
-    padding: 8px 32px;
-    background-color: var(--bgd);
-    color: var(--c0b);
 }
 
 /* 控件相关 */

@@ -12,7 +12,9 @@
                 <h3>Mins Pipeline</h3>
                 <p>岷 溪 的 软 渲 染 管 线</p>
             </div>
-            <div style='flex-grow:1;'></div>
+            <div style='flex-grow:1;position:relative;height:100%;'>
+                <div id='logoMid'></div>
+            </div>
             <?php
                 $sections = getSubDir('../');
                 $secCount = count($sections);

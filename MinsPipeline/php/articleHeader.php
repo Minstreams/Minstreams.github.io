@@ -1,4 +1,9 @@
 <meta charset="utf-8" />
+<meta name="viewport" content="user-scalable=no, width=device-width,initial-scale=1.0, maximum-scale=1.0" />
+
+<link rel="icon" href="/MinsPipeline/favicon.ico" />
+<link rel="shortcut icon" href="/MinsPipeline/favicon.ico" />
+
 <script src="/JQuery/jquery-3.4.1.min.js"></script>
 <script src="/JQuery/jquery-ui.min.js"></script>
 
@@ -21,6 +26,7 @@
 <link rel="stylesheet" href="/MinsPipeline/css/mpArticle.css" />
 <link rel="stylesheet" href="/MinsPipeline/css/mpArticle_top.css" />
 <link rel="stylesheet" href="/MinsPipeline/css/mpArticle_side.css" />
+<link rel="stylesheet" href="/MinsPipeline/css/mpArticle_bottom.css" />
 
 <!--temp-->
 <link rel="stylesheet" href="/MinsPipeline/css/codewarm.css" />

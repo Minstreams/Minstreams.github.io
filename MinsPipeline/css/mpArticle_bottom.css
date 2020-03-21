@@ -1,0 +1,25 @@
+#bottomDiv {
+    background-color: var(--bgd);
+}
+
+#logoBottom {
+    display: block;
+    background-image: var(--logo-bottom);
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 92px;
+    height: 93px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#logoBottom:hover {
+    filter: brightness(130%) drop-shadow(0 0 2px var(--c1));
+}
+
+#bottomDiv>#rights {
+    padding: 8px;
+    color: var(--c0b);
+    text-align: center;
+    font-size: 12px;
+}
