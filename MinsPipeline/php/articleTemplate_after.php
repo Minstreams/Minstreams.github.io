@@ -23,8 +23,22 @@
         </div>
     </div>
     <div id='bottomDiv'>
-        <a href='https://www.icourse163.org/course/preview/HUST-1003636001' target='view_window' id='logoBottom'></a>
-        <div id='rights'>Copyright © 2020 岷溪 Minstreams, All Rights Reserved. 备案号：闽ICP备15012807号-1</div>
+        <div id='bottomFlex'>
+            <div class='bottomFlexContent'>
+                <div class='bottomTitle'>MOOC图形学</div>
+                <a href='https://www.icourse163.org/course/preview/HUST-1003636001' target='view_window' id='logoBottom'></a>
+            </div>
+            <div class='bottomFlexContent'>
+                随便写点什么
+            </div>
+            <div class='bottomFlexContent'>
+                随便写点什么
+            </div>
+            <div class='bottomFlexContent'>
+                随便写点什么
+            </div>
+        </div>
+        <div id='rights'>Copyright © 2020 岷溪 Minstreams, All Rights Reserved. 鄂ICP备20002811号-1</div>
     </div>
     <?php include $_SERVER['DOCUMENT_ROOT'].'/MinsPipeline/php/mpDataGetter.php' ?>
     <mpData>

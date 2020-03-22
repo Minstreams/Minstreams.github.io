@@ -1,5 +1,28 @@
 #bottomDiv {
     background-color: var(--bgd);
+    color: var(--c0a);
+}
+
+#bottomFlex {
+    display: flex;
+    justify-content: center;
+    margin: 12px 0;
+}
+
+#bottomFlex>.bottomFlexContent {
+    border-right: 1px solid var(--bg);
+    padding: 0 12px;
+    font-size: 13px;
+}
+
+#bottomFlex>.bottomFlexContent:last-child {
+    border-right: none;
+}
+
+.bottomTitle {
+    text-align: center;
+    font-weight: lighter;
+    color: var(--c1a);
 }
 
 #logoBottom {
@@ -11,6 +34,7 @@
     height: 93px;
     cursor: pointer;
     transition: 0.2s;
+    margin: 4px auto;
 }
 
 #logoBottom:hover {

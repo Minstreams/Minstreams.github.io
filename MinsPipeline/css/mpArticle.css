@@ -6,6 +6,7 @@ body {
     flex-direction: column;
     height: 100%;
     min-block-size: -webkit-fill-available;
+    overflow-x: hidden;
 }
 
 #topDiv {
@@ -31,7 +32,7 @@ body {
     flex-grow: 1;
     max-width: 1000px;
     margin: 0 13px 0 0px;
-    padding-bottom: 64px;
+    padding-bottom: 60px;
 }
 
 #artDiv>h2 {

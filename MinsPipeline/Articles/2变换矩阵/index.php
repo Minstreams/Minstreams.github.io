@@ -1,1 +1,0 @@
-<?php header("Location: 0示例"); ?>
