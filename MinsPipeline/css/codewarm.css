@@ -5,7 +5,7 @@
 .cm-s-codewarm div.CodeMirror-selected { background: var(--c1b); }
 .cm-s-codewarm span.cm-meta { color: #83a598; }
 
-.cm-s-codewarm span.cm-comment { color: var(--c6b); }
+.cm-s-codewarm span.cm-comment { color: var(--c6a); }
 .cm-s-codewarm .CodeMirror-activeline span.cm-comment{ color: var(--c6); }
 .cm-s-codewarm span.cm-number, span.cm-atom { color: var(--c1); }
 .cm-s-codewarm span.cm-keyword { color: var(--c5); }
