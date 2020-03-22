@@ -22,8 +22,13 @@
 }
 
 #mainDiv {
-    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+#mainDiv>div {
     max-width: 1064px;
+    flex-grow: 1;
 }
 
 #introSec {
@@ -125,12 +130,6 @@
     width: fit-content;
 }
 
-#tailSec {
-    height: 128px;
-    text-align: center;
-    padding: 8px 32px;
-    background-color: var(--bgd);
-    border-top-left-radius: 32px;
-    border-top-right-radius: 32px;
-    color: var(--c0b);
+#bottomFlex {
+    width: fit-content;
 }

@@ -26,10 +26,10 @@
 <link rel="stylesheet" href="/MinsPipeline/css/mp_theme.css" />
 <link rel="stylesheet" href="/MinsPipeline/css/mp_general.css" />
 <link rel="stylesheet" href="/MinsPipeline/css/mp_widget.css" />
+<link rel="stylesheet" href="/MinsPipeline/css/mp_footer.css" />
 <link rel="stylesheet" href="/MinsPipeline/css/mpArticle.css" />
 <link rel="stylesheet" href="/MinsPipeline/css/mpArticle_top.css" />
 <link rel="stylesheet" href="/MinsPipeline/css/mpArticle_side.css" />
-<link rel="stylesheet" href="/MinsPipeline/css/mpArticle_bottom.css" />
 
 <!--temp-->
 <link rel="stylesheet" href="/MinsPipeline/css/codewarm.css" />

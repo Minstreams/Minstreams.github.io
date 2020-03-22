@@ -1,19 +1,5 @@
 /* 布局 */
 
-html {
-    min-block-size: -webkit-fill-available;
-    min-height: 100%;
-}
-
-body {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    min-block-size: -webkit-fill-available;
-    overflow-x: hidden;
-}
-
 #topDiv {
     background-color: var(--bgd);
     height: 72px;
@@ -29,6 +15,10 @@ body {
 #sideDiv {
     flex-basis: 200px;
     margin: 0 0px 0 13px;
+}
+
+#bottomFlex{
+    max-width: 1240px;
 }
 
 #artDiv {

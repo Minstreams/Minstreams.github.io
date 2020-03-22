@@ -6,7 +6,6 @@
 #bottomFlex {
     display: flex;
     margin: 12px auto;
-    max-width: 1240px;
 }
 
 #bottomFlex>.bottomFlexContent {
