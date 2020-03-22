@@ -11,6 +11,8 @@
 <script src="/MinsPipeline/js/javascript.js"></script>
 <script src="/codemirror/addon/selection/active-line.js"></script>
 
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=AM_HTMLorMML-full"></script>
+
 <link rel="stylesheet" href="/JQuery/jquery-ui.css" />
 <link rel="stylesheet" href="/codemirror/lib/codemirror.css" />
 <link rel="stylesheet" href="/css/general.css" />

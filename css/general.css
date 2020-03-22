@@ -9,7 +9,7 @@ tooltip {
     white-space: nowrap;
 }
 
-.hide{
+.hide {
     display: none;
 }
 
@@ -26,6 +26,12 @@ tooltip {
     /* Internet Explorer/Edge */
     user-select: none;
     /* Non-prefixed version, currently not supported by any browser */
+}
+
+.adiv {
+    display: block;
+    text-decoration: none;
+    color: inherit
 }
 
 .tutorial {

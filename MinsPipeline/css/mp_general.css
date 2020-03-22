@@ -10,6 +10,11 @@ a:active {
     color: var(--c0b);
 }
 
+hr {
+    border-color: var(--bg);
+    border-width: 1px;
+}
+
 /**管线相关界面的通常主题 */
 
 body {

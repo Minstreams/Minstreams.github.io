@@ -1,44 +1,67 @@
 #bottomDiv {
     background-color: var(--bgd);
-    color: var(--c0a);
+    color: var(--c1b);
 }
 
 #bottomFlex {
     display: flex;
-    justify-content: center;
-    margin: 12px 0;
+    margin: 12px auto;
+    max-width: 1240px;
 }
 
 #bottomFlex>.bottomFlexContent {
     border-right: 1px solid var(--bg);
     padding: 0 12px;
     font-size: 13px;
+    line-height: 1.5em;
+    cursor: default;
 }
 
 #bottomFlex>.bottomFlexContent:last-child {
     border-right: none;
 }
 
+#bottomFlex>.bottomFlexContent>a {
+    color: var(--c1a);
+    text-decoration: none;
+}
+
+#bottomFlex>.bottomFlexContent>a:hover {
+    color: var(--c1);
+}
+
 .bottomTitle {
-    text-align: center;
+    text-align: justify;
+    text-align-last: justify;
     font-weight: lighter;
     color: var(--c1a);
 }
 
-#logoBottom {
-    display: block;
-    background-image: var(--logo-bottom);
+.bottomLogo {
     background-size: contain;
     background-repeat: no-repeat;
-    width: 92px;
-    height: 93px;
-    cursor: pointer;
+    width: 64px;
+    height: 64px;
     transition: 0.2s;
     margin: 4px auto;
+    opacity: 0.5;
 }
 
-#logoBottom:hover {
+.bottomLogo:hover {
     filter: brightness(130%) drop-shadow(0 0 2px var(--c1));
+    opacity: 1;
+}
+
+#moocLogoBottom {
+    background-image: var(--mooc-logo-bottom);
+}
+
+#ssLogoBottom {
+    background-image: var(--ss-logo-bottom);
+}
+
+#hustLogoBottom {
+    background-image: var(--hust-logo-bottom);
 }
 
 #bottomDiv>#rights {

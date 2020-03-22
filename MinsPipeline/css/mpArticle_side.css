@@ -22,10 +22,10 @@
     padding: 8px;
     margin: 6px 0;
     color: #00000000;
-    cursor: pointer;
     transition: 0.2s;
     border: 1px solid var(--c1b);
     text-shadow: 0 0 0.3px var(--c1a);
+    user-select: none;
 }
 
 #sideDiv>.articleLink.current {

@@ -35,5 +35,7 @@
     --c7b: #ec2d7a66;
     --texImg: url(img/texture.png);
     --logo-mid: url(img/logo_mid.png);
-    --logo-bottom: url(img/logo_bottom.png);
+    --mooc-logo-bottom: url(img/logo_bottom.png);
+    --ss-logo-bottom: url(img/SSElogo.png);
+    --hust-logo-bottom: url(img/HUSTLogo.png);
 }
