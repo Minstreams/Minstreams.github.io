@@ -17,7 +17,7 @@
     margin: 0 0px 0 13px;
 }
 
-#bottomFlex{
+#bottomFlex {
     max-width: 1240px;
 }
 
@@ -48,12 +48,12 @@
     margin-left: 2em;
     margin-right: 2em;
     margin-block-start: 2em;
-    margin-block-end: 0;
+    margin-block-end: 0.5em;
 }
 
-#artDiv>p::first-letter{
+#artDiv>p::first-letter {
     font-weight: bold;
-    color:var(--c1a);
+    color: var(--c1a);
 }
 
 #artDiv>li {
@@ -61,6 +61,7 @@
     margin-left: 4em;
     line-height: 150%;
     margin-right: 2em;
+    list-style-type: circle;
 }
 
 #artDiv b {
