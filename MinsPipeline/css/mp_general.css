@@ -69,6 +69,7 @@ System {
     border-radius: 8px;
     display: none;
     overflow: hidden;
+    box-shadow: 0 0 8px 1px var(--c1a);
 }
 
 #codeDocument>.closeBtn {

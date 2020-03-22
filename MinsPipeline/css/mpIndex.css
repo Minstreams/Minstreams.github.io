@@ -94,7 +94,7 @@
     display: none;
 }
 
-.articleGroup>.articleGroupInfo>div {
+.articleGroup>.articleGroupInfo>a {
     background-color: var(--bgd);
     border-radius: 5px;
     padding: 8px;
@@ -103,10 +103,10 @@
     cursor: pointer;
     transition: 0.2s;
     border: 1px solid var(--c1b);
-    text-shadow: 0 0 0.3px var(--c1a);
+    text-shadow: 0 0 0.1px var(--c1a);
 }
 
-.articleGroup>.articleGroupInfo>div:hover {
+.articleGroup>.articleGroupInfo>a:hover {
     border: 1px solid var(--c1);
     transform: translateX(6px);
     color: var(--c0);

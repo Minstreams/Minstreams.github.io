@@ -12,7 +12,7 @@
         $dirs = getSubDir("./Articles/$name");
         $dirsCount = count($dirs);
         for ($x = 0;$x<$dirsCount;$x++) {
-            echo "<div onclick=\"window.location.href='./Articles/".$name."/".noExt($dirs[$x])."'\">".getPure($dirs[$x])."</div>";
+            echo "<a class='adiv' href='./Articles/".$name."/".noExt($dirs[$x])."'>".getPure($dirs[$x])."</a>";
         }
         echo "</div></div>";
     }
@@ -23,12 +23,8 @@
 <html lang="zh-CN">
 
 <head>
-    <meta charset="utf-8">
+    <?php include $_SERVER['DOCUMENT_ROOT'].'/MinsPipeline/php/mpHeader.php' ?>
     <title>MinsPipeline-岷溪的软渲染管线</title>
-    <link rel="stylesheet" type="text/css" href="/css/general.css">
-    <link rel="stylesheet" type="text/css" href="css/mp_theme.css">
-    <link rel="stylesheet" type="text/css" href="css/mp_general.css">
-    <link rel="stylesheet" type="text/css" href="css/mp_footer.css">
     <link rel="stylesheet" type="text/css" href="css/mpIndex.css">
 </head>
 

@@ -1,29 +1,36 @@
 /* 管线编辑器主题 */
 
 :root {
-    --bg: #2b2a29;
-    --bga: #eea08c;
-    --bgd: #141414;
-    --bgdd: #000000;
-    --c0: #d8dbd6;
-    --c0a: #d8dbd6bb;
-    --c0b: #d8dbd666;
-    --c1: #b9d635;
-    --c1a: #b9d635bb;
-    --c1b: #b9d63566;
+    --bg: #5b423a;
+    /* 淡铁灰 */
+    --bga: #b46d4f;
+    --bgd: #3d2c27;
+    --bgdd: rgb(34, 25, 22);
+    --c0: #f8ebe6;
+    /* 草珠红 */
+    --c0a: #f8ebe6bb;
+    --c0b: #f8ebe666;
+    --c1: #eea08c;
+    /* 淡罂粟红 */
+    --c1a: #eea08cbb;
+    --c1b: #eea08c66;
     --c2: #d42517;
+    /* 鹤顶红 */
     --c2a: #d42517bb;
     --c2b: #d4251766;
     --c2l: #ff833a;
-    --c3: #ef9300;
-    --c4: #b3a090;
-    --c4a: #b3a090bb;
-    --c4b: #b3a09066;
+    --c3: #ffa500;
+    --c4: #8ec07c;
+    --c4a: #8ec07cbb;
+    --c4b: #8ec07c66;
     --c5: #c74545;
+    /* 暗蓝紫 */
     --c6: #d1c2d3;
+    /* 淡牵牛紫 */
     --c6a: #d1c2d3bb;
     --c6b: #d1c2d366;
     --c7: #ec2d7a;
+    /* 藏花红 */
     --c7a: #ec2d7abb;
     --c7b: #ec2d7a66;
     --texImg: url(img/texture.png);
