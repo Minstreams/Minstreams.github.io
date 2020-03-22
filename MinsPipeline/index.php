@@ -41,8 +41,7 @@
             <p>这是一些介绍文字</p>
         </div>
         <?php
-            newArticleGroup("0光栅化", "这是光栅化的一些说明");
-            newArticleGroup("2变换矩阵", "这是变换矩阵的一些说明");
+            newArticleGroup("0光栅化", "光栅化是渲染管线中很重要的组成部分");
             newArticleGroup("z用户手册", "来学习怎么使用管线编辑器吧！");
          ?>
         <div id='editorSec'>
