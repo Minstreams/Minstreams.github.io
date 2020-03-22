@@ -43,16 +43,24 @@
 }
 
 #artDiv>p {
-    text-indent: 2em;
+    /* text-indent: 2em; */
     line-height: 150%;
-    /* margin-block-start: 0em;
-    margin-block-end:0em; */
+    margin-left: 2em;
+    margin-right: 2em;
+    margin-block-start: 2em;
+    margin-block-end: 0;
+}
+
+#artDiv>p::first-letter{
+    font-weight: bold;
+    color:var(--c1a);
 }
 
 #artDiv>li {
     text-indent: -1.5em;
     margin-left: 4em;
     line-height: 150%;
+    margin-right: 2em;
 }
 
 #artDiv b {
