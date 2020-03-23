@@ -12,6 +12,7 @@
             你好。我是岷溪，一个大四学生，图形学爱好者，游戏开发程序/系统策划/美术/技术美术/音乐/音效，差不多啥都会一些。
             <br />
             Mins Pipeline 是我还在开发中的毕业设计作品。
+            （由于使用了动态模块加载和正则反向预查的技术，暂不支持FireFox和Edge。）
         </div>
         <div class='bottomFlexContent'>
             <a href='https://www.icourse163.org/course/preview/HUST-1003636001' target='view_window' class='adiv bottomLogo' id='moocLogoBottom'></a>
