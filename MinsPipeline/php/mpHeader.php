@@ -7,5 +7,3 @@
 <link rel="stylesheet" type="text/css" href="/MinsPipeline/css/mp_theme.css">
 <link rel="stylesheet" type="text/css" href="/MinsPipeline/css/mp_general.css">
 <link rel="stylesheet" type="text/css" href="/MinsPipeline/css/mp_footer.css">
-
-

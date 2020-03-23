@@ -25,6 +25,13 @@ hr {
     border-width: 1px;
 }
 
+/*文字选中效果*/
+
+::selection {
+    background-color: var(--c1a);
+    color: var(--bg);
+}
+
 /**管线相关界面的通常主题 */
 
 body {

@@ -8,6 +8,8 @@
             <a href='https://music.163.com/#/artist?id=1209047' target='view_window' >网易云音乐</a>
             <span class='noselect'>　▏</span>
             <a href='https://www.icourse163.org/u/mooc71358385601503610?userId=1151263615&_trace_c_p_k2_=59ef2cdb389c479482884312cc317a18' target='view_window' >万琳老师</a>
+            <span class='noselect'>　▏</span>
+            <span style='user-select: all;-ms-user-select: element;'>minstreams@qq.com</span>
             <hr />
             你好。我是岷溪，一个大四学生，图形学爱好者，游戏开发程序/系统策划/美术/技术美术/音乐/音效，差不多啥都会一些。
             <br />
@@ -29,3 +31,4 @@
     </div>
     <div id='rights'>Copyright © 2020 岷溪 Minstreams, All Rights Reserved. 鄂ICP备20002811号-1</div>
 </div>
+<?php include $_SERVER['DOCUMENT_ROOT'].'/MinsPipeline/php/exViewCounter.php' ?>
