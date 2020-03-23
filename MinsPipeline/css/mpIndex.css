@@ -4,7 +4,7 @@
     justify-content: center;
     text-align: center;
     background-color: var(--bgd);
-    height: 640px;
+    height: 100vh;
     user-select: none;
     text-shadow: 0 0 4px var(--c1b);
 }
