@@ -48,6 +48,10 @@
     border-bottom: 8px dashed var(--bgd);
 }
 
+.articleGroup:last-of-type {
+    border-bottom: none;
+}
+
 .articleGroup>.articleGroupTitle {
     position: relative;
     padding: 32px 32px;
@@ -88,6 +92,7 @@
     color: var(--c0a);
     width: 64%;
     overflow-y: auto;
+    scrollbar-color: transparent transparent;
 }
 
 .articleGroup>.articleGroupInfo::-webkit-scrollbar {
@@ -127,9 +132,10 @@
     color: var(--c0b);
     font-size: 32px;
     text-align: center;
-    width: fit-content;
+    width: max-content;
 }
 
 #bottomFlex {
-    width: fit-content;
+    width: max-content;
+    max-width: 100vw;
 }

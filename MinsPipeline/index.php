@@ -36,16 +36,19 @@
     <div id='mainDiv'>
         <div>
             <div id='introSec'>
-                <p>Hi!你好，欢迎使用管线编辑器！</p>
-                <p>这是一些介绍文字</p>
+                <p>Hi!你好，欢迎来到MinsPipeline！</p>
+                <p>MinsPipeline 是一个在浏览器中学习渲染管线知识的工具。
+                你可以通过我们的教学文章，交互式地学习渲染流程中的各种算法；
+                也可以通过在线的管线编辑器，自由探究渲染管线中的各个阶段，甚至创造出自己独特的软渲染管线。</p>
+                <p>（管线编辑器仍在开发中，暂不开放）</p>
             </div>
             <?php
                 newArticleGroup("0光栅化", "光栅化是渲染管线中很重要的组成部分");
                 newArticleGroup("z用户手册", "来学习怎么使用管线编辑器吧！");
             ?>
-            <div id='editorSec'>
+            <!-- <div id='editorSec'>
                 <a href="mpEditor">编辑器</a>
-            </div>
+            </div> -->
         </div>
     </div>
     <?php include $_SERVER['DOCUMENT_ROOT'].'/MinsPipeline/php/mpFooter.php' ?>

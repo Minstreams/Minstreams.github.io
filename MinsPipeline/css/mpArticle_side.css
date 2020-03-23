@@ -4,6 +4,7 @@
     height: max-content;
     border-bottom: 4px dashed var(--c0b);
     margin-top: 6px;
+    padding-bottom: 6px;
 }
 
 #sideDiv>.sideTitle {

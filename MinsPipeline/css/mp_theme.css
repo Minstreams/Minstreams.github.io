@@ -26,9 +26,9 @@
     --c7: #20b2de;
     --c7a: #20b2debb;
     --c7b: #20b2de66;
-    --texImg: url(img/texture.png);
-    --logo-mid: url(img/logo_mid.png);
-    --mooc-logo-bottom: url(img/logo_bottom.png);
-    --ss-logo-bottom: url(img/SSElogo.png);
-    --hust-logo-bottom: url(img/HUSTLogo.png);
+    --texImg: url(/MinsPipeline/css/img/texture.png);
+    --logo-mid: url(/MinsPipeline/css/img/logo_mid.png);
+    --mooc-logo-bottom: url(/MinsPipeline/css/img/logo_bottom.png);
+    --ss-logo-bottom: url(/MinsPipeline/css/img/SSElogo.png);
+    --hust-logo-bottom: url(/MinsPipeline/css/img/HUSTLogo.png);
 }

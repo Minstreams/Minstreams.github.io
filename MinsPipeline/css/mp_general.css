@@ -28,10 +28,16 @@ hr {
 /**管线相关界面的通常主题 */
 
 body {
-    background: var(--bg) var(--texImg);
+    background-image: var(--texImg);
+    background-color: var(--bg);
     color: var(--c0);
     margin: 0;
     font-family: sans-serif;
+}
+
+html, body, #bufferDiv, #codeDiv>.codeTextDiv {
+    scrollbar-color: var(--c1) var(--c1b);
+    scrollbar-width: thin;
 }
 
 body::-webkit-scrollbar, #bufferDiv::-webkit-scrollbar, #codeDiv>.codeTextDiv::-webkit-scrollbar {
