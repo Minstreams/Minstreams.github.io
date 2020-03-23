@@ -31,7 +31,7 @@ namespace mpExtention{
                 } else {
                     mysqli_query($conn, "INSERT into view value('$date','$site',1,'$ip')");
                 }
-                $conn.close();
+                $conn->close();
             }
         }
     }

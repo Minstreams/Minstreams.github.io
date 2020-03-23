@@ -144,6 +144,7 @@
     <div id='bottomDiv'></div>
     <?php include $_SERVER['DOCUMENT_ROOT'].'/MinsPipeline/php/systemTail.php' ?>
     <noscript>抱歉，你的浏览器不支持 JavaScript!</noscript>
+    <?php include $_SERVER['DOCUMENT_ROOT'].'/php/recorder.php' ?>
 </body>
 
 </html>

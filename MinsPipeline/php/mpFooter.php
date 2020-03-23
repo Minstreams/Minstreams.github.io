@@ -31,4 +31,4 @@
     </div>
     <div id='rights'>Copyright © 2020 岷溪 Minstreams, All Rights Reserved. 鄂ICP备20002811号-1</div>
 </div>
-<?php include $_SERVER['DOCUMENT_ROOT'].'/MinsPipeline/php/exViewCounter.php' ?>
+<?php include $_SERVER['DOCUMENT_ROOT'].'/php/recorder.php' ?>

@@ -38,7 +38,7 @@
                     My Game Works
                 </span>
                 <span class="SectionButtonText">
-                    <a href="details/game.html" class="SectionLink">
+                    <a href="details/game" class="SectionLink">
                         →DETAILS
                     </a>
                 </span>
@@ -56,7 +56,7 @@
                     My Painting Works
                 </span>
                 <span class="SectionButtonText">
-                    <a href="details/painting.html" class="SectionLink">
+                    <a href="details/painting" class="SectionLink">
                         →DETAILS
                     </a>
                 </span>
@@ -74,7 +74,7 @@
                     My Graphic Design Works
                 </span>
                 <span class="SectionButtonText">
-                    <a href="details/graphicDesign.html" class="SectionLink">
+                    <a href="details/graphicDesign" class="SectionLink">
                         →DETAILS
                     </a>
                 </span>
@@ -114,6 +114,7 @@
 
     <script src="js/IndexEffect.js"></script>
     <noscript>抱歉，你的浏览器不支持 JavaScript!</noscript>
+    <?php include $_SERVER['DOCUMENT_ROOT'].'/php/recorder.php' ?>
 </body>
 
 </html>

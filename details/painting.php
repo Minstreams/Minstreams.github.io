@@ -9,7 +9,7 @@
 
 <body class="noBorder Background">
 
-    <a href="../index.html" class="HomepageLink">
+    <a href="../" class="HomepageLink">
         <span class="SmallIcon">⬤</span>
         <span class="SmallIcon2">⬤</span>
         <span class="SmallIcon3">⬤</span>
@@ -124,6 +124,7 @@
 
 
 
+    <?php include $_SERVER['DOCUMENT_ROOT'].'/php/recorder.php' ?>
 </body>
 
 </html>
