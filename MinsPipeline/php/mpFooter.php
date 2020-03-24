@@ -17,7 +17,7 @@
             （由于使用了动态模块加载和正则反向预查的技术，暂不支持FireFox和Edge。）
         </div>
         <div class='bottomFlexContent'>
-            <a href='https://www.icourse163.org/course/preview/HUST-1003636001' target='view_window' class='adiv bottomLogo' id='moocLogoBottom'></a>
+            <a href='https://www.icourse163.org/course/HUST-1003636001' target='view_window' class='adiv bottomLogo' id='moocLogoBottom'></a>
             <div class='bottomTitle'>MOOC主页</div>
         </div>
         <div class='bottomFlexContent'>
