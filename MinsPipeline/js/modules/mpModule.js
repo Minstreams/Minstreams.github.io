@@ -2,7 +2,7 @@
  * 
  * js模块的引用结构应该是这样：
  * mpCore.js           //核心数据结构
- * mpCore.js           //事件控制
+ * mpEvent.js           //事件控制
  * -   mpDataNodes.js      //数据项定义
  *     -   mpWidgets.js        //控件功能
  *     mpCodeEditor.js     //代码编辑器
